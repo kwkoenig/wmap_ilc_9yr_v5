@@ -409,18 +409,19 @@ namespace wmap_ilc_9yr_v5
                 for (int row = 0; row < 512; row++)
                     grabbed[index].SetPixel(col, row, bmp.GetPixel(col, row));
             grabDescription[index] = lblShowing.Text.Replace("Showing", String.Format("Showing Grab {0}:", index));
-            index = (index + 1) % 2;
-            cbNextGrab.SelectedIndex = index;
+            cbNextGrab.SelectedIndex = ++index % 2;
             if (!btnToggle.Enabled && ++numGrabbed > 1)
                 btnToggle.Enabled = true;
         }
 
         private void btnToggle_Click(object sender, EventArgs e)
         {
+            string showing = lblShowing.Text;
+            int indexOfGrab = showing.IndexOf("Grab");
+            toggleIndex = indexOfGrab < 0 ? 1 : Convert.ToInt32(showing.Substring(indexOfGrab + 5, 1));
+            toggleIndex = ++toggleIndex % 2;
             pictureBox1.Image = grabbed[toggleIndex];
             lblShowing.Text = grabDescription[toggleIndex];
-            lblShowing.Visible = true;
-            toggleIndex = (toggleIndex + 1) % 2;
         }
 
         private void btnApply_Click(object sender, EventArgs e)

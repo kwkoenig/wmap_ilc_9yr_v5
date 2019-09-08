@@ -161,7 +161,7 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Image = global::wmap_ilc_9yr_v5.Properties.Resources.BasePixels;
             this.pictureBox2.Location = new System.Drawing.Point(529, 113);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(512, 512);
