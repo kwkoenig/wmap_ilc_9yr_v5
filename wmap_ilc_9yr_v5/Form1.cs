@@ -21,7 +21,7 @@ namespace wmap_ilc_9yr_v5
         Bitmap[] grabbed = new Bitmap[] { new Bitmap(512, 512), new Bitmap(512, 512) };
         string[] grabDescription = new string[2];
         int numGrabbed = 0;
-        int toggleIndex = 0;
+        int toggleIndex = -1;
         bool disableEvents = false;
 
         public wmap_ilc_9yr_v5()
@@ -416,9 +416,6 @@ namespace wmap_ilc_9yr_v5
 
         private void btnToggle_Click(object sender, EventArgs e)
         {
-            string showing = lblShowing.Text;
-            int indexOfGrab = showing.IndexOf("Grab");
-            toggleIndex = indexOfGrab < 0 ? 1 : Convert.ToInt32(showing.Substring(indexOfGrab + 5, 1));
             toggleIndex = ++toggleIndex % 2;
             pictureBox1.Image = grabbed[toggleIndex];
             lblShowing.Text = grabDescription[toggleIndex];
