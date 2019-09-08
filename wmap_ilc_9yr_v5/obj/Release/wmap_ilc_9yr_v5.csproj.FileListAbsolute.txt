@@ -1,0 +1,10 @@
+C:\Keith\wmap_ilc_9yr_v5\wmap_ilc_9yr_v5\obj\Release\wmap_ilc_9yr_v5.Properties.Resources.resources
+C:\Keith\wmap_ilc_9yr_v5\wmap_ilc_9yr_v5\obj\Release\wmap_ilc_9yr_v5.csproj.GenerateResource.cache
+C:\Keith\wmap_ilc_9yr_v5\wmap_ilc_9yr_v5\obj\Release\wmap_ilc_9yr_v5.csproj.CoreCompileInputs.cache
+C:\Keith\wmap_ilc_9yr_v5\wmap_ilc_9yr_v5\bin\Release\wmap_ilc_9yr_v5.exe.config
+C:\Keith\wmap_ilc_9yr_v5\wmap_ilc_9yr_v5\bin\Release\wmap_ilc_9yr_v5.exe
+C:\Keith\wmap_ilc_9yr_v5\wmap_ilc_9yr_v5\bin\Release\wmap_ilc_9yr_v5.pdb
+C:\Keith\wmap_ilc_9yr_v5\wmap_ilc_9yr_v5\obj\Release\wmap_ilc_9yr_v5.exe
+C:\Keith\wmap_ilc_9yr_v5\wmap_ilc_9yr_v5\obj\Release\wmap_ilc_9yr_v5.pdb
+C:\Keith\wmap_ilc_9yr_v5\wmap_ilc_9yr_v5\obj\Release\wmap_ilc_9yr_v5.wmap_ilc_9yr_v5.resources
+C:\Keith\wmap_ilc_9yr_v5\wmap_ilc_9yr_v5\obj\Release\wmap_ilc_9yr_v5.csprojAssemblyReference.cache
