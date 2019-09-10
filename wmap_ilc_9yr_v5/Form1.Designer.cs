@@ -27,7 +27,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(wmap_ilc_9yr_v5));
             this.label1 = new System.Windows.Forms.Label();
             this.cbBasePixel = new System.Windows.Forms.ComboBox();
             this.cbScale = new System.Windows.Forms.ComboBox();
@@ -161,10 +160,10 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Image = global::wmap_ilc_9yr_v5.Properties.Resources.BasePixels;
-            this.pictureBox2.Location = new System.Drawing.Point(529, 113);
+            this.pictureBox2.Image = global::wmap_ilc_9yr_v5.Properties.Resources.Base_Pixel_Grid;
+            this.pictureBox2.Location = new System.Drawing.Point(529, 110);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(512, 512);
+            this.pictureBox2.Size = new System.Drawing.Size(518, 518);
             this.pictureBox2.TabIndex = 17;
             this.pictureBox2.TabStop = false;
             // 
@@ -328,6 +327,7 @@
             0,
             0,
             0});
+            this.numericUpDownForN.ValueChanged += new System.EventHandler(this.NumericUpDownForN_ValueChanged);
             // 
             // label5
             // 
@@ -370,7 +370,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1046, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1053, 24);
             this.menuStrip1.TabIndex = 31;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -417,7 +417,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1046, 676);
+            this.ClientSize = new System.Drawing.Size(1053, 632);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.cbDiagonals);
             this.Controls.Add(this.label5);
@@ -439,7 +439,6 @@
             this.Controls.Add(this.cbBasePixel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "wmap_ilc_9yr_v5";

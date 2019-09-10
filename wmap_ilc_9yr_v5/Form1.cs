@@ -22,7 +22,8 @@ namespace wmap_ilc_9yr_v5
         string[] grabDescription = new string[2];
         int numGrabbed = 0;
         int toggleIndex = -1;
-        bool disableEvents = false;
+        bool disableEvents = true;
+        TextBox numericUpDownTextBox = null;
 
         public wmap_ilc_9yr_v5()
         {
@@ -34,38 +35,84 @@ namespace wmap_ilc_9yr_v5
             if (!ReadInData())
                 Application.Exit();
 
-            saveFileDialog1.InitialDirectory = Application.StartupPath;
-
-            cbBasePixel.SelectedIndex = 4;
-            cbScale.SelectedIndex = 1;
+            numericUpDownTextBox = numericUpDownForN.Controls[1] as TextBox;
+            numericUpDownTextBox.TextChanged += NumericUpDownTextBox_TextChanged;
+            this.Icon = Properties.Resources.base_pixle_4_to_the_2nd__0_404_to_0_200_q7f_icon;
+            cbScale.SelectedIndex = 0;
+            cbDiagonals.SelectedIndex = 2;
             cbNextGrab.SelectedIndex = 0;
-            cbDiagonals.SelectedIndex = 0;
-            numericUpDownForN.Enabled = false;
-            TextBox numericTextBox = numericUpDownForN.Controls[1] as TextBox;
-            numericTextBox.TextChanged += NumericTextBox_TextChanged;
+            chosenMax = 0.2;
+            chosenMin = -0.2;
+            txtMax.Text = chosenMax.ToString("0.0");
+            txtMin.Text = chosenMin.ToString("0.0");
 
+            //Fire things off
+            disableEvents = false;
+            cbBasePixel.SelectedIndex = 4;
+        }
+
+        #region Event Handlers
+        private void CbScale_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (disableEvents)
+                return;
+            numericUpDownForN.Enabled = cbScale.SelectedIndex == 0;
             Render();
         }
 
-        private void NumericTextBox_TextChanged(object sender, EventArgs e)
+        private void CbDiagonals_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (disableEvents)
+                return;
             Render();
         }
 
-        private bool ReadInData()
+        private void btnGrab_Click(object sender, EventArgs e)
         {
-            string inputFilePathAndName = @".\wmap_ilc_9yr_v5_t1.txt";
-            if (!File.Exists(inputFilePathAndName))
-            {
-                MessageBox.Show(Properties.Resources.Lumbergh);
-                return false;
-            }
-            using (StreamReader sr = new StreamReader(inputFilePathAndName))
-            {
-                for (int k = 0; k < 3145728; k++)
-                    linearData[k] = double.Parse(sr.ReadLine());
-            }
-            return true;
+            if (disableEvents)
+                return;
+            Bitmap bmp = pictureBox1.Image as Bitmap;
+            int index = cbNextGrab.SelectedIndex;
+            for (int col = 0; col < 512; col++)
+                for (int row = 0; row < 512; row++)
+                    grabbed[index].SetPixel(col, row, bmp.GetPixel(col, row));
+            grabDescription[index] = lblShowing.Text.Replace("Showing", String.Format("Showing Grab {0}:", index));
+            cbNextGrab.SelectedIndex = ++index % 2;
+            if (!btnToggle.Enabled && ++numGrabbed > 1)
+                btnToggle.Enabled = true;
+        }
+
+        private void txtMax_TextChanged(object sender, EventArgs e)
+        {
+            if (disableEvents)
+                return;
+            if (ProcessChosenMaxMin())
+                Render();
+        }
+
+        private void txtMin_TextChanged(object sender, EventArgs e)
+        {
+            if (disableEvents)
+                return;
+            if (ProcessChosenMaxMin())
+                Render();
+        }
+
+        private void NumericUpDownForN_ValueChanged(object sender, EventArgs e)
+        {
+            int textBoxValue = Convert.ToInt32(numericUpDownTextBox.Text);
+            int value = Convert.ToInt32(numericUpDownForN.Value);
+
+            if (textBoxValue != value && textBoxValue % 2 != value % 2)
+                numericUpDownForN.Value = textBoxValue;
+        }
+
+        private void NumericUpDownTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (disableEvents)
+                return;
+
+            Render();
         }
 
         private void cbBasePixel_SelectedIndexChanged(object sender, EventArgs e)
@@ -98,6 +145,97 @@ namespace wmap_ilc_9yr_v5
             Normalize();
             Render();
         }
+
+        private void chkRotate_CheckedChanged(object sender, EventArgs e)
+        {
+            double temp;
+            //swap rows
+            for (int row = 0; row < 256; row++)
+            {
+                for (int col = 0; col < 512; col++)
+                {
+                    temp = data[col, row];
+                    data[col, row] = data[col, 511 - row];
+                    data[col, 511 - row] = temp;
+                    temp = normalized[col, row];
+                    normalized[col, row] = normalized[col, 511 - row];
+                    normalized[col, 511 - row] = temp;
+                }
+            }
+            // swap columns
+            for (int col = 0; col < 256; col++)
+            {
+                for (int row = 0; row < 512; row++)
+                {
+                    temp = data[col, row];
+                    data[col, row] = data[511 - col, row];
+                    data[511 - col, row] = temp;
+                    temp = normalized[col, row];
+                    normalized[col, row] = normalized[511 - col, row];
+                    normalized[511 - col, row] = temp;
+                }
+            }
+            Render();
+        }
+
+        private void btnToggle_Click(object sender, EventArgs e)
+        {
+            toggleIndex = ++toggleIndex % 2;
+            pictureBox1.Image = grabbed[toggleIndex];
+            lblShowing.Text = grabDescription[toggleIndex];
+        }
+
+        private void btnApply_Click(object sender, EventArgs e)
+        {
+            if (ProcessChosenMaxMin())
+                Render();
+        }
+
+        private void chkReverseCheckedChanged(object sender, EventArgs e)
+        {
+            Normalize();
+            Render();
+        }
+
+        private void BMPToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFile("bmp");
+        }
+
+        private void PNGToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFile("png");
+        }
+
+        private void JPGToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFile("jpg");
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            SetChosenMaxMinToDataMaxMin();
+            Normalize();
+            Render();
+        }
+        #endregion
+
+        private bool ReadInData()
+        {
+            string inputFilePathAndName = @".\wmap_ilc_9yr_v5_t1.txt";
+            if (!File.Exists(inputFilePathAndName))
+            {
+                MessageBox.Show(Properties.Resources.Lumbergh);
+                return false;
+            }
+            using (StreamReader sr = new StreamReader(inputFilePathAndName))
+            {
+                for (int k = 0; k < 3145728; k++)
+                    linearData[k] = double.Parse(sr.ReadLine());
+            }
+            return true;
+        }
+
 
         void SetChosenMaxMinToDataMaxMin()
         {
@@ -351,39 +489,6 @@ namespace wmap_ilc_9yr_v5
             Render();
         }
 
-
-        private void chkRotate_CheckedChanged(object sender, EventArgs e)
-        {
-            double temp;
-            //swap rows
-            for (int row = 0; row < 256; row++)
-            {
-                for (int col = 0; col < 512; col++)
-                {
-                    temp = data[col, row];
-                    data[col, row] = data[col, 511 - row];
-                    data[col, 511 - row] = temp;
-                    temp = normalized[col, row];
-                    normalized[col, row] = normalized[col, 511 - row];
-                    normalized[col, 511 - row] = temp;
-                }
-            }
-            // swap columns
-            for (int col = 0; col < 256; col++)
-            {
-                for (int row = 0; row < 512; row++)
-                {
-                    temp = data[col, row];
-                    data[col, row] = data[511 - col, row];
-                    data[511 - col, row] = temp;
-                    temp = normalized[col, row];
-                    normalized[col, row] = normalized[511 - col, row];
-                    normalized[511 - col, row] = temp;
-                }
-            }
-            Render();
-        }
-
         private void DescribeImage()
         {
             string scale = cbScale.Text;
@@ -399,64 +504,6 @@ namespace wmap_ilc_9yr_v5
             }
             lblShowing.Text = string.Format("Showing Base Pixle {0} {1}{2}{3} {4} to {5}", cbBasePixel.Text, scale,
                 chkRotate.Checked ? " Rotated" : "", chkReverse.Checked ? " Reversed" : "", chosenMin.ToString("0.000"), chosenMax.ToString("0.000"));
-        }
-
-        private void btnGrab_Click(object sender, EventArgs e)
-        {
-            Bitmap bmp = pictureBox1.Image as Bitmap;
-            int index = cbNextGrab.SelectedIndex;
-            for (int col = 0; col < 512; col++)
-                for (int row = 0; row < 512; row++)
-                    grabbed[index].SetPixel(col, row, bmp.GetPixel(col, row));
-            grabDescription[index] = lblShowing.Text.Replace("Showing", String.Format("Showing Grab {0}:", index));
-            cbNextGrab.SelectedIndex = ++index % 2;
-            if (!btnToggle.Enabled && ++numGrabbed > 1)
-                btnToggle.Enabled = true;
-        }
-
-        private void btnToggle_Click(object sender, EventArgs e)
-        {
-            toggleIndex = ++toggleIndex % 2;
-            pictureBox1.Image = grabbed[toggleIndex];
-            lblShowing.Text = grabDescription[toggleIndex];
-        }
-
-        private void btnApply_Click(object sender, EventArgs e)
-        {
-            if (ProcessChosenMaxMin())
-                Render();
-        }
-
-        private void txtMax_TextChanged(object sender, EventArgs e)
-        {
-            if (disableEvents)
-                return;
-            if (ProcessChosenMaxMin())
-                Render();
-        }
-
-        private void txtMin_TextChanged(object sender, EventArgs e)
-        {
-            if (disableEvents)
-                return;
-            if (ProcessChosenMaxMin())
-                Render();
-        }
-
-        private void chkReverseCheckedChanged(object sender, EventArgs e)
-        {
-            Normalize();
-            Render();
-        }
-
-        private void CbDiagonals_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Render();
-        }
-
-        private void NumericUpDownForN_Validated(object sender, EventArgs e)
-        {
-            MessageBox.Show("hey");
         }
 
         private void SaveFile(string suffix)
@@ -479,39 +526,6 @@ namespace wmap_ilc_9yr_v5
                     case "jpg": pictureBox1.Image.Save(fileName, System.Drawing.Imaging.ImageFormat.Jpeg); break;
                 }
             }
-        }
-
-        private void CbScale_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            numericUpDownForN.Enabled = cbScale.SelectedIndex == 0;
-            Render();
-        }
-
-        private void BMPToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveFile("bmp");
-        }
-
-        private void PNGToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveFile("png");
-        }
-
-        private void JPGToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveFile("jpg");
-        }
-
-        private void NumericUpDownForN_ValueChanged(object sender, EventArgs e)
-        {
-            Render();
-        }
-
-        private void btnReset_Click(object sender, EventArgs e)
-        {
-            SetChosenMaxMinToDataMaxMin();
-            Normalize();
-            Render();
         }
 
     }

@@ -61,32 +61,22 @@ namespace wmap_ilc_9yr_v5.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Base_Pixel_Grid {
+            get {
+                object obj = ResourceManager.GetObject("Base_Pixel_Grid", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon _4_82_icon {
+        internal static System.Drawing.Icon base_pixle_4_to_the_2nd__0_404_to_0_200_q7f_icon {
             get {
-                object obj = ResourceManager.GetObject("_4_82_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("base_pixle_4_to_the_2nd__0_404_to_0_200_q7f_icon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ArrowsII {
-            get {
-                object obj = ResourceManager.GetObject("ArrowsII", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap BasePixels {
-            get {
-                object obj = ResourceManager.GetObject("BasePixels", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
