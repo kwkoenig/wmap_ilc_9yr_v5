@@ -148,34 +148,8 @@ namespace wmap_ilc_9yr_v5
 
         private void chkRotate_CheckedChanged(object sender, EventArgs e)
         {
-            double temp;
-            //swap rows
-            for (int row = 0; row < 256; row++)
-            {
-                for (int col = 0; col < 512; col++)
-                {
-                    temp = data[col, row];
-                    data[col, row] = data[col, 511 - row];
-                    data[col, 511 - row] = temp;
-                    temp = normalized[col, row];
-                    normalized[col, row] = normalized[col, 511 - row];
-                    normalized[col, 511 - row] = temp;
-                }
-            }
-            // swap columns
-            for (int col = 0; col < 256; col++)
-            {
-                for (int row = 0; row < 512; row++)
-                {
-                    temp = data[col, row];
-                    data[col, row] = data[511 - col, row];
-                    data[511 - col, row] = temp;
-                    temp = normalized[col, row];
-                    normalized[col, row] = normalized[511 - col, row];
-                    normalized[511 - col, row] = temp;
-                }
-            }
-            Render();
+            pictureBox1.Image.RotateFlip(RotateFlipType.Rotate180FlipNone);
+            pictureBox1.Refresh();
         }
 
         private void btnToggle_Click(object sender, EventArgs e)

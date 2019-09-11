@@ -170,7 +170,7 @@
             // chkRotate
             // 
             this.chkRotate.AutoSize = true;
-            this.chkRotate.Location = new System.Drawing.Point(378, 28);
+            this.chkRotate.Location = new System.Drawing.Point(583, 32);
             this.chkRotate.Name = "chkRotate";
             this.chkRotate.Size = new System.Drawing.Size(79, 17);
             this.chkRotate.TabIndex = 18;
@@ -238,19 +238,19 @@
             this.groupBox2.Controls.Add(this.txtMax);
             this.groupBox2.Controls.Add(this.lblMin);
             this.groupBox2.Controls.Add(this.lblMax);
-            this.groupBox2.Location = new System.Drawing.Point(595, 19);
+            this.groupBox2.Location = new System.Drawing.Point(376, 19);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(203, 66);
+            this.groupBox2.Size = new System.Drawing.Size(190, 66);
             this.groupBox2.TabIndex = 24;
             this.groupBox2.TabStop = false;
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(147, 26);
+            this.btnReset.Location = new System.Drawing.Point(132, 14);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(50, 23);
+            this.btnReset.Size = new System.Drawing.Size(50, 44);
             this.btnReset.TabIndex = 5;
-            this.btnReset.Text = "reset";
+            this.btnReset.Text = "Set to Data";
             this.btnReset.UseVisualStyleBackColor = true;
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
@@ -293,7 +293,7 @@
             // chkReverse
             // 
             this.chkReverse.AutoSize = true;
-            this.chkReverse.Location = new System.Drawing.Point(463, 28);
+            this.chkReverse.Location = new System.Drawing.Point(583, 62);
             this.chkReverse.Name = "chkReverse";
             this.chkReverse.Size = new System.Drawing.Size(131, 17);
             this.chkReverse.TabIndex = 25;
@@ -342,7 +342,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(524, 93);
+            this.label6.Location = new System.Drawing.Point(402, 95);
             this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(54, 13);
@@ -356,8 +356,8 @@
             this.cbDiagonals.Items.AddRange(new object[] {
             "Black",
             "White",
-            "No"});
-            this.cbDiagonals.Location = new System.Drawing.Point(460, 88);
+            "Off"});
+            this.cbDiagonals.Location = new System.Drawing.Point(460, 91);
             this.cbDiagonals.Margin = new System.Windows.Forms.Padding(2);
             this.cbDiagonals.Name = "cbDiagonals";
             this.cbDiagonals.Size = new System.Drawing.Size(60, 21);
