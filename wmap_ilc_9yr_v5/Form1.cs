@@ -24,6 +24,8 @@ namespace wmap_ilc_9yr_v5
         int toggleIndex = -1;
         bool disableEvents = true;
         TextBox numericUpDownTextBox = null;
+        double dataMedian;
+        int lastMedianBasePixel = -1;
 
         public wmap_ilc_9yr_v5()
         {
@@ -321,14 +323,25 @@ namespace wmap_ilc_9yr_v5
                         int N = Convert.ToInt32(numericUpDownForN.Value);
                         if (N % 2 == 1)
                         {
+                            if (cbBasePixel.SelectedIndex != lastMedianBasePixel)
+                            {
+                                double[] forMedian = new double[262144];
+                                int k = 0;
+                                for (int row = 0; row < 512; row++)
+                                    for (int col = 0; col < 512; col++)
+                                        forMedian[k++] = data[col, row];
+                                Array.Sort(forMedian);
+                                dataMedian = (forMedian[131071] + forMedian[131072]) / 2.0;
+                                lastMedianBasePixel = cbBasePixel.SelectedIndex;
+                            }
                             double[,] temp = new double[512, 512];
-                            double minRaisedValue = Math.Pow(chosenMin, N);
-                            double maxRaisedValue = Math.Pow(chosenMax, N);
+                            double minRaisedValue = Math.Pow(chosenMin - dataMedian, N);
+                            double maxRaisedValue = Math.Pow(chosenMax - dataMedian, N);
                             double maxRaisedDiff = maxRaisedValue - minRaisedValue;
                             for (int row = 0; row < 512; row++)
                                 for (int col = 0; col < 512; col++)
                                 {
-                                    temp[col, row] = (Math.Pow(data[col, row], N) - minRaisedValue) / maxRaisedDiff;
+                                    temp[col, row] = (Math.Pow(data[col, row] - dataMedian, N) - minRaisedValue) / maxRaisedDiff;
                                     if (temp[col, row] > 1.0)
                                         temp[col, row] = 1.0;
                                     else if (temp[col, row] < 0.0)
