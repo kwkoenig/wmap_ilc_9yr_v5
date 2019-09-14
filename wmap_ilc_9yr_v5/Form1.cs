@@ -17,6 +17,7 @@ namespace wmap_ilc_9yr_v5
         double dataMin = double.MaxValue, dataMax = double.MinValue;
         double[,] data = new double[512, 512];
         double[,] normalized = new double[512, 512];
+        double[,] normPlusMinusOne = new double[512, 512];
         double[] linearData = new double[3145728];
         Bitmap[] grabbed = new Bitmap[] { new Bitmap(512, 512), new Bitmap(512, 512) };
         string[] grabDescription = new string[2];
@@ -139,6 +140,14 @@ namespace wmap_ilc_9yr_v5
                 data[511 - row, 511 - col] = linearData[offSet++];
 
             }
+            double[] forMedian = new double[262144];
+            int k = 0;
+            for (row = 0; row < 512; row++)
+                for (col = 0; col < 512; col++)
+                    forMedian[k++] = data[col, row];
+            Array.Sort(forMedian);
+            dataMedian = (forMedian[131071] + forMedian[131072]) / 2.0;
+
             GetDataMaxMin();
             if (chosenMin == double.MaxValue && chosenMax == double.MinValue)
             {
@@ -162,6 +171,9 @@ namespace wmap_ilc_9yr_v5
                     temp = normalized[col, row];
                     normalized[col, row] = normalized[col, 511 - row];
                     normalized[col, 511 - row] = temp;
+                    temp = normPlusMinusOne[col, row];
+                    normPlusMinusOne[col, row] = normPlusMinusOne[col, 511 - row];
+                    normPlusMinusOne[col, 511 - row] = temp;
                 }
             }
             // swap columns
@@ -175,6 +187,9 @@ namespace wmap_ilc_9yr_v5
                     temp = normalized[col, row];
                     normalized[col, row] = normalized[511 - col, row];
                     normalized[511 - col, row] = temp;
+                    temp = normPlusMinusOne[col, row];
+                    normPlusMinusOne[col, row] = normPlusMinusOne[511 - col, row];
+                    normPlusMinusOne[511 - col, row] = temp;
                 }
             }
             Render();
@@ -280,6 +295,23 @@ namespace wmap_ilc_9yr_v5
                         normalized[col, row] = 0.0;
                 }
             }
+            double maxNegativeDiff = chosenMin - dataMedian;
+            double maxPositiveDiff = chosenMax - dataMedian;
+
+            for (int col = 0; col < 512; col++)
+            {
+                for (int row = 0; row < 512; row++)
+                {
+                    if (data[col, row] < dataMedian)
+                        normPlusMinusOne[col, row] = (dataMedian - data[col, row]) / maxNegativeDiff;
+                    else
+                        normPlusMinusOne[col, row] = (data[col, row] - dataMedian) / maxPositiveDiff;
+                    if (normPlusMinusOne[col, row] > 1.0)
+                        normPlusMinusOne[col, row] = 1.0;
+                    else if (normPlusMinusOne[col, row] < -1.0)
+                        normPlusMinusOne[col, row] = -1.0;
+                }
+            }
             if (chkReverse.Checked)
             {
                 for (int col = 0; col < 512; col++)
@@ -323,30 +355,15 @@ namespace wmap_ilc_9yr_v5
                         int N = Convert.ToInt32(numericUpDownForN.Value);
                         if (N % 2 == 1)
                         {
-                            if (cbBasePixel.SelectedIndex != lastMedianBasePixel)
-                            {
-                                double[] forMedian = new double[262144];
-                                int k = 0;
-                                for (int row = 0; row < 512; row++)
-                                    for (int col = 0; col < 512; col++)
-                                        forMedian[k++] = data[col, row];
-                                Array.Sort(forMedian);
-                                dataMedian = (forMedian[131071] + forMedian[131072]) / 2.0;
-                                lastMedianBasePixel = cbBasePixel.SelectedIndex;
-                            }
-                            double[,] temp = new double[512, 512];
-                            double minRaisedValue = Math.Pow(chosenMin - dataMedian, N);
-                            double maxRaisedValue = Math.Pow(chosenMax - dataMedian, N);
-                            double maxRaisedDiff = maxRaisedValue - minRaisedValue;
                             for (int row = 0; row < 512; row++)
                                 for (int col = 0; col < 512; col++)
                                 {
-                                    temp[col, row] = (Math.Pow(data[col, row] - dataMedian, N) - minRaisedValue) / maxRaisedDiff;
-                                    if (temp[col, row] > 1.0)
-                                        temp[col, row] = 1.0;
-                                    else if (temp[col, row] < 0.0)
-                                        temp[col, row] = 0.0;
-                                    SetColorPixel(bmp, temp[col, row], col, row);
+                                    double value = Math.Pow(normPlusMinusOne[col, row], N) / 2.0 + 0.5;
+                                    if (value < 0.0)
+                                        value = 0.0;
+                                    else if (value > 1.0)
+                                        value = 1.0;
+                                    SetColorPixel(bmp, value, col, row);
                                 }
                         }
                         else
