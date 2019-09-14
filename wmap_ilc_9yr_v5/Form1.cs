@@ -40,7 +40,7 @@ namespace wmap_ilc_9yr_v5
 
             numericUpDownTextBox = numericUpDownForN.Controls[1] as TextBox;
             numericUpDownTextBox.TextChanged += NumericUpDownTextBox_TextChanged;
-            this.Icon = Properties.Resources.base_pixle_4_to_the_2nd__0_404_to_0_200_q7f_icon;
+            this.Icon = Properties.Resources.icon;
             cbScale.SelectedIndex = 0;
             cbDiagonals.SelectedIndex = 2;
             cbNextGrab.SelectedIndex = 0;
@@ -535,7 +535,7 @@ namespace wmap_ilc_9yr_v5
                     default: scale = scale.Replace("N", N.ToString()); break;
                 }
             }
-            lblShowing.Text = string.Format("Showing Base Pixle {0} {1}{2}{3} {4} to {5}", cbBasePixel.Text, scale,
+            lblShowing.Text = string.Format("Showing Base Pixel {0} {1}{2}{3} {4} to {5}", cbBasePixel.Text, scale,
                 chkRotate.Checked ? " Rotated" : "", chkReverse.Checked ? " Reversed" : "", chosenMin.ToString("0.000"), chosenMax.ToString("0.000"));
         }
 

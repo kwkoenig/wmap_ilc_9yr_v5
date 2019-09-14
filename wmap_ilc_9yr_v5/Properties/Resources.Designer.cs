@@ -73,9 +73,9 @@ namespace wmap_ilc_9yr_v5.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon base_pixle_4_to_the_2nd__0_404_to_0_200_q7f_icon {
+        internal static System.Drawing.Icon icon {
             get {
-                object obj = ResourceManager.GetObject("base_pixle_4_to_the_2nd__0_404_to_0_200_q7f_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("icon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
