@@ -316,7 +316,10 @@ namespace wmap_ilc_9yr_v5
             {
                 for (int col = 0; col < 512; col++)
                     for (int row = 0; row < 512; row++)
+                    {
                         normalized[col, row] = 1.0 - normalized[col, row];
+                        normPlusMinusOne[col, row] = -normPlusMinusOne[col, row];
+                    }
             }
         }
 
