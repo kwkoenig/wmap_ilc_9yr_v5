@@ -160,7 +160,7 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Image = global::wmap_ilc_9yr_v5.Properties.Resources.Base_Pixel_Grid;
+            this.pictureBox2.Image = global::wmap_ilc_9yr_v5.Properties.Resources.Base_Pixel_Grid_II;
             this.pictureBox2.Location = new System.Drawing.Point(529, 110);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(518, 518);

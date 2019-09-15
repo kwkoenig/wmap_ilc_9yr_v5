@@ -107,5 +107,8 @@
   <ItemGroup>
     <None Include="wmap_ilc_9yr_v5_t1.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Base Pixel Grid II.bmp" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
