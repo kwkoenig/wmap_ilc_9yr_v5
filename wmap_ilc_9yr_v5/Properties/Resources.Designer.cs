@@ -63,9 +63,9 @@ namespace wmap_ilc_9yr_v5.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Base_Pixel_Grid_II {
+        internal static System.Drawing.Bitmap BasePixelGrid {
             get {
-                object obj = ResourceManager.GetObject("Base_Pixel_Grid_II", resourceCulture);
+                object obj = ResourceManager.GetObject("BasePixelGrid", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

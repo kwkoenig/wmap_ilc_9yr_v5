@@ -27,6 +27,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(wmap_ilc_9yr_v5));
             this.label1 = new System.Windows.Forms.Label();
             this.cbBasePixel = new System.Windows.Forms.ComboBox();
             this.cbScale = new System.Windows.Forms.ComboBox();
@@ -160,7 +161,7 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Image = global::wmap_ilc_9yr_v5.Properties.Resources.Base_Pixel_Grid_II;
+            this.pictureBox2.Image = global::wmap_ilc_9yr_v5.Properties.Resources.BasePixelGrid;
             this.pictureBox2.Location = new System.Drawing.Point(529, 110);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(518, 518);
@@ -439,6 +440,7 @@
             this.Controls.Add(this.cbBasePixel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "wmap_ilc_9yr_v5";
