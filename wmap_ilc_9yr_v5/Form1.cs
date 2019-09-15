@@ -26,7 +26,6 @@ namespace wmap_ilc_9yr_v5
         bool disableEvents = true;
         TextBox numericUpDownTextBox = null;
         double dataMedian;
-        int lastMedianBasePixel = -1;
 
         public wmap_ilc_9yr_v5()
         {
@@ -535,8 +534,7 @@ namespace wmap_ilc_9yr_v5
                     default: scale = scale.Replace("N", N.ToString()); break;
                 }
             }
-            lblShowing.Text = string.Format("Showing Base Pixel {0} {1}{2}{3} {4} to {5}", cbBasePixel.Text, scale,
-                chkRotate.Checked ? " Rotated" : "", chkReverse.Checked ? " Reversed" : "", chosenMin.ToString("0.000"), chosenMax.ToString("0.000"));
+            lblShowing.Text = string.Format("Showing Base Pixel {0} {1} {2} to {3} {4}{5}", cbBasePixel.Text, scale, chosenMax.ToString("0.000"), chosenMin.ToString("0.000"), chkRotate.Checked ? " Rotated" : "", chkReverse.Checked ? " Reversed" : "");
         }
 
         private void SaveFile(string suffix)
