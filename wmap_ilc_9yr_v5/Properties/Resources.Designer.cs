@@ -81,11 +81,12 @@ namespace wmap_ilc_9yr_v5.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Yeah hi, it&apos;s wmap_ilc_9yr_v5.  I need the file wmap_ilc_9yr_v5_t1.txt.  So if you could go ahead and put that in the same directory as this program, that would be great..
+        ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static string Lumbergh {
+        internal static byte[] wmap_ilc_9yr_v5_t1 {
             get {
-                return ResourceManager.GetString("Lumbergh", resourceCulture);
+                object obj = ResourceManager.GetObject("wmap_ilc_9yr_v5_t1", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }

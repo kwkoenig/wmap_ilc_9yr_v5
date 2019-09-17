@@ -92,9 +92,7 @@
   <ItemGroup>
     <None Include="4_82_icon.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="base_pixle_4_to_the_2nd__0_404_to_0_200_q7f_icon.ico" />
   </ItemGroup>
@@ -105,6 +103,8 @@
     <None Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\wmap_ilc_9yr_v5_t1.bin" />
+    <None Include="Resources\wmap_ilc_9yr_v5_t1.flt" />
     <None Include="wmap_ilc_9yr_v5_t1.txt" />
   </ItemGroup>
   <ItemGroup>

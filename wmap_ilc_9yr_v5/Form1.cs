@@ -34,8 +34,11 @@ namespace wmap_ilc_9yr_v5
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (!ReadInData())
-                Application.Exit();
+            byte[] data = Properties.Resources.wmap_ilc_9yr_v5_t1;
+            float[] temp = new float[3145728];
+            Buffer.BlockCopy(data, 0, temp, 0, data.Length);
+            for (int k = 0; k < 3145728; k++)
+                linearData[k] = Convert.ToDouble(temp[k]);
 
             numericUpDownTextBox = numericUpDownForN.Controls[1] as TextBox;
             numericUpDownTextBox.TextChanged += NumericUpDownTextBox_TextChanged;
@@ -235,23 +238,6 @@ namespace wmap_ilc_9yr_v5
             Render();
         }
         #endregion
-
-        private bool ReadInData()
-        {
-            string inputFilePathAndName = @".\wmap_ilc_9yr_v5_t1.txt";
-            if (!File.Exists(inputFilePathAndName))
-            {
-                MessageBox.Show(Properties.Resources.Lumbergh);
-                return false;
-            }
-            using (StreamReader sr = new StreamReader(inputFilePathAndName))
-            {
-                for (int k = 0; k < 3145728; k++)
-                    linearData[k] = double.Parse(sr.ReadLine());
-            }
-            return true;
-        }
-
 
         void SetChosenMaxMinToDataMaxMin()
         {
