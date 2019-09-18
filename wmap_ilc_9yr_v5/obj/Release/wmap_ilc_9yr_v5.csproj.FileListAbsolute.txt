@@ -7,3 +7,4 @@ C:\Keith\wmap_ilc_9yr_v5\wmap_ilc_9yr_v5\obj\Release\wmap_ilc_9yr_v5.csproj.Gene
 C:\Keith\wmap_ilc_9yr_v5\wmap_ilc_9yr_v5\obj\Release\wmap_ilc_9yr_v5.csproj.CoreCompileInputs.cache
 C:\Keith\wmap_ilc_9yr_v5\wmap_ilc_9yr_v5\obj\Release\wmap_ilc_9yr_v5.exe
 C:\Keith\wmap_ilc_9yr_v5\wmap_ilc_9yr_v5\obj\Release\wmap_ilc_9yr_v5.pdb
+C:\Keith\wmap_ilc_9yr_v5\wmap_ilc_9yr_v5\obj\Release\wmap_ilc_9yr_v5.csprojAssemblyReference.cache

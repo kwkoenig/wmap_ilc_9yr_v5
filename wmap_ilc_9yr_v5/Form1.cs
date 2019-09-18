@@ -520,23 +520,23 @@ namespace wmap_ilc_9yr_v5
                     default: scale = scale.Replace("N", N.ToString()); break;
                 }
             }
-            lblShowing.Text = string.Format("Showing Base Pixel {0} {1} {2} to {3} {4}{5}", cbBasePixel.Text, scale, chosenMax.ToString("0.000"), chosenMin.ToString("0.000"), chkRotate.Checked ? " Rotated" : "", chkReverse.Checked ? " Reversed" : "");
+            lblShowing.Text = string.Format("Showing Base Pixel {0} {1} {2} to {3}{4}{5}", cbBasePixel.Text, scale, chosenMax.ToString("0.000"), chosenMin.ToString("0.000"), chkRotate.Checked ? " Rotated" : "", chkReverse.Checked ? " Reversed" : "");
         }
 
-        private void SaveFile(string suffix)
+        private void SaveFile(string extension)
         {
             string fileName = lblShowing.Text;
             int BaseInFileName = fileName.IndexOf("Base");
             if (BaseInFileName >= 0)
             {
                 int newLength = fileName.Length - BaseInFileName;
-                fileName = fileName.Substring(BaseInFileName, newLength);
+                fileName = fileName.Substring(BaseInFileName, newLength).Replace(' ', '_');
             }
-            saveFileDialog1.FileName = string.Format("{0}.{1}", fileName, suffix);
+            saveFileDialog1.FileName = string.Format("{0}.{1}", fileName, extension);
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 fileName = saveFileDialog1.FileName;
-                switch (suffix)
+                switch (extension)
                 {
                     case "bmp": pictureBox1.Image.Save(fileName, System.Drawing.Imaging.ImageFormat.Bmp); break;
                     case "png": pictureBox1.Image.Save(fileName, System.Drawing.Imaging.ImageFormat.Png); break;
