@@ -68,9 +68,11 @@
             this.label10 = new System.Windows.Forms.Label();
             this.nudRow = new System.Windows.Forms.NumericUpDown();
             this.label11 = new System.Windows.Forms.Label();
-            this.nudSide = new System.Windows.Forms.NumericUpDown();
+            this.nudWidth = new System.Windows.Forms.NumericUpDown();
             this.btnGo = new System.Windows.Forms.Button();
             this.txtResults = new System.Windows.Forms.TextBox();
+            this.nudHeight = new System.Windows.Forms.NumericUpDown();
+            this.label12 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -78,7 +80,8 @@
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudCol)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudRow)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudSide)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudWidth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -431,36 +434,36 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(742, 33);
+            this.label7.Location = new System.Drawing.Point(742, 31);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(78, 13);
+            this.label7.Size = new System.Drawing.Size(49, 13);
             this.label7.TabIndex = 32;
-            this.label7.Text = "Find # of pixels";
+            this.label7.Text = "Find # of";
             // 
             // cbFindType
             // 
             this.cbFindType.FormattingEnabled = true;
             this.cbFindType.Items.AddRange(new object[] {
-            ">= Max",
-            "<= Min"});
-            this.cbFindType.Location = new System.Drawing.Point(826, 28);
+            "max color",
+            "min color"});
+            this.cbFindType.Location = new System.Drawing.Point(792, 28);
             this.cbFindType.Name = "cbFindType";
-            this.cbFindType.Size = new System.Drawing.Size(59, 21);
+            this.cbFindType.Size = new System.Drawing.Size(71, 21);
             this.cbFindType.TabIndex = 33;
-            this.cbFindType.Text = ">= Max";
+            this.cbFindType.Text = "max color";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(891, 32);
+            this.label8.Location = new System.Drawing.Point(865, 31);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(105, 13);
+            this.label8.Size = new System.Drawing.Size(44, 13);
             this.label8.TabIndex = 34;
-            this.label8.Text = "in square region from";
+            this.label8.Text = "pixels in";
             // 
             // nudCol
             // 
-            this.nudCol.Location = new System.Drawing.Point(767, 56);
+            this.nudCol.Location = new System.Drawing.Point(910, 56);
             this.nudCol.Maximum = new decimal(new int[] {
             511,
             0,
@@ -468,12 +471,12 @@
             0});
             this.nudCol.Name = "nudCol";
             this.nudCol.Size = new System.Drawing.Size(41, 20);
-            this.nudCol.TabIndex = 35;
+            this.nudCol.TabIndex = 42;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(742, 59);
+            this.label9.Location = new System.Drawing.Point(886, 59);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(21, 13);
             this.label9.TabIndex = 36;
@@ -482,7 +485,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(813, 59);
+            this.label10.Location = new System.Drawing.Point(954, 59);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(24, 13);
             this.label10.TabIndex = 38;
@@ -490,7 +493,7 @@
             // 
             // nudRow
             // 
-            this.nudRow.Location = new System.Drawing.Point(837, 56);
+            this.nudRow.Location = new System.Drawing.Point(981, 56);
             this.nudRow.Maximum = new decimal(new int[] {
             511,
             0,
@@ -498,34 +501,34 @@
             0});
             this.nudRow.Name = "nudRow";
             this.nudRow.Size = new System.Drawing.Size(41, 20);
-            this.nudRow.TabIndex = 37;
+            this.nudRow.TabIndex = 43;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(881, 59);
+            this.label11.Location = new System.Drawing.Point(957, 31);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(48, 13);
+            this.label11.Size = new System.Drawing.Size(18, 13);
             this.label11.TabIndex = 39;
-            this.label11.Text = "with side";
+            this.label11.Text = "by";
             // 
-            // nudSide
+            // nudWidth
             // 
-            this.nudSide.Location = new System.Drawing.Point(932, 56);
-            this.nudSide.Maximum = new decimal(new int[] {
+            this.nudWidth.Location = new System.Drawing.Point(911, 28);
+            this.nudWidth.Maximum = new decimal(new int[] {
             512,
             0,
             0,
             0});
-            this.nudSide.Minimum = new decimal(new int[] {
+            this.nudWidth.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.nudSide.Name = "nudSide";
-            this.nudSide.Size = new System.Drawing.Size(41, 20);
-            this.nudSide.TabIndex = 40;
-            this.nudSide.Value = new decimal(new int[] {
+            this.nudWidth.Name = "nudWidth";
+            this.nudWidth.Size = new System.Drawing.Size(41, 20);
+            this.nudWidth.TabIndex = 40;
+            this.nudWidth.Value = new decimal(new int[] {
             512,
             0,
             0,
@@ -536,7 +539,7 @@
             this.btnGo.Location = new System.Drawing.Point(745, 81);
             this.btnGo.Name = "btnGo";
             this.btnGo.Size = new System.Drawing.Size(51, 23);
-            this.btnGo.TabIndex = 41;
+            this.btnGo.TabIndex = 44;
             this.btnGo.Text = "Go";
             this.btnGo.UseVisualStyleBackColor = true;
             this.btnGo.Click += new System.EventHandler(this.BtnGo_Click);
@@ -547,16 +550,49 @@
             this.txtResults.Name = "txtResults";
             this.txtResults.ReadOnly = true;
             this.txtResults.Size = new System.Drawing.Size(169, 20);
-            this.txtResults.TabIndex = 42;
+            this.txtResults.TabIndex = 45;
+            // 
+            // nudHeight
+            // 
+            this.nudHeight.Location = new System.Drawing.Point(981, 28);
+            this.nudHeight.Maximum = new decimal(new int[] {
+            512,
+            0,
+            0,
+            0});
+            this.nudHeight.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudHeight.Name = "nudHeight";
+            this.nudHeight.Size = new System.Drawing.Size(41, 20);
+            this.nudHeight.TabIndex = 41;
+            this.nudHeight.Value = new decimal(new int[] {
+            512,
+            0,
+            0,
+            0});
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(743, 59);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(138, 13);
+            this.label12.TabIndex = 44;
+            this.label12.Text = "region with top left corner at";
             // 
             // wmap_ilc_9yr_v5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1053, 632);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.nudHeight);
             this.Controls.Add(this.txtResults);
             this.Controls.Add(this.btnGo);
-            this.Controls.Add(this.nudSide);
+            this.Controls.Add(this.nudWidth);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.nudRow);
@@ -602,7 +638,8 @@
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudCol)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudRow)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudSide)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudWidth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -650,9 +687,11 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.NumericUpDown nudRow;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.NumericUpDown nudSide;
+        private System.Windows.Forms.NumericUpDown nudWidth;
         private System.Windows.Forms.Button btnGo;
         private System.Windows.Forms.TextBox txtResults;
+        private System.Windows.Forms.NumericUpDown nudHeight;
+        private System.Windows.Forms.Label label12;
     }
 }
 

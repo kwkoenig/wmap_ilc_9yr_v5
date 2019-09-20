@@ -509,23 +509,44 @@ namespace wmap_ilc_9yr_v5
 
         private void BtnGo_Click(object sender, EventArgs e)
         {
-            int startCol = Convert.ToInt32(nudRow.Value);
-            int startRow = Convert.ToInt32(nudCol.Value);
-            int side = Convert.ToInt32(nudSide.Value);
-            int endCol = startCol + side;
+            int startCol = Convert.ToInt32(nudCol.Value);
+            int startRow = Convert.ToInt32(nudRow.Value);
+            int width = Convert.ToInt32(nudWidth.Value);
+            int height = Convert.ToInt32(nudHeight.Value);
+            int endCol = startCol + width;
             if (endCol > 512) endCol = 512;
-            int endRow = startRow + side;
+            int endRow = startRow + height;
             if (endRow > 512) endRow = 512;
             int found = 0, searched = 0;
+            Bitmap bmp = pictureBox1.Image as Bitmap;
+            Color color;
+
             if (cbFindType.SelectedIndex == 0)
             {
-                for (int row = startRow; row < endRow; row++ )
+                if (chkColor.Checked)
                 {
-                    for (int col = startCol; col < endCol; col++)
+                    for (int row = startRow; row < endRow; row++)
                     {
-                        ++searched;
-                        if (data[col, row] >= chosenMax)
-                            ++found;
+                        for (int col = startCol; col < endCol; col++)
+                        {
+                            ++searched;
+                            color = bmp.GetPixel(col, row);
+                            if (color.R == 255 && color.G == 0 && color.B == 0)
+                                ++found;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int row = startRow; row < endRow; row++)
+                    {
+                        for (int col = startCol; col < endCol; col++)
+                        {
+                            ++searched;
+                            color = bmp.GetPixel(col, row);
+                            if (color.R == 255 && color.G == 255 && color.B == 255)
+                                ++found;
+                        }
                     }
                 }
             }
@@ -536,7 +557,8 @@ namespace wmap_ilc_9yr_v5
                     for (int col = startCol; col < endCol; col++)
                     {
                         ++searched;
-                        if (data[col, row] <= chosenMin)
+                        color = bmp.GetPixel(col, row);
+                        if (color.R == 0 && color.G == 0 && color.B == 0)
                             ++found;
                     }
                 }
