@@ -507,6 +507,44 @@ namespace wmap_ilc_9yr_v5
             Render();
         }
 
+        private void BtnGo_Click(object sender, EventArgs e)
+        {
+            int startCol = Convert.ToInt32(nudRow.Value);
+            int startRow = Convert.ToInt32(nudCol.Value);
+            int side = Convert.ToInt32(nudSide.Value);
+            int endCol = startCol + side;
+            if (endCol > 512) endCol = 512;
+            int endRow = startRow + side;
+            if (endRow > 512) endRow = 512;
+            int found = 0, searched = 0;
+            if (cbFindType.SelectedIndex == 0)
+            {
+                for (int row = startRow; row < endRow; row++ )
+                {
+                    for (int col = startCol; col < endCol; col++)
+                    {
+                        ++searched;
+                        if (data[col, row] >= chosenMax)
+                            ++found;
+                    }
+                }
+            }
+            else
+            {
+                for (int row = startRow; row < endRow; row++)
+                {
+                    for (int col = startCol; col < endCol; col++)
+                    {
+                        ++searched;
+                        if (data[col, row] <= chosenMin)
+                            ++found;
+                    }
+                }
+            }
+            double percent = searched == 0 ? 0.0 : 100.0 * Convert.ToDouble(found) / Convert.ToDouble(searched);
+            txtResults.Text = string.Format("{0} of {1} ({2}%)", found, searched, percent.ToString("0.00000"));
+        }
+
         private void DescribeImage()
         {
             string scale = cbScale.Text;
