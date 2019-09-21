@@ -21,6 +21,7 @@ namespace wmap_ilc_9yr_v5
         double[] linearData = new double[3145728];
         Bitmap[] grabbed = new Bitmap[] { new Bitmap(512, 512), new Bitmap(512, 512) };
         string[] grabDescription = new string[2];
+        Bitmap overlap = new Bitmap(512, 512);
         int numGrabbed = 0;
         int toggleIndex = -1;
         bool disableEvents = true;
@@ -84,7 +85,7 @@ namespace wmap_ilc_9yr_v5
             grabDescription[index] = lblShowing.Text.Replace("Showing", String.Format("Showing Grab {0}:", index));
             cbNextGrab.SelectedIndex = ++index % 2;
             if (!btnToggle.Enabled && ++numGrabbed > 1)
-                btnToggle.Enabled = true;
+                btnToggle.Enabled = btnOverlap.Enabled = true;
         }
 
         private void txtMax_TextChanged(object sender, EventArgs e)
@@ -518,9 +519,12 @@ namespace wmap_ilc_9yr_v5
             int endRow = startRow + height;
             if (endRow > 512) endRow = 512;
             int found = 0, searched = 0;
+            int tolerance = Convert.ToInt32(nudTolerance.Value);
+            int upperLimit = 255 - tolerance;
             Bitmap bmp = pictureBox1.Image as Bitmap;
             Color color;
 
+            //Performance is king
             if (cbFindType.SelectedIndex == 0)
             {
                 if (chkColor.Checked)
@@ -531,7 +535,7 @@ namespace wmap_ilc_9yr_v5
                         {
                             ++searched;
                             color = bmp.GetPixel(col, row);
-                            if (color.R == 255 && color.G == 0 && color.B == 0)
+                            if (color.R >= upperLimit && color.G == 0 && color.B == 0)
                                 ++found;
                         }
                     }
@@ -544,7 +548,7 @@ namespace wmap_ilc_9yr_v5
                         {
                             ++searched;
                             color = bmp.GetPixel(col, row);
-                            if (color.R == 255 && color.G == 255 && color.B == 255)
+                            if (color.R >= upperLimit && color.G >= upperLimit && color.B >= upperLimit)
                                 ++found;
                         }
                     }
@@ -552,14 +556,30 @@ namespace wmap_ilc_9yr_v5
             }
             else
             {
-                for (int row = startRow; row < endRow; row++)
+                if (chkColor.Checked)
                 {
-                    for (int col = startCol; col < endCol; col++)
+                    for (int row = startRow; row < endRow; row++)
                     {
-                        ++searched;
-                        color = bmp.GetPixel(col, row);
-                        if (color.R == 0 && color.G == 0 && color.B == 0)
-                            ++found;
+                        for (int col = startCol; col < endCol; col++)
+                        {
+                            ++searched;
+                            color = bmp.GetPixel(col, row);
+                            if (color.R == 0 && color.G == 0 && color.B <= tolerance)
+                                ++found;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int row = startRow; row < endRow; row++)
+                    {
+                        for (int col = startCol; col < endCol; col++)
+                        {
+                            ++searched;
+                            color = bmp.GetPixel(col, row);
+                            if (color.R <= tolerance && color.G <= tolerance && color.B <= tolerance)
+                                ++found;
+                        }
                     }
                 }
             }

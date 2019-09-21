@@ -73,6 +73,9 @@
             this.txtResults = new System.Windows.Forms.TextBox();
             this.nudHeight = new System.Windows.Forms.NumericUpDown();
             this.label12 = new System.Windows.Forms.Label();
+            this.btnOverlap = new System.Windows.Forms.Button();
+            this.label13 = new System.Windows.Forms.Label();
+            this.nudTolerance = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -82,6 +85,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudRow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTolerance)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -179,7 +183,7 @@
             // pictureBox2
             // 
             this.pictureBox2.Image = global::wmap_ilc_9yr_v5.Properties.Resources.BasePixelGrid;
-            this.pictureBox2.Location = new System.Drawing.Point(529, 110);
+            this.pictureBox2.Location = new System.Drawing.Point(529, 113);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(518, 518);
             this.pictureBox2.TabIndex = 17;
@@ -232,7 +236,7 @@
             // btnToggle
             // 
             this.btnToggle.Enabled = false;
-            this.btnToggle.Location = new System.Drawing.Point(224, 58);
+            this.btnToggle.Location = new System.Drawing.Point(219, 58);
             this.btnToggle.Name = "btnToggle";
             this.btnToggle.Size = new System.Drawing.Size(65, 23);
             this.btnToggle.TabIndex = 22;
@@ -360,7 +364,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(402, 95);
+            this.label6.Location = new System.Drawing.Point(402, 633);
             this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(54, 13);
@@ -375,7 +379,7 @@
             "Black",
             "White",
             "Off"});
-            this.cbDiagonals.Location = new System.Drawing.Point(460, 91);
+            this.cbDiagonals.Location = new System.Drawing.Point(460, 629);
             this.cbDiagonals.Margin = new System.Windows.Forms.Padding(2);
             this.cbDiagonals.Name = "cbDiagonals";
             this.cbDiagonals.Size = new System.Drawing.Size(60, 21);
@@ -434,7 +438,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(742, 31);
+            this.label7.Location = new System.Drawing.Point(766, 31);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(49, 13);
             this.label7.TabIndex = 32;
@@ -446,7 +450,7 @@
             this.cbFindType.Items.AddRange(new object[] {
             "max color",
             "min color"});
-            this.cbFindType.Location = new System.Drawing.Point(792, 28);
+            this.cbFindType.Location = new System.Drawing.Point(816, 28);
             this.cbFindType.Name = "cbFindType";
             this.cbFindType.Size = new System.Drawing.Size(71, 21);
             this.cbFindType.TabIndex = 33;
@@ -455,7 +459,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(865, 31);
+            this.label8.Location = new System.Drawing.Point(889, 31);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(44, 13);
             this.label8.TabIndex = 34;
@@ -463,7 +467,7 @@
             // 
             // nudCol
             // 
-            this.nudCol.Location = new System.Drawing.Point(910, 56);
+            this.nudCol.Location = new System.Drawing.Point(934, 56);
             this.nudCol.Maximum = new decimal(new int[] {
             511,
             0,
@@ -476,7 +480,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(886, 59);
+            this.label9.Location = new System.Drawing.Point(910, 59);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(21, 13);
             this.label9.TabIndex = 36;
@@ -485,7 +489,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(954, 59);
+            this.label10.Location = new System.Drawing.Point(978, 59);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(24, 13);
             this.label10.TabIndex = 38;
@@ -493,7 +497,7 @@
             // 
             // nudRow
             // 
-            this.nudRow.Location = new System.Drawing.Point(981, 56);
+            this.nudRow.Location = new System.Drawing.Point(1005, 56);
             this.nudRow.Maximum = new decimal(new int[] {
             511,
             0,
@@ -506,7 +510,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(957, 31);
+            this.label11.Location = new System.Drawing.Point(981, 31);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(18, 13);
             this.label11.TabIndex = 39;
@@ -514,7 +518,7 @@
             // 
             // nudWidth
             // 
-            this.nudWidth.Location = new System.Drawing.Point(911, 28);
+            this.nudWidth.Location = new System.Drawing.Point(935, 28);
             this.nudWidth.Maximum = new decimal(new int[] {
             512,
             0,
@@ -536,7 +540,7 @@
             // 
             // btnGo
             // 
-            this.btnGo.Location = new System.Drawing.Point(745, 81);
+            this.btnGo.Location = new System.Drawing.Point(769, 81);
             this.btnGo.Name = "btnGo";
             this.btnGo.Size = new System.Drawing.Size(51, 23);
             this.btnGo.TabIndex = 44;
@@ -546,7 +550,7 @@
             // 
             // txtResults
             // 
-            this.txtResults.Location = new System.Drawing.Point(804, 83);
+            this.txtResults.Location = new System.Drawing.Point(828, 83);
             this.txtResults.Name = "txtResults";
             this.txtResults.ReadOnly = true;
             this.txtResults.Size = new System.Drawing.Size(169, 20);
@@ -554,7 +558,7 @@
             // 
             // nudHeight
             // 
-            this.nudHeight.Location = new System.Drawing.Point(981, 28);
+            this.nudHeight.Location = new System.Drawing.Point(1005, 28);
             this.nudHeight.Maximum = new decimal(new int[] {
             512,
             0,
@@ -577,17 +581,51 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(743, 59);
+            this.label12.Location = new System.Drawing.Point(767, 59);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(138, 13);
             this.label12.TabIndex = 44;
             this.label12.Text = "region with top left corner at";
             // 
+            // btnOverlap
+            // 
+            this.btnOverlap.Enabled = false;
+            this.btnOverlap.Location = new System.Drawing.Point(303, 58);
+            this.btnOverlap.Name = "btnOverlap";
+            this.btnOverlap.Size = new System.Drawing.Size(65, 23);
+            this.btnOverlap.TabIndex = 46;
+            this.btnOverlap.Text = "overlap";
+            this.btnOverlap.UseVisualStyleBackColor = true;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(582, 86);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(133, 13);
+            this.label13.TabIndex = 47;
+            this.label13.Text = "overlap and find tolerance:";
+            // 
+            // nudTolerance
+            // 
+            this.nudTolerance.Location = new System.Drawing.Point(718, 83);
+            this.nudTolerance.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.nudTolerance.Name = "nudTolerance";
+            this.nudTolerance.Size = new System.Drawing.Size(41, 20);
+            this.nudTolerance.TabIndex = 48;
+            // 
             // wmap_ilc_9yr_v5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1053, 632);
+            this.ClientSize = new System.Drawing.Size(1053, 658);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.nudTolerance);
+            this.Controls.Add(this.btnOverlap);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.nudHeight);
             this.Controls.Add(this.txtResults);
@@ -640,6 +678,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudRow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTolerance)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -692,6 +731,9 @@
         private System.Windows.Forms.TextBox txtResults;
         private System.Windows.Forms.NumericUpDown nudHeight;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button btnOverlap;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.NumericUpDown nudTolerance;
     }
 }
 
