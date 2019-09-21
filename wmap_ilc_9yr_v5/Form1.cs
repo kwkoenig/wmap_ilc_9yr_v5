@@ -535,7 +535,7 @@ namespace wmap_ilc_9yr_v5
                         {
                             ++searched;
                             color = bmp.GetPixel(col, row);
-                            if (color.R >= upperLimit && color.G == 0 && color.B == 0)
+                            if (color.R == 255 && color.G <= tolerance && color.B == 0)
                                 ++found;
                         }
                     }
