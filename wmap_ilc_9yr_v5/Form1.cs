@@ -21,7 +21,7 @@ namespace wmap_ilc_9yr_v5
         double[] linearData = new double[3145728];
         Bitmap[] grabbed = new Bitmap[] { new Bitmap(512, 512), new Bitmap(512, 512) };
         string[] grabDescription = new string[2];
-        Bitmap overlap = new Bitmap(512, 512);
+        bool[] grabbedInColor = new bool[2];
         int numGrabbed = 0;
         int toggleIndex = -1;
         bool disableEvents = true;
@@ -83,9 +83,13 @@ namespace wmap_ilc_9yr_v5
                 for (int row = 0; row < 512; row++)
                     grabbed[index].SetPixel(col, row, bmp.GetPixel(col, row));
             grabDescription[index] = lblShowing.Text.Replace("Showing", String.Format("Showing Grab {0}:", index));
+            grabbedInColor[index] = chkColor.Checked;
             cbNextGrab.SelectedIndex = ++index % 2;
-            if (!btnToggle.Enabled && ++numGrabbed > 1)
-                btnToggle.Enabled = btnOverlap.Enabled = true;
+            if (++numGrabbed > 1)
+            {
+                btnToggle.Enabled = true;
+                btnOverlap.Enabled = grabbedInColor[0] == grabbedInColor[1];
+            }
         }
 
         private void txtMax_TextChanged(object sender, EventArgs e)
@@ -201,6 +205,7 @@ namespace wmap_ilc_9yr_v5
         private void btnToggle_Click(object sender, EventArgs e)
         {
             toggleIndex = ++toggleIndex % 2;
+            chkColor.Checked = grabbedInColor[toggleIndex];
             pictureBox1.Image = grabbed[toggleIndex];
             lblShowing.Text = grabDescription[toggleIndex];
         }
@@ -585,6 +590,31 @@ namespace wmap_ilc_9yr_v5
             }
             double percent = searched == 0 ? 0.0 : 100.0 * Convert.ToDouble(found) / Convert.ToDouble(searched);
             txtResults.Text = string.Format("{0} of {1} ({2}%)", found, searched, percent.ToString("0.00000"));
+        }
+
+        private void BtnOverlap_Click(object sender, EventArgs e)
+        {
+            Bitmap overlap = new Bitmap(512, 512);
+            int tolerance = Convert.ToInt32(nudTolerance.Value);
+            Color color0, color1;
+            if (grabbedInColor[0])
+            {
+                for (int row = 0; row < 512; row++)
+                {
+                    for (int col = 0; col < 512; col++)
+                    {
+                        color0 = grabbed[0].GetPixel(col, row);
+                        color1 = grabbed[1].GetPixel(col, row);
+                        if (color0.R == 255 && color1.R == 255 && color0.B == 0 && color1.B == 0 && color0.G <= tolerance && color1.G <= tolerance)
+                            SetColorPixel(overlap, 1.0, col, row);
+                        else if (color0.R == 0 && color1.R == 0 && color0.B <= tolerance && color1.B <= tolerance && color0.G == 0 && color1.G == 0)
+                            SetColorPixel(overlap, 0.0, col, row);
+                        else
+                            SetColorPixel(overlap, 0.5, col, row);
+                    }
+                }
+            }
+            pictureBox1.Image = overlap;
         }
 
         private void DescribeImage()

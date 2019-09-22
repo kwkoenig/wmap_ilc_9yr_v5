@@ -596,6 +596,7 @@
             this.btnOverlap.TabIndex = 46;
             this.btnOverlap.Text = "overlap";
             this.btnOverlap.UseVisualStyleBackColor = true;
+            this.btnOverlap.Click += new System.EventHandler(this.BtnOverlap_Click);
             // 
             // label13
             // 
