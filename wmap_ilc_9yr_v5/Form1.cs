@@ -614,7 +614,26 @@ namespace wmap_ilc_9yr_v5
                     }
                 }
             }
+            else
+            {
+                int upperLimit = 255 - tolerance;
+                for (int row = 0; row < 512; row++)
+                {
+                    for (int col = 0; col < 512; col++)
+                    {
+                        color0 = grabbed[0].GetPixel(col, row);
+                        color1 = grabbed[1].GetPixel(col, row);
+                        if (color0.R >= upperLimit && color1.R >= upperLimit && color0.B >= upperLimit && color1.B >= upperLimit && color0.G >= upperLimit && color1.G >= upperLimit)
+                            SetBWPixel(overlap, 1.0, col, row);
+                        else if (color0.R <= tolerance && color1.R <= tolerance && color0.B <= tolerance && color1.B <= tolerance && color0.G <= tolerance && color1.G <= tolerance)
+                            SetBWPixel(overlap, 0.0, col, row);
+                        else
+                            SetBWPixel(overlap, 0.5, col, row);
+                    }
+                }
+            }
             pictureBox1.Image = overlap;
+            lblShowing.Text = string.Format("{0} {1} Overlap", grabDescription[0].Replace("Grab 0: ", ""), grabDescription[1].Replace("Showing Grab 1:", "And"));
         }
 
         private void DescribeImage()
