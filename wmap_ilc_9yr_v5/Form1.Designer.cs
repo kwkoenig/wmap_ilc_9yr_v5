@@ -618,6 +618,11 @@
             this.nudTolerance.Name = "nudTolerance";
             this.nudTolerance.Size = new System.Drawing.Size(41, 20);
             this.nudTolerance.TabIndex = 48;
+            this.nudTolerance.Value = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
             // 
             // wmap_ilc_9yr_v5
             // 
