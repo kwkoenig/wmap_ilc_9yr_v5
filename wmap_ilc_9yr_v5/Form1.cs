@@ -224,17 +224,17 @@ namespace wmap_ilc_9yr_v5
 
         private void BMPToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFile("bmp");
+            SaveFile(".bmp");
         }
 
         private void PNGToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFile("png");
+            SaveFile(".png");
         }
 
         private void JPGToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFile("jpg");
+            SaveFile(".jpg");
         }
 
         private void btnReset_Click(object sender, EventArgs e)
@@ -661,15 +661,17 @@ namespace wmap_ilc_9yr_v5
                 int newLength = fileName.Length - BaseInFileName;
                 fileName = fileName.Substring(BaseInFileName, newLength).Replace(' ', '_');
             }
-            saveFileDialog1.FileName = string.Format("{0}.{1}", fileName, extension);
+            saveFileDialog1.FileName = string.Format("{0}{1}", fileName, extension);
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 fileName = saveFileDialog1.FileName;
+                if (!fileName.EndsWith(extension))
+                    fileName = string.Format("{0}{1}", fileName, extension);
                 switch (extension)
                 {
-                    case "bmp": pictureBox1.Image.Save(fileName, System.Drawing.Imaging.ImageFormat.Bmp); break;
-                    case "png": pictureBox1.Image.Save(fileName, System.Drawing.Imaging.ImageFormat.Png); break;
-                    case "jpg": pictureBox1.Image.Save(fileName, System.Drawing.Imaging.ImageFormat.Jpeg); break;
+                    case ".bmp": pictureBox1.Image.Save(fileName, System.Drawing.Imaging.ImageFormat.Bmp); break;
+                    case ".png": pictureBox1.Image.Save(fileName, System.Drawing.Imaging.ImageFormat.Png); break;
+                    case ".jpg": pictureBox1.Image.Save(fileName, System.Drawing.Imaging.ImageFormat.Jpeg); break;
                 }
             }
         }
