@@ -52,8 +52,8 @@ namespace wmap_ilc_9yr_v5
             cbMaxOption.SelectedIndex = 0;
             cbMinOption.SelectedIndex = 0;
             cbNextGrabOption.SelectedIndex = 0;
-            chosenMax = 0.18;
-            chosenMin = -0.19;
+            chosenMax = 0.180;
+            chosenMin = -0.190;
             txtMax.Text = chosenMax.ToString("0.000");
             txtMin.Text = chosenMin.ToString("0.000");
 
@@ -110,8 +110,10 @@ namespace wmap_ilc_9yr_v5
             }
             else
             {
+                disableEvents = true;
                 nudPercentMax.Value = Convert.ToDecimal(Convert.ToInt16(100.0 * chosenMax / dataMax));
                 nudPercentMin.Value = Convert.ToDecimal(Convert.ToInt16(100.0 * chosenMin / dataMin));
+                disableEvents = false;
             }
             if (chosenMin == double.MaxValue && chosenMax == double.MinValue)
             {
