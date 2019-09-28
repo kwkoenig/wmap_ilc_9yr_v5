@@ -56,13 +56,14 @@ namespace wmap_ilc_9yr_v5
             chosenMin = -0.190;
             txtMax.Text = chosenMax.ToString("0.000");
             txtMin.Text = chosenMin.ToString("0.000");
+            cbFindPercent.SelectedIndex = 0;
+            cbFindColor.SelectedIndex = 0;
 
             //Fire things off
             disableEvents = false;
             cbBasePixel.SelectedIndex = 4;
         }
 
-        #region Event Handlers
         private void cbBasePixel_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbRotationOption.SelectedIndex == 0)
@@ -71,6 +72,13 @@ namespace wmap_ilc_9yr_v5
                 chkRotate.Checked = false;
                 disableEvents = false;
             }
+            if (cbFindColor.SelectedIndex == 0)
+            {
+                disableEvents = true;
+                cbFindType.SelectedIndex = 0;
+                disableEvents = false;
+            }
+
             //fill 2-D array with data.  512 X 512 = 262144
             int basePixel = cbBasePixel.SelectedIndex;
             int offSet = 262144 * basePixel;
@@ -294,7 +302,6 @@ namespace wmap_ilc_9yr_v5
             Normalize();
             Render();
         }
-        #endregion
 
         void SetChosenMaxMinToDataMaxMin()
         {
@@ -509,6 +516,7 @@ namespace wmap_ilc_9yr_v5
 
             pictureBox1.Image = bmp;
             DescribeImage();
+            DoFind();
         }
 
         private void SetColorPixel(Bitmap bmp, double A, int col, int row)
@@ -564,7 +572,14 @@ namespace wmap_ilc_9yr_v5
             Render();
         }
 
-        private void BtnGo_Click(object sender, EventArgs e)
+        private void Find_Click(object sender, EventArgs e)
+        {
+            if (disableEvents)
+                return;
+            DoFind();
+        }
+
+        private void DoFind()
         {
             int startCol = Convert.ToInt32(nudCol.Value);
             int startRow = Convert.ToInt32(nudRow.Value);
@@ -639,7 +654,12 @@ namespace wmap_ilc_9yr_v5
                     }
                 }
             }
-            double percent = searched == 0 ? 0.0 : 100.0 * Convert.ToDouble(found) / Convert.ToDouble(searched);
+            double percent;
+            if (cbFindPercent.SelectedIndex == 1)
+                percent = searched == 0 ? 0.0 : 100.0 * Convert.ToDouble(found) / Convert.ToDouble(searched);
+            else
+                percent = searched == 0 ? 0.0 : 100.0 * Convert.ToDouble(found) / 262144.0;
+
             txtResults.Text = string.Format("{0} of {1} ({2}%)", found, searched, percent.ToString("0.00000"));
         }
 
