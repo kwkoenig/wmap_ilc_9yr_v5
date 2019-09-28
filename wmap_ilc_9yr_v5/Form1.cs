@@ -48,10 +48,10 @@ namespace wmap_ilc_9yr_v5
             cbDiagonals.SelectedIndex = 2;
             cbNextGrab.SelectedIndex = 0;
             cbFindType.SelectedIndex = 0;
-            chosenMax = 0.2;
-            chosenMin = -0.2;
-            txtMax.Text = chosenMax.ToString("0.0");
-            txtMin.Text = chosenMin.ToString("0.0");
+            chosenMax = 0.18;
+            chosenMin = -0.19;
+            txtMax.Text = chosenMax.ToString("0.000");
+            txtMin.Text = chosenMin.ToString("0.000");
 
             //Fire things off
             disableEvents = false;
