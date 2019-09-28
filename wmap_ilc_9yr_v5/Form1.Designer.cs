@@ -325,11 +325,6 @@
             // 
             // numericUpDownForN
             // 
-            this.numericUpDownForN.Increment = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
             this.numericUpDownForN.Location = new System.Drawing.Point(331, 27);
             this.numericUpDownForN.Maximum = new decimal(new int[] {
             9,
@@ -349,7 +344,6 @@
             0,
             0,
             0});
-            this.numericUpDownForN.ValueChanged += new System.EventHandler(this.NumericUpDownForN_ValueChanged);
             // 
             // label5
             // 

@@ -109,15 +109,6 @@ namespace wmap_ilc_9yr_v5
                 Render();
         }
 
-        private void NumericUpDownForN_ValueChanged(object sender, EventArgs e)
-        {
-            int textBoxValue = Convert.ToInt32(numericUpDownTextBox.Text);
-            int value = Convert.ToInt32(numericUpDownForN.Value);
-
-            if (textBoxValue != value && textBoxValue % 2 != value % 2)
-                numericUpDownForN.Value = textBoxValue;
-        }
-
         private void NumericUpDownTextBox_TextChanged(object sender, EventArgs e)
         {
             if (disableEvents)
