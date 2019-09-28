@@ -119,7 +119,6 @@ namespace wmap_ilc_9yr_v5
 
         private void cbBasePixel_SelectedIndexChanged(object sender, EventArgs e)
         {
-            chkRotate.Checked = false;
             //fill 2-D array with data.  512 X 512 = 262144
             int basePixel = cbBasePixel.SelectedIndex;
             int offSet = 262144 * basePixel;
