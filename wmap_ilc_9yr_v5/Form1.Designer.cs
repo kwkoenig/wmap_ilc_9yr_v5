@@ -43,7 +43,10 @@
             this.btnToggle = new System.Windows.Forms.Button();
             this.lblShowing = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.btnReset = new System.Windows.Forms.Button();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.nudPercentMin = new System.Windows.Forms.NumericUpDown();
+            this.nudPercentMax = new System.Windows.Forms.NumericUpDown();
             this.txtMin = new System.Windows.Forms.TextBox();
             this.txtMax = new System.Windows.Forms.TextBox();
             this.lblMin = new System.Windows.Forms.Label();
@@ -76,9 +79,21 @@
             this.btnOverlap = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.nudTolerance = new System.Windows.Forms.NumericUpDown();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.onBasePixelChangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rotationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbRotationOption = new System.Windows.Forms.ToolStripComboBox();
+            this.maxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbMaxOption = new System.Windows.Forms.ToolStripComboBox();
+            this.minToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbMinOption = new System.Windows.Forms.ToolStripComboBox();
+            this.nextGrabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbNextGrabOption = new System.Windows.Forms.ToolStripComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudPercentMin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudPercentMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownForN)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudCol)).BeginInit();
@@ -192,7 +207,7 @@
             // chkRotate
             // 
             this.chkRotate.AutoSize = true;
-            this.chkRotate.Location = new System.Drawing.Point(583, 32);
+            this.chkRotate.Location = new System.Drawing.Point(586, 32);
             this.chkRotate.Name = "chkRotate";
             this.chkRotate.Size = new System.Drawing.Size(79, 17);
             this.chkRotate.TabIndex = 18;
@@ -255,30 +270,67 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.btnReset);
+            this.groupBox2.Controls.Add(this.label15);
+            this.groupBox2.Controls.Add(this.label14);
+            this.groupBox2.Controls.Add(this.nudPercentMin);
+            this.groupBox2.Controls.Add(this.nudPercentMax);
             this.groupBox2.Controls.Add(this.txtMin);
             this.groupBox2.Controls.Add(this.txtMax);
             this.groupBox2.Controls.Add(this.lblMin);
             this.groupBox2.Controls.Add(this.lblMax);
             this.groupBox2.Location = new System.Drawing.Point(376, 19);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(190, 66);
+            this.groupBox2.Size = new System.Drawing.Size(193, 66);
             this.groupBox2.TabIndex = 24;
             this.groupBox2.TabStop = false;
             // 
-            // btnReset
+            // label15
             // 
-            this.btnReset.Location = new System.Drawing.Point(132, 14);
-            this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(50, 44);
-            this.btnReset.TabIndex = 5;
-            this.btnReset.Text = "Set to Data";
-            this.btnReset.UseVisualStyleBackColor = true;
-            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(170, 43);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(15, 13);
+            this.label15.TabIndex = 9;
+            this.label15.Text = "%";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(170, 14);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(15, 13);
+            this.label14.TabIndex = 8;
+            this.label14.Text = "%";
+            // 
+            // nudPercentMin
+            // 
+            this.nudPercentMin.Location = new System.Drawing.Point(127, 40);
+            this.nudPercentMin.Name = "nudPercentMin";
+            this.nudPercentMin.Size = new System.Drawing.Size(41, 20);
+            this.nudPercentMin.TabIndex = 7;
+            this.nudPercentMin.Value = new decimal(new int[] {
+            67,
+            0,
+            0,
+            0});
+            this.nudPercentMin.ValueChanged += new System.EventHandler(this.NudPercentMin_ValueChanged);
+            // 
+            // nudPercentMax
+            // 
+            this.nudPercentMax.Location = new System.Drawing.Point(127, 11);
+            this.nudPercentMax.Name = "nudPercentMax";
+            this.nudPercentMax.Size = new System.Drawing.Size(41, 20);
+            this.nudPercentMax.TabIndex = 6;
+            this.nudPercentMax.Value = new decimal(new int[] {
+            67,
+            0,
+            0,
+            0});
+            this.nudPercentMax.ValueChanged += new System.EventHandler(this.NudPercentMax_ValueChanged);
             // 
             // txtMin
             // 
-            this.txtMin.Location = new System.Drawing.Point(73, 40);
+            this.txtMin.Location = new System.Drawing.Point(70, 40);
             this.txtMin.Name = "txtMin";
             this.txtMin.Size = new System.Drawing.Size(52, 20);
             this.txtMin.TabIndex = 3;
@@ -287,7 +339,7 @@
             // 
             // txtMax
             // 
-            this.txtMax.Location = new System.Drawing.Point(73, 11);
+            this.txtMax.Location = new System.Drawing.Point(70, 11);
             this.txtMax.Name = "txtMax";
             this.txtMax.Size = new System.Drawing.Size(52, 20);
             this.txtMax.TabIndex = 2;
@@ -297,7 +349,7 @@
             // lblMin
             // 
             this.lblMin.AutoSize = true;
-            this.lblMin.Location = new System.Drawing.Point(7, 42);
+            this.lblMin.Location = new System.Drawing.Point(4, 42);
             this.lblMin.Name = "lblMin";
             this.lblMin.Size = new System.Drawing.Size(66, 13);
             this.lblMin.TabIndex = 1;
@@ -306,7 +358,7 @@
             // lblMax
             // 
             this.lblMax.AutoSize = true;
-            this.lblMax.Location = new System.Drawing.Point(7, 14);
+            this.lblMax.Location = new System.Drawing.Point(4, 14);
             this.lblMax.Name = "lblMax";
             this.lblMax.Size = new System.Drawing.Size(66, 13);
             this.lblMax.TabIndex = 0;
@@ -315,7 +367,7 @@
             // chkReverse
             // 
             this.chkReverse.AutoSize = true;
-            this.chkReverse.Location = new System.Drawing.Point(583, 62);
+            this.chkReverse.Location = new System.Drawing.Point(586, 62);
             this.chkReverse.Name = "chkReverse";
             this.chkReverse.Size = new System.Drawing.Size(131, 17);
             this.chkReverse.TabIndex = 25;
@@ -393,7 +445,8 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveAsToolStripMenuItem});
+            this.saveAsToolStripMenuItem,
+            this.toolStripMenuItem1});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -405,7 +458,7 @@
             this.pNGToolStripMenuItem,
             this.jPGToolStripMenuItem});
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Save As";
             // 
             // bMPToolStripMenuItem
@@ -618,6 +671,92 @@
             0,
             0});
             // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.onBasePixelChangeToolStripMenuItem,
+            this.nextGrabToolStripMenuItem});
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Text = "Options";
+            // 
+            // onBasePixelChangeToolStripMenuItem
+            // 
+            this.onBasePixelChangeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.rotationToolStripMenuItem,
+            this.maxToolStripMenuItem,
+            this.minToolStripMenuItem});
+            this.onBasePixelChangeToolStripMenuItem.Name = "onBasePixelChangeToolStripMenuItem";
+            this.onBasePixelChangeToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.onBasePixelChangeToolStripMenuItem.Text = "On Base Pixel Change";
+            // 
+            // rotationToolStripMenuItem
+            // 
+            this.rotationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cbRotationOption});
+            this.rotationToolStripMenuItem.Name = "rotationToolStripMenuItem";
+            this.rotationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.rotationToolStripMenuItem.Text = "Rotation";
+            // 
+            // cbRotationOption
+            // 
+            this.cbRotationOption.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRotationOption.Items.AddRange(new object[] {
+            "Reset",
+            "Maintain"});
+            this.cbRotationOption.Name = "cbRotationOption";
+            this.cbRotationOption.Size = new System.Drawing.Size(121, 23);
+            // 
+            // maxToolStripMenuItem
+            // 
+            this.maxToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cbMaxOption});
+            this.maxToolStripMenuItem.Name = "maxToolStripMenuItem";
+            this.maxToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.maxToolStripMenuItem.Text = "Max";
+            // 
+            // cbMaxOption
+            // 
+            this.cbMaxOption.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbMaxOption.Items.AddRange(new object[] {
+            "Use Absolute",
+            "Use Percent"});
+            this.cbMaxOption.Name = "cbMaxOption";
+            this.cbMaxOption.Size = new System.Drawing.Size(121, 23);
+            // 
+            // minToolStripMenuItem
+            // 
+            this.minToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cbMinOption});
+            this.minToolStripMenuItem.Name = "minToolStripMenuItem";
+            this.minToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.minToolStripMenuItem.Text = "Min";
+            // 
+            // cbMinOption
+            // 
+            this.cbMinOption.Items.AddRange(new object[] {
+            "Use Absolute",
+            "Use Percent"});
+            this.cbMinOption.Name = "cbMinOption";
+            this.cbMinOption.Size = new System.Drawing.Size(121, 23);
+            // 
+            // nextGrabToolStripMenuItem
+            // 
+            this.nextGrabToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cbNextGrabOption});
+            this.nextGrabToolStripMenuItem.Name = "nextGrabToolStripMenuItem";
+            this.nextGrabToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.nextGrabToolStripMenuItem.Text = "Next Grab";
+            // 
+            // cbNextGrabOption
+            // 
+            this.cbNextGrabOption.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbNextGrabOption.Items.AddRange(new object[] {
+            "Toggle on Grab",
+            "Maintain on Grab"});
+            this.cbNextGrabOption.Name = "cbNextGrabOption";
+            this.cbNextGrabOption.Size = new System.Drawing.Size(121, 23);
+            // 
             // wmap_ilc_9yr_v5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -671,6 +810,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudPercentMin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudPercentMax)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownForN)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -705,7 +846,6 @@
         private System.Windows.Forms.Label lblMin;
         private System.Windows.Forms.Label lblMax;
         private System.Windows.Forms.TextBox txtMin;
-        private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.CheckBox chkReverse;
         private System.Windows.Forms.NumericUpDown numericUpDownForN;
         private System.Windows.Forms.Label label5;
@@ -734,6 +874,20 @@
         private System.Windows.Forms.Button btnOverlap;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.NumericUpDown nudTolerance;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.NumericUpDown nudPercentMin;
+        private System.Windows.Forms.NumericUpDown nudPercentMax;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem onBasePixelChangeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rotationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripComboBox cbRotationOption;
+        private System.Windows.Forms.ToolStripMenuItem maxToolStripMenuItem;
+        private System.Windows.Forms.ToolStripComboBox cbMaxOption;
+        private System.Windows.Forms.ToolStripMenuItem minToolStripMenuItem;
+        private System.Windows.Forms.ToolStripComboBox cbMinOption;
+        private System.Windows.Forms.ToolStripMenuItem nextGrabToolStripMenuItem;
+        private System.Windows.Forms.ToolStripComboBox cbNextGrabOption;
     }
 }
 
