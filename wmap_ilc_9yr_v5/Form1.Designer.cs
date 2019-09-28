@@ -446,6 +446,7 @@
             // 
             // cbFindType
             // 
+            this.cbFindType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFindType.FormattingEnabled = true;
             this.cbFindType.Items.AddRange(new object[] {
             "max color",
@@ -454,7 +455,6 @@
             this.cbFindType.Name = "cbFindType";
             this.cbFindType.Size = new System.Drawing.Size(71, 21);
             this.cbFindType.TabIndex = 33;
-            this.cbFindType.Text = "max color";
             // 
             // label8
             // 

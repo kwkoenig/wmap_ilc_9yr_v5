@@ -47,6 +47,7 @@ namespace wmap_ilc_9yr_v5
             cbScale.SelectedIndex = 0;
             cbDiagonals.SelectedIndex = 2;
             cbNextGrab.SelectedIndex = 0;
+            cbFindType.SelectedIndex = 0;
             chosenMax = 0.2;
             chosenMin = -0.2;
             txtMax.Text = chosenMax.ToString("0.0");
