@@ -63,6 +63,64 @@ namespace wmap_ilc_9yr_v5
         }
 
         #region Event Handlers
+        private void cbBasePixel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbRotationOption.SelectedIndex == 0)
+            {
+                disableEvents = true;
+                chkRotate.Checked = false;
+                disableEvents = false;
+            }
+            //fill 2-D array with data.  512 X 512 = 262144
+            int basePixel = cbBasePixel.SelectedIndex;
+            int offSet = 262144 * basePixel;
+
+            //https://healpix.jpl.nasa.gov/html/intronode3.htm
+
+            long col, row;
+            for (UInt32 A = 0; A < 262144; A++)
+            {
+                row = A & 1;
+                col = (A & (1 << 17)) >> 9;
+                for (int n = 1; n < 9; n++)
+                {
+                    row += (A & (1 << (2 * n))) >> n;
+                    col += (A & (1 << (2 * n - 1))) >> n;
+                }
+                data[511 - row, 511 - col] = linearData[offSet++];
+
+            }
+            double[] forMedian = new double[262144];
+            int k = 0;
+            for (row = 0; row < 512; row++)
+                for (col = 0; col < 512; col++)
+                    forMedian[k++] = data[col, row];
+            Array.Sort(forMedian);
+            dataMedian = (forMedian[131071] + forMedian[131072]) / 2.0;
+
+            GetDataMaxMin();
+            if (cbMaxOption.SelectedIndex == 1)
+            {
+                disableEvents = true;
+                txtMax.Text = (Convert.ToDouble(nudPercentMax.Value) * dataMax / 100.0).ToString("0.000");
+                txtMin.Text = (Convert.ToDouble(nudPercentMin.Value) * dataMin / 100.0).ToString("0.000");
+                disableEvents = false;
+                chosenMax = Convert.ToDouble(txtMax.Text);
+                chosenMin = Convert.ToDouble(txtMin.Text);
+            }
+            else
+            {
+                nudPercentMax.Value = Convert.ToDecimal(Convert.ToInt16(100.0 * chosenMax / dataMax));
+                nudPercentMin.Value = Convert.ToDecimal(Convert.ToInt16(100.0 * chosenMin / dataMin));
+            }
+            if (chosenMin == double.MaxValue && chosenMax == double.MinValue)
+            {
+                SetChosenMaxMinToDataMaxMin();
+            }
+            Normalize();
+            Render();
+        }
+
         private void CbScale_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (disableEvents)
@@ -89,7 +147,8 @@ namespace wmap_ilc_9yr_v5
                     grabbed[index].SetPixel(col, row, bmp.GetPixel(col, row));
             grabDescription[index] = lblShowing.Text.Replace("Showing", String.Format("Showing Grab {0}:", index));
             grabbedInColor[index] = chkColor.Checked;
-            cbNextGrab.SelectedIndex = ++index % 2;
+            if (cbNextGrabOption.SelectedIndex == 0)
+                cbNextGrab.SelectedIndex = ++index % 2;
             if (++numGrabbed > 1)
             {
                 btnToggle.Enabled = true;
@@ -150,58 +209,6 @@ namespace wmap_ilc_9yr_v5
             if (disableEvents)
                 return;
 
-            Render();
-        }
-
-        private void cbBasePixel_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cbRotationOption.SelectedIndex == 0)
-            {
-                disableEvents = true;
-                chkRotate.Checked = false;
-            }
-            //fill 2-D array with data.  512 X 512 = 262144
-            int basePixel = cbBasePixel.SelectedIndex;
-            int offSet = 262144 * basePixel;
-
-            //https://healpix.jpl.nasa.gov/html/intronode3.htm
-
-            long col, row;
-            for (UInt32 A = 0; A < 262144; A++)
-            {
-                row = A & 1;
-                col = (A & (1 << 17)) >> 9;
-                for (int n = 1; n < 9; n++)
-                {
-                    row += (A & (1 << (2 * n))) >> n;
-                    col += (A & (1 << (2 * n - 1))) >> n;
-                }
-                data[511 - row, 511 - col] = linearData[offSet++];
-
-            }
-            double[] forMedian = new double[262144];
-            int k = 0;
-            for (row = 0; row < 512; row++)
-                for (col = 0; col < 512; col++)
-                    forMedian[k++] = data[col, row];
-            Array.Sort(forMedian);
-            dataMedian = (forMedian[131071] + forMedian[131072]) / 2.0;
-
-            GetDataMaxMin();
-            if (cbMaxOption.SelectedIndex == 0)
-            {
-                disableEvents = true;
-                txtMax.Text = (Convert.ToDouble(nudPercentMax.Value) * dataMax / 100.0).ToString("0.000");
-                txtMin.Text = (Convert.ToDouble(nudPercentMin.Value) * dataMin / 100.0).ToString("0.000");
-                disableEvents = false;
-                chosenMax = Convert.ToDouble(txtMax.Text);
-                chosenMin = Convert.ToDouble(txtMin.Text);
-            }
-            if (chosenMin == double.MaxValue && chosenMax == double.MinValue)
-            {
-                SetChosenMaxMinToDataMaxMin();
-            }
-            Normalize();
             Render();
         }
 
