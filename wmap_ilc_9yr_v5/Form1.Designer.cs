@@ -77,8 +77,6 @@
             this.cbNextGrabOption = new System.Windows.Forms.ToolStripComboBox();
             this.findPercentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cbFindPercent = new System.Windows.Forms.ToolStripComboBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.cbFindType = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.nudCol = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
@@ -88,7 +86,6 @@
             this.nudWidth = new System.Windows.Forms.NumericUpDown();
             this.txtResults = new System.Windows.Forms.TextBox();
             this.nudHeight = new System.Windows.Forms.NumericUpDown();
-            this.label12 = new System.Windows.Forms.Label();
             this.btnOverlap = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.nudTolerance = new System.Windows.Forms.NumericUpDown();
@@ -178,7 +175,7 @@
             this.chkColor.TabIndex = 9;
             this.chkColor.Text = "color";
             this.chkColor.UseVisualStyleBackColor = true;
-            this.chkColor.CheckedChanged += new System.EventHandler(this.Render_Required);
+            this.chkColor.CheckedChanged += new System.EventHandler(this.chkColor_CheckChanged);
             // 
             // label4
             // 
@@ -607,40 +604,18 @@
             this.cbFindPercent.Size = new System.Drawing.Size(121, 23);
             this.cbFindPercent.SelectedIndexChanged += new System.EventHandler(this.Find_Click);
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(766, 31);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(49, 13);
-            this.label7.TabIndex = 32;
-            this.label7.Text = "Find # of";
-            // 
-            // cbFindType
-            // 
-            this.cbFindType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbFindType.FormattingEnabled = true;
-            this.cbFindType.Items.AddRange(new object[] {
-            "max color",
-            "min color"});
-            this.cbFindType.Location = new System.Drawing.Point(816, 28);
-            this.cbFindType.Name = "cbFindType";
-            this.cbFindType.Size = new System.Drawing.Size(71, 21);
-            this.cbFindType.TabIndex = 33;
-            this.cbFindType.SelectedIndexChanged += new System.EventHandler(this.Find_Click);
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(889, 31);
+            this.label8.Location = new System.Drawing.Point(717, 31);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(44, 13);
+            this.label8.Size = new System.Drawing.Size(41, 13);
             this.label8.TabIndex = 34;
-            this.label8.Text = "pixels in";
+            this.label8.Text = "Search";
             // 
             // nudCol
             // 
-            this.nudCol.Location = new System.Drawing.Point(934, 56);
+            this.nudCol.Location = new System.Drawing.Point(925, 28);
             this.nudCol.Maximum = new decimal(new int[] {
             511,
             0,
@@ -654,16 +629,16 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(910, 59);
+            this.label9.Location = new System.Drawing.Point(878, 31);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(21, 13);
+            this.label9.Size = new System.Drawing.Size(44, 13);
             this.label9.TabIndex = 36;
-            this.label9.Text = "col";
+            this.label9.Text = "from col";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(978, 59);
+            this.label10.Location = new System.Drawing.Point(969, 31);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(24, 13);
             this.label10.TabIndex = 38;
@@ -671,7 +646,7 @@
             // 
             // nudRow
             // 
-            this.nudRow.Location = new System.Drawing.Point(1005, 56);
+            this.nudRow.Location = new System.Drawing.Point(996, 28);
             this.nudRow.Maximum = new decimal(new int[] {
             511,
             0,
@@ -685,7 +660,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(981, 31);
+            this.label11.Location = new System.Drawing.Point(809, 31);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(18, 13);
             this.label11.TabIndex = 39;
@@ -693,7 +668,7 @@
             // 
             // nudWidth
             // 
-            this.nudWidth.Location = new System.Drawing.Point(935, 28);
+            this.nudWidth.Location = new System.Drawing.Point(763, 28);
             this.nudWidth.Maximum = new decimal(new int[] {
             512,
             0,
@@ -716,15 +691,16 @@
             // 
             // txtResults
             // 
-            this.txtResults.Location = new System.Drawing.Point(770, 83);
+            this.txtResults.Location = new System.Drawing.Point(764, 54);
+            this.txtResults.Multiline = true;
             this.txtResults.Name = "txtResults";
             this.txtResults.ReadOnly = true;
-            this.txtResults.Size = new System.Drawing.Size(271, 20);
+            this.txtResults.Size = new System.Drawing.Size(271, 45);
             this.txtResults.TabIndex = 45;
             // 
             // nudHeight
             // 
-            this.nudHeight.Location = new System.Drawing.Point(1005, 28);
+            this.nudHeight.Location = new System.Drawing.Point(833, 28);
             this.nudHeight.Maximum = new decimal(new int[] {
             512,
             0,
@@ -744,15 +720,6 @@
             0,
             0});
             this.nudHeight.ValueChanged += new System.EventHandler(this.Find_Click);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(767, 59);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(138, 13);
-            this.label12.TabIndex = 44;
-            this.label12.Text = "region with top left corner at";
             // 
             // btnOverlap
             // 
@@ -799,7 +766,6 @@
             this.Controls.Add(this.label13);
             this.Controls.Add(this.nudTolerance);
             this.Controls.Add(this.btnOverlap);
-            this.Controls.Add(this.label12);
             this.Controls.Add(this.nudHeight);
             this.Controls.Add(this.txtResults);
             this.Controls.Add(this.nudWidth);
@@ -809,8 +775,6 @@
             this.Controls.Add(this.label9);
             this.Controls.Add(this.nudCol);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.cbFindType);
-            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.cbDiagonals);
             this.Controls.Add(this.label5);
@@ -891,8 +855,6 @@
         private System.Windows.Forms.ToolStripMenuItem bMPToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pNGToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem jPGToolStripMenuItem;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ComboBox cbFindType;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.NumericUpDown nudCol;
         private System.Windows.Forms.Label label9;
@@ -902,7 +864,6 @@
         private System.Windows.Forms.NumericUpDown nudWidth;
         private System.Windows.Forms.TextBox txtResults;
         private System.Windows.Forms.NumericUpDown nudHeight;
-        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button btnOverlap;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.NumericUpDown nudTolerance;
