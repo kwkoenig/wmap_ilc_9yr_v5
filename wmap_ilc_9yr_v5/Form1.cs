@@ -44,11 +44,6 @@ namespace wmap_ilc_9yr_v5
 
             TextBox textbox = numericUpDownForN.Controls[1] as TextBox;
             textbox.TextChanged += NumericUpDownTextBox_TextChanged;
-            //textbox = nudPercentMax.Controls[1] as TextBox;
-            //textbox.TextChanged += NudPercentMax_ValueChanged;
-            //textbox = nudPercentMin.Controls[1] as TextBox;
-            //textbox.TextChanged += NudPercentMin_ValueChanged;
-
             this.Icon = Properties.Resources.icon;
             cbScale.SelectedIndex = 0;
             cbDiagonals.SelectedIndex = 2;
@@ -875,11 +870,11 @@ namespace wmap_ilc_9yr_v5
             double lowPercent = lowSearched == 0 ? 0.0 : 100.0 * Convert.ToDouble(lowPixels) / 262144.0;
 
             txtResults.Text = string.Format("{0} {1}, {2} {3} pixels ({4}%, {5}%)\r\n\r\n{6} {7}, {8} {9} spots"
-                , highPixels, chkColor.Checked ? "red" : "white"
                 , lowPixels, chkColor.Checked ? "blue" : "black"
-                , highPercent.ToString("0.00000"), lowPercent.ToString("0.00000")
-                , highSpots, chkColor.Checked ? "red" : "white"
+                , highPixels, chkColor.Checked ? "red" : "white"
+                , lowPercent.ToString("0.00000"), highPercent.ToString("0.00000")
                 , lowSpots, chkColor.Checked ? "blue" : "black"
+                , highSpots, chkColor.Checked ? "red" : "white"
             );
         }
 
