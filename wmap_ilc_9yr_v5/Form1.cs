@@ -25,7 +25,7 @@ namespace wmap_ilc_9yr_v5
         int numGrabbed = 0;
         int toggleIndex = -1;
         bool disableEvents = true;
-        TextBox numericUpDownTextBox = null;
+        TextBox numericUpDownFoNTextBox = null;
         double dataMedian;
 
         public wmap_ilc_9yr_v5()
@@ -41,8 +41,18 @@ namespace wmap_ilc_9yr_v5
             for (int k = 0; k < 3145728; k++)
                 linearData[k] = Convert.ToDouble(temp[k]);
 
-            numericUpDownTextBox = numericUpDownForN.Controls[1] as TextBox;
-            numericUpDownTextBox.TextChanged += NumericUpDownTextBox_TextChanged;
+            numericUpDownFoNTextBox = numericUpDownForN.Controls[1] as TextBox;
+            numericUpDownFoNTextBox.TextChanged += NumericUpDownTextBox_TextChanged;
+
+            TextBox[] nudsForSpots = new TextBox[] { nudTolerance.Controls[1] as TextBox
+                                                   , nudWidth.Controls[1] as TextBox
+                                                   , nudHeight.Controls[1] as TextBox
+                                                   , nudCol.Controls[1] as TextBox
+                                                   , nudRow.Controls[1] as TextBox
+            };
+            for (int k = 0; k < nudsForSpots.Length; k++)
+                nudsForSpots[k].TextChanged += Find_Click;
+
             this.Icon = Properties.Resources.icon;
             cbScale.SelectedIndex = 0;
             cbDiagonals.SelectedIndex = 2;
@@ -218,7 +228,6 @@ namespace wmap_ilc_9yr_v5
         {
             if (disableEvents)
                 return;
-
             Render();
         }
 
@@ -267,12 +276,7 @@ namespace wmap_ilc_9yr_v5
             chkColor.Checked = grabbedInColor[toggleIndex];
             pictureBox1.Image = grabbed[toggleIndex];
             lblShowing.Text = grabDescription[toggleIndex];
-        }
-
-        private void btnApply_Click(object sender, EventArgs e)
-        {
-            if (ProcessChosenMaxMin())
-                Render();
+            DoFind();
         }
 
         private void chkReverseCheckedChanged(object sender, EventArgs e)
@@ -589,7 +593,7 @@ namespace wmap_ilc_9yr_v5
             if (endCol > 512) endCol = 512;
             int endRow = startRow + height;
             if (endRow > 512) endRow = 512;
-            int found = 0, searched = 0;
+            int pixelsFound = 0, spotsFound = 0, searched = 0;
             int tolerance = Convert.ToInt32(nudTolerance.Value);
             int upperLimit = 255 - tolerance;
             Bitmap bmp = pictureBox1.Image as Bitmap;
@@ -607,7 +611,62 @@ namespace wmap_ilc_9yr_v5
                             ++searched;
                             color = bmp.GetPixel(col, row);
                             if (color.R == 255 && color.G <= tolerance && color.B == 0)
-                                ++found;
+                            {
+                                ++pixelsFound;
+                                bool isNewSpot = true;
+                                if (col > 0)
+                                {
+                                    color = bmp.GetPixel(col - 1, row);
+                                    if (color.R == 255 && color.G <= tolerance && color.B == 0)
+                                        isNewSpot = false;
+                                    if (row > 0)
+                                    {
+                                        color = bmp.GetPixel(col - 1, row - 1);
+                                        if (color.R == 255 && color.G <= tolerance && color.B == 0)
+                                            isNewSpot = false;
+                                    }
+                                }
+                                if (row > 0)
+                                {
+                                    if (col > 0)
+                                    {
+                                        color = bmp.GetPixel(col - 1, row - 1);
+                                        if (color.R == 255 && color.G <= tolerance && color.B == 0)
+                                            isNewSpot = false;
+                                    }
+                                    color = bmp.GetPixel(col, row - 1);
+                                    if (color.R == 255 && color.G <= tolerance && color.B == 0)
+                                        isNewSpot = false;
+                                    if (col < 511)
+                                    {
+                                        color = bmp.GetPixel(col + 1, row - 1);
+                                        if (color.R == 255 && color.G <= tolerance && color.B == 0)
+                                            isNewSpot = false;
+                                    }
+                                }
+                                if (isNewSpot && row > 0)
+                                {
+                                    for (int nextRight = col + 1; nextRight < 512; nextRight++)
+                                    {
+                                        color = bmp.GetPixel(nextRight, row);
+                                        if (color.R == 255 && color.G <= tolerance && color.B == 0)
+                                        {
+                                            color = bmp.GetPixel(nextRight, row - 1);
+                                            if (color.R == 255 && color.G <= tolerance && color.B == 0)
+                                            {
+                                                isNewSpot = false;
+                                                break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (isNewSpot)
+                                    ++spotsFound;
+                            }
                         }
                     }
                 }
@@ -620,7 +679,62 @@ namespace wmap_ilc_9yr_v5
                             ++searched;
                             color = bmp.GetPixel(col, row);
                             if (color.R >= upperLimit && color.G >= upperLimit && color.B >= upperLimit)
-                                ++found;
+                            {
+                                ++pixelsFound;
+                                bool isNewSpot = true;
+                                if (col > 0)
+                                {
+                                    color = bmp.GetPixel(col - 1, row);
+                                    if (color.R >= upperLimit && color.G >= upperLimit && color.B >= upperLimit)
+                                        isNewSpot = false;
+                                    if (row > 0)
+                                    {
+                                        color = bmp.GetPixel(col - 1, row - 1);
+                                        if (color.R >= upperLimit && color.G >= upperLimit && color.B >= upperLimit)
+                                            isNewSpot = false;
+                                    }
+                                }
+                                if (row > 0)
+                                {
+                                    if (col > 0)
+                                    {
+                                        color = bmp.GetPixel(col - 1, row - 1);
+                                        if (color.R >= upperLimit && color.G >= upperLimit && color.B >= upperLimit)
+                                            isNewSpot = false;
+                                    }
+                                    color = bmp.GetPixel(col, row - 1);
+                                    if (color.R >= upperLimit && color.G >= upperLimit && color.B >= upperLimit)
+                                        isNewSpot = false;
+                                    if (col < 511)
+                                    {
+                                        color = bmp.GetPixel(col + 1, row - 1);
+                                        if (color.R >= upperLimit && color.G >= upperLimit && color.B >= upperLimit)
+                                            isNewSpot = false;
+                                    }
+                                }
+                                if (isNewSpot && row > 0)
+                                {
+                                    for (int nextRight = col + 1; nextRight < 512; nextRight++)
+                                    {
+                                        color = bmp.GetPixel(nextRight, row);
+                                        if (color.R >= upperLimit && color.G >= upperLimit && color.B >= upperLimit)
+                                        {
+                                            color = bmp.GetPixel(nextRight, row - 1);
+                                            if (color.R >= upperLimit && color.G >= upperLimit && color.B >= upperLimit)
+                                            {
+                                                isNewSpot = false;
+                                                break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (isNewSpot)
+                                    ++spotsFound;
+                            }
                         }
                     }
                 }
@@ -636,7 +750,62 @@ namespace wmap_ilc_9yr_v5
                             ++searched;
                             color = bmp.GetPixel(col, row);
                             if (color.R == 0 && color.G == 0 && color.B <= tolerance)
-                                ++found;
+                            {
+                                ++pixelsFound;
+                                bool isNewSpot = true;
+                                if (col > 0)
+                                {
+                                    color = bmp.GetPixel(col - 1, row);
+                                    if (color.R == 0 && color.G == 0 && color.B <= tolerance)
+                                        isNewSpot = false;
+                                    if (row > 0)
+                                    {
+                                        color = bmp.GetPixel(col - 1, row - 1);
+                                        if (color.R == 0 && color.G == 0 && color.B <= tolerance)
+                                            isNewSpot = false;
+                                    }
+                                }
+                                if (row > 0)
+                                {
+                                    if (col > 0)
+                                    {
+                                        color = bmp.GetPixel(col - 1, row - 1);
+                                        if (color.R == 0 && color.G == 0 && color.B <= tolerance)
+                                            isNewSpot = false;
+                                    }
+                                    color = bmp.GetPixel(col, row - 1);
+                                    if (color.R == 0 && color.G == 0 && color.B <= tolerance)
+                                        isNewSpot = false;
+                                    if (col < 511)
+                                    {
+                                        color = bmp.GetPixel(col + 1, row - 1);
+                                        if (color.R == 0 && color.G == 0 && color.B <= tolerance)
+                                            isNewSpot = false;
+                                    }
+                                }
+                                if (isNewSpot && row > 0)
+                                {
+                                    for (int nextRight = col + 1; nextRight < 512; nextRight++)
+                                    {
+                                        color = bmp.GetPixel(nextRight, row);
+                                        if (color.R == 0 && color.G == 0 && color.B <= tolerance)
+                                        {
+                                            color = bmp.GetPixel(nextRight, row - 1);
+                                            if (color.R == 0 && color.G == 0 && color.B <= tolerance)
+                                            {
+                                                isNewSpot = false;
+                                                break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (isNewSpot)
+                                    ++spotsFound;
+                            }
                         }
                     }
                 }
@@ -649,18 +818,73 @@ namespace wmap_ilc_9yr_v5
                             ++searched;
                             color = bmp.GetPixel(col, row);
                             if (color.R <= tolerance && color.G <= tolerance && color.B <= tolerance)
-                                ++found;
+                            {
+                                ++pixelsFound;
+                                bool isNewSpot = true;
+                                if (col > 0)
+                                {
+                                    color = bmp.GetPixel(col - 1, row);
+                                    if (color.R <= tolerance && color.G <= tolerance && color.B <= tolerance)
+                                        isNewSpot = false;
+                                    if (row > 0)
+                                    {
+                                        color = bmp.GetPixel(col - 1, row - 1);
+                                        if (color.R <= tolerance && color.G <= tolerance && color.B <= tolerance)
+                                            isNewSpot = false;
+                                    }
+                                }
+                                if (row > 0)
+                                {
+                                    if (col > 0)
+                                    {
+                                        color = bmp.GetPixel(col - 1, row - 1);
+                                        if (color.R <= tolerance && color.G <= tolerance && color.B <= tolerance)
+                                            isNewSpot = false;
+                                    }
+                                    color = bmp.GetPixel(col, row - 1);
+                                    if (color.R <= tolerance && color.G <= tolerance && color.B <= tolerance)
+                                        isNewSpot = false;
+                                    if (col < 511)
+                                    {
+                                        color = bmp.GetPixel(col + 1, row - 1);
+                                        if (color.R <= tolerance && color.G <= tolerance && color.B <= tolerance)
+                                            isNewSpot = false;
+                                    }
+                                }
+                                if (isNewSpot && row > 0)
+                                {
+                                    for (int nextRight = col + 1; nextRight < 512; nextRight++)
+                                    {
+                                        color = bmp.GetPixel(nextRight, row);
+                                        if (color.R <= tolerance && color.G <= tolerance && color.B <= tolerance)
+                                        {
+                                            color = bmp.GetPixel(nextRight, row - 1);
+                                            if (color.R <= tolerance && color.G <= tolerance && color.B <= tolerance)
+                                            {
+                                                isNewSpot = false;
+                                                break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (isNewSpot)
+                                    ++spotsFound;
+                            }
                         }
                     }
                 }
             }
             double percent;
             if (cbFindPercent.SelectedIndex == 1)
-                percent = searched == 0 ? 0.0 : 100.0 * Convert.ToDouble(found) / Convert.ToDouble(searched);
+                percent = searched == 0 ? 0.0 : 100.0 * Convert.ToDouble(pixelsFound) / Convert.ToDouble(searched);
             else
-                percent = searched == 0 ? 0.0 : 100.0 * Convert.ToDouble(found) / 262144.0;
+                percent = searched == 0 ? 0.0 : 100.0 * Convert.ToDouble(pixelsFound) / 262144.0;
 
-            txtResults.Text = string.Format("{0} of {1} ({2}%)", found, searched, percent.ToString("0.00000"));
+            txtResults.Text = string.Format("{0} spots, {1} of {2} pixels ({3}%)", spotsFound, pixelsFound, searched, percent.ToString("0.00000"));
         }
 
         private void BtnOverlap_Click(object sender, EventArgs e)
@@ -705,6 +929,7 @@ namespace wmap_ilc_9yr_v5
             }
             pictureBox1.Image = overlap;
             lblShowing.Text = string.Format("{0} {1} Overlap", grabDescription[0].Replace("Grab 0: ", ""), grabDescription[1].Replace("Showing Grab 1:", "And"));
+            DoFind();
         }
 
         private void DescribeImage()

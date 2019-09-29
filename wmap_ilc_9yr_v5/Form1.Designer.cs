@@ -71,8 +71,12 @@
             this.cbMaxOption = new System.Windows.Forms.ToolStripComboBox();
             this.minToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cbMinOption = new System.Windows.Forms.ToolStripComboBox();
+            this.findColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbFindColor = new System.Windows.Forms.ToolStripComboBox();
             this.nextGrabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cbNextGrabOption = new System.Windows.Forms.ToolStripComboBox();
+            this.findPercentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbFindPercent = new System.Windows.Forms.ToolStripComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.cbFindType = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -88,10 +92,6 @@
             this.btnOverlap = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.nudTolerance = new System.Windows.Forms.NumericUpDown();
-            this.findPercentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cbFindPercent = new System.Windows.Forms.ToolStripComboBox();
-            this.findColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cbFindColor = new System.Windows.Forms.ToolStripComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -461,7 +461,7 @@
             this.pNGToolStripMenuItem,
             this.jPGToolStripMenuItem});
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.saveAsToolStripMenuItem.Text = "Save As";
             // 
             // bMPToolStripMenuItem
@@ -492,7 +492,7 @@
             this.nextGrabToolStripMenuItem,
             this.findPercentToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(116, 22);
             this.toolStripMenuItem1.Text = "Options";
             // 
             // onBasePixelChangeToolStripMenuItem
@@ -511,7 +511,7 @@
             this.rotationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cbRotationOption});
             this.rotationToolStripMenuItem.Name = "rotationToolStripMenuItem";
-            this.rotationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.rotationToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.rotationToolStripMenuItem.Text = "Rotation";
             // 
             // cbRotationOption
@@ -528,7 +528,7 @@
             this.maxToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cbMaxOption});
             this.maxToolStripMenuItem.Name = "maxToolStripMenuItem";
-            this.maxToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.maxToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.maxToolStripMenuItem.Text = "Max";
             // 
             // cbMaxOption
@@ -545,7 +545,7 @@
             this.minToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cbMinOption});
             this.minToolStripMenuItem.Name = "minToolStripMenuItem";
-            this.minToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.minToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.minToolStripMenuItem.Text = "Min";
             // 
             // cbMinOption
@@ -555,6 +555,22 @@
             "Use Percent"});
             this.cbMinOption.Name = "cbMinOption";
             this.cbMinOption.Size = new System.Drawing.Size(121, 23);
+            // 
+            // findColorToolStripMenuItem
+            // 
+            this.findColorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cbFindColor});
+            this.findColorToolStripMenuItem.Name = "findColorToolStripMenuItem";
+            this.findColorToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.findColorToolStripMenuItem.Text = "Find Color";
+            // 
+            // cbFindColor
+            // 
+            this.cbFindColor.Items.AddRange(new object[] {
+            "Max Color",
+            "Current Selection"});
+            this.cbFindColor.Name = "cbFindColor";
+            this.cbFindColor.Size = new System.Drawing.Size(121, 23);
             // 
             // nextGrabToolStripMenuItem
             // 
@@ -572,6 +588,24 @@
             "Maintain on Grab"});
             this.cbNextGrabOption.Name = "cbNextGrabOption";
             this.cbNextGrabOption.Size = new System.Drawing.Size(121, 23);
+            // 
+            // findPercentToolStripMenuItem
+            // 
+            this.findPercentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cbFindPercent});
+            this.findPercentToolStripMenuItem.Name = "findPercentToolStripMenuItem";
+            this.findPercentToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.findPercentToolStripMenuItem.Text = "Find Percent";
+            // 
+            // cbFindPercent
+            // 
+            this.cbFindPercent.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFindPercent.Items.AddRange(new object[] {
+            "Percent of Image",
+            "Percent of Region"});
+            this.cbFindPercent.Name = "cbFindPercent";
+            this.cbFindPercent.Size = new System.Drawing.Size(121, 23);
+            this.cbFindPercent.SelectedIndexChanged += new System.EventHandler(this.Find_Click);
             // 
             // label7
             // 
@@ -685,7 +719,7 @@
             this.txtResults.Location = new System.Drawing.Point(770, 83);
             this.txtResults.Name = "txtResults";
             this.txtResults.ReadOnly = true;
-            this.txtResults.Size = new System.Drawing.Size(169, 20);
+            this.txtResults.Size = new System.Drawing.Size(271, 20);
             this.txtResults.TabIndex = 45;
             // 
             // nudHeight
@@ -756,41 +790,6 @@
             0,
             0,
             0});
-            this.nudTolerance.ValueChanged += new System.EventHandler(this.Find_Click);
-            // 
-            // findPercentToolStripMenuItem
-            // 
-            this.findPercentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cbFindPercent});
-            this.findPercentToolStripMenuItem.Name = "findPercentToolStripMenuItem";
-            this.findPercentToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.findPercentToolStripMenuItem.Text = "Find Percent";
-            // 
-            // cbFindPercent
-            // 
-            this.cbFindPercent.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbFindPercent.Items.AddRange(new object[] {
-            "Percent of Image",
-            "Percent of Region"});
-            this.cbFindPercent.Name = "cbFindPercent";
-            this.cbFindPercent.Size = new System.Drawing.Size(121, 23);
-            this.cbFindPercent.SelectedIndexChanged += new System.EventHandler(this.Find_Click);
-            // 
-            // findColorToolStripMenuItem
-            // 
-            this.findColorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cbFindColor});
-            this.findColorToolStripMenuItem.Name = "findColorToolStripMenuItem";
-            this.findColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.findColorToolStripMenuItem.Text = "Find Color";
-            // 
-            // cbFindColor
-            // 
-            this.cbFindColor.Items.AddRange(new object[] {
-            "Max Color",
-            "Current Selection"});
-            this.cbFindColor.Name = "cbFindColor";
-            this.cbFindColor.Size = new System.Drawing.Size(121, 23);
             // 
             // wmap_ilc_9yr_v5
             // 
