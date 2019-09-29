@@ -109,8 +109,12 @@ namespace wmap_ilc_9yr_v5
             else
             {
                 disableEvents = true;
-                nudPercentMax.Value = Convert.ToDecimal(Convert.ToInt16(100.0 * chosenMax / dataMax));
-                nudPercentMin.Value = Convert.ToDecimal(Convert.ToInt16(100.0 * chosenMin / dataMin));
+                decimal value = Convert.ToDecimal(Convert.ToInt16(100.0 * chosenMax / dataMax));
+                if (value > 100) value = 100;
+                nudPercentMax.Value = value;
+                value = Convert.ToDecimal(Convert.ToInt16(100.0 * chosenMin / dataMin));
+                if (value > 100) value = 100;
+                nudPercentMin.Value = value;
                 disableEvents = false;
             }
             if (chosenMin == double.MaxValue && chosenMax == double.MinValue)
@@ -163,7 +167,9 @@ namespace wmap_ilc_9yr_v5
             if (ProcessChosenMaxMin())
             {
                 disableEvents = true;
-                nudPercentMax.Value = Convert.ToDecimal(Convert.ToInt16(100.0 * chosenMax / dataMax));
+                decimal value = Convert.ToDecimal(Convert.ToInt16(100.0 * chosenMax / dataMax));
+                if (value > 100) value = 100;
+                nudPercentMax.Value = value;
                 disableEvents = false;
                 Render();
             }
@@ -176,7 +182,9 @@ namespace wmap_ilc_9yr_v5
             if (ProcessChosenMaxMin())
             {
                 disableEvents = true;
-                nudPercentMin.Value = Convert.ToDecimal(Convert.ToInt16(100.0 * chosenMin / dataMin));
+                decimal value = Convert.ToDecimal(Convert.ToInt16(100.0 * chosenMin / dataMin));
+                if (value > 100) value = 100;
+                nudPercentMin.Value = value;
                 disableEvents = false;
                 Render();
             }
