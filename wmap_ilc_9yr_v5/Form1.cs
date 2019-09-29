@@ -48,7 +48,6 @@ namespace wmap_ilc_9yr_v5
             cbScale.SelectedIndex = 0;
             cbDiagonals.SelectedIndex = 2;
             cbNextGrab.SelectedIndex = 0;
-            cbRotationOption.SelectedIndex = 0;
             cbMaxOption.SelectedIndex = 0;
             cbMinOption.SelectedIndex = 0;
             cbNextGrabOption.SelectedIndex = 0;
@@ -57,7 +56,6 @@ namespace wmap_ilc_9yr_v5
             txtMax.Text = chosenMax.ToString("0.000");
             txtMin.Text = chosenMin.ToString("0.000");
             cbFindPercent.SelectedIndex = 0;
-            cbFindColor.SelectedIndex = 0;
 
             //Fire things off
             disableEvents = false;
@@ -66,17 +64,10 @@ namespace wmap_ilc_9yr_v5
 
         private void cbBasePixel_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbRotationOption.SelectedIndex == 0)
-            {
-                disableEvents = true;
-                chkRotate.Checked = false;
-                disableEvents = false;
-            }
-            if (cbFindColor.SelectedIndex == 0)
-            {
-                disableEvents = true;
-                disableEvents = false;
-            }
+            
+            disableEvents = true;
+            chkRotate.Checked = false;
+            disableEvents = false;
 
             //fill 2-D array with data.  512 X 512 = 262144
             int basePixel = cbBasePixel.SelectedIndex;

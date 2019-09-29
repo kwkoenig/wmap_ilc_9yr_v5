@@ -65,14 +65,10 @@
             this.jPGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.onBasePixelChangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.rotationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cbRotationOption = new System.Windows.Forms.ToolStripComboBox();
             this.maxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cbMaxOption = new System.Windows.Forms.ToolStripComboBox();
             this.minToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cbMinOption = new System.Windows.Forms.ToolStripComboBox();
-            this.findColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cbFindColor = new System.Windows.Forms.ToolStripComboBox();
             this.nextGrabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cbNextGrabOption = new System.Windows.Forms.ToolStripComboBox();
             this.findPercentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -458,7 +454,7 @@
             this.pNGToolStripMenuItem,
             this.jPGToolStripMenuItem});
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Save As";
             // 
             // bMPToolStripMenuItem
@@ -489,43 +485,24 @@
             this.nextGrabToolStripMenuItem,
             this.findPercentToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(116, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem1.Text = "Options";
             // 
             // onBasePixelChangeToolStripMenuItem
             // 
             this.onBasePixelChangeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.rotationToolStripMenuItem,
             this.maxToolStripMenuItem,
-            this.minToolStripMenuItem,
-            this.findColorToolStripMenuItem});
+            this.minToolStripMenuItem});
             this.onBasePixelChangeToolStripMenuItem.Name = "onBasePixelChangeToolStripMenuItem";
             this.onBasePixelChangeToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.onBasePixelChangeToolStripMenuItem.Text = "On Base Pixel Change";
-            // 
-            // rotationToolStripMenuItem
-            // 
-            this.rotationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cbRotationOption});
-            this.rotationToolStripMenuItem.Name = "rotationToolStripMenuItem";
-            this.rotationToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
-            this.rotationToolStripMenuItem.Text = "Rotation";
-            // 
-            // cbRotationOption
-            // 
-            this.cbRotationOption.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbRotationOption.Items.AddRange(new object[] {
-            "Reset",
-            "Maintain"});
-            this.cbRotationOption.Name = "cbRotationOption";
-            this.cbRotationOption.Size = new System.Drawing.Size(121, 23);
             // 
             // maxToolStripMenuItem
             // 
             this.maxToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cbMaxOption});
             this.maxToolStripMenuItem.Name = "maxToolStripMenuItem";
-            this.maxToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.maxToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.maxToolStripMenuItem.Text = "Max";
             // 
             // cbMaxOption
@@ -542,7 +519,7 @@
             this.minToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cbMinOption});
             this.minToolStripMenuItem.Name = "minToolStripMenuItem";
-            this.minToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.minToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.minToolStripMenuItem.Text = "Min";
             // 
             // cbMinOption
@@ -552,22 +529,6 @@
             "Use Percent"});
             this.cbMinOption.Name = "cbMinOption";
             this.cbMinOption.Size = new System.Drawing.Size(121, 23);
-            // 
-            // findColorToolStripMenuItem
-            // 
-            this.findColorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cbFindColor});
-            this.findColorToolStripMenuItem.Name = "findColorToolStripMenuItem";
-            this.findColorToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
-            this.findColorToolStripMenuItem.Text = "Find Color";
-            // 
-            // cbFindColor
-            // 
-            this.cbFindColor.Items.AddRange(new object[] {
-            "Max Color",
-            "Current Selection"});
-            this.cbFindColor.Name = "cbFindColor";
-            this.cbFindColor.Size = new System.Drawing.Size(121, 23);
             // 
             // nextGrabToolStripMenuItem
             // 
@@ -873,8 +834,6 @@
         private System.Windows.Forms.NumericUpDown nudPercentMax;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem onBasePixelChangeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem rotationToolStripMenuItem;
-        private System.Windows.Forms.ToolStripComboBox cbRotationOption;
         private System.Windows.Forms.ToolStripMenuItem maxToolStripMenuItem;
         private System.Windows.Forms.ToolStripComboBox cbMaxOption;
         private System.Windows.Forms.ToolStripMenuItem minToolStripMenuItem;
@@ -883,8 +842,6 @@
         private System.Windows.Forms.ToolStripComboBox cbNextGrabOption;
         private System.Windows.Forms.ToolStripMenuItem findPercentToolStripMenuItem;
         private System.Windows.Forms.ToolStripComboBox cbFindPercent;
-        private System.Windows.Forms.ToolStripMenuItem findColorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripComboBox cbFindColor;
     }
 }
 
