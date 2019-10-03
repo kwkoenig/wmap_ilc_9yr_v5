@@ -33,10 +33,10 @@ namespace wmap_ilc_9yr_v5
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 12; i++)
             {
-                chosenNames[i] = String.Format("{0}max", i);
-                chosenNames[++i] = String.Format("{0}min", i);
+                chosenNames[2*i] = String.Format("{0}max", i);
+                chosenNames[2 * i + 1] = String.Format("{0}min", i);
             }
             string settingsFileName = Application.ExecutablePath.Replace(".exe", ".settings.txt");
             if (!File.Exists(settingsFileName))
@@ -88,7 +88,6 @@ namespace wmap_ilc_9yr_v5
             cbScale.SelectedIndex = 0;
             cbDiagonals.SelectedIndex = 2;
             cbNextGrab.SelectedIndex = 0;
-            //cbFindPercent.SelectedIndex = 0;
 
             //Fire things off
             disableEvents = false;
@@ -961,6 +960,18 @@ namespace wmap_ilc_9yr_v5
             disableEvents = true;
             Render();
             disableEvents = false;
+        }
+
+        private void SaveSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (StreamWriter sw = File.CreateText(Application.ExecutablePath.Replace(".exe", ".settings.txt")))
+            {
+                for (int i = 0; i < 12; i++)
+                {
+                    sw.WriteLine(string.Format("{0}:{1}", chosenNames[2 * i], chosenMax[i].ToString("0.000")));
+                    sw.WriteLine(string.Format("{0}:{1}", chosenNames[2 * i + 1], chosenMin[i].ToString("0.000")));
+                }
+            }
         }
 
         private void SaveFile(string extension)
