@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.IO;
+using System.Collections.Generic;
 
 namespace wmap_ilc_9yr_v5
 {
     public partial class wmap_ilc_9yr_v5 : Form
     {
-        double chosenMin = double.MaxValue, chosenMax = double.MinValue;
+        int basePixel;
+        double[] chosenMax = new double[12];
+        double[] chosenMin = new double[12];
+        string[] chosenNames = new string[24];
+
         double dataMin = double.MaxValue, dataMax = double.MinValue;
         double[,] data = new double[512, 512];
         double[,] normalized = new double[512, 512];
@@ -27,35 +33,62 @@ namespace wmap_ilc_9yr_v5
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            for (int i = 0; i < 24; i++)
+            {
+                chosenNames[i] = String.Format("{0}max", i);
+                chosenNames[++i] = String.Format("{0}min", i);
+            }
+            string settingsFileName = Application.ExecutablePath.Replace(".exe", ".settings.txt");
+            if (!File.Exists(settingsFileName))
+            {
+                for (int i = 0; i < 12; i++)
+                {
+                    chosenMax[i] = 0.18;
+                    chosenMin[i] = -0.19;
+                }
+            }
+            else
+            {
+                Dictionary<string, double> settings = new Dictionary<string, double>();
+                double parsed;
+                using (StreamReader sr = File.OpenText(settingsFileName))
+                {
+                    string s;
+                    string[] splitted;
+                    while ((s = sr.ReadLine()) != null)
+                    {
+                        splitted = s.Split(':');
+                        if (splitted != null && splitted.Length == 2 && splitted[0].Length > 0 && splitted[1].Length > 0)
+                        {
+                            if (double.TryParse(splitted[1], out parsed))
+                            {
+                                settings.Add(splitted[0], parsed);
+                            }
+                        }
+                    }
+                }
+
+                for (int i = 0; i < 12; i++)
+                {
+                    int mindex = 2 * i + 1;
+                    int maxdex = 2 * i;
+                    chosenMin[i] = (settings.ContainsKey(chosenNames[mindex])) ? settings[chosenNames[mindex]] : -0.19;
+                    chosenMax[i] = (settings.ContainsKey(chosenNames[maxdex])) ? settings[chosenNames[maxdex]] : 0.18;
+                }
+
+            }
+
             byte[] data = Properties.Resources.wmap_ilc_9yr_v5_t1;
             float[] temp = new float[3145728];
             Buffer.BlockCopy(data, 0, temp, 0, data.Length);
             for (int k = 0; k < 3145728; k++)
                 linearData[k] = Convert.ToDouble(temp[k]);
 
-            TextBox[] nudsForSpots = new TextBox[] { nudTolerance.Controls[1] as TextBox
-                                                   , nudWidth.Controls[1] as TextBox
-                                                   , nudHeight.Controls[1] as TextBox
-                                                   , nudCol.Controls[1] as TextBox
-                                                   , nudRow.Controls[1] as TextBox
-            };
-            for (int k = 0; k < nudsForSpots.Length; k++)
-                nudsForSpots[k].TextChanged += Find_Click;
-
-            TextBox textbox = numericUpDownForN.Controls[1] as TextBox;
-            textbox.TextChanged += NumericUpDownTextBox_TextChanged;
             this.Icon = Properties.Resources.icon;
             cbScale.SelectedIndex = 0;
             cbDiagonals.SelectedIndex = 2;
             cbNextGrab.SelectedIndex = 0;
-            cbMaxOption.SelectedIndex = 0;
-            cbMinOption.SelectedIndex = 0;
-            cbNextGrabOption.SelectedIndex = 0;
-            chosenMax = 0.180;
-            chosenMin = -0.190;
-            txtMax.Text = chosenMax.ToString("0.000");
-            txtMin.Text = chosenMin.ToString("0.000");
-            cbFindPercent.SelectedIndex = 0;
+            //cbFindPercent.SelectedIndex = 0;
 
             //Fire things off
             disableEvents = false;
@@ -66,11 +99,10 @@ namespace wmap_ilc_9yr_v5
         {
             
             disableEvents = true;
+            basePixel = cbBasePixel.SelectedIndex;
             chkRotate.Checked = false;
-            disableEvents = false;
 
             //fill 2-D array with data.  512 X 512 = 262144
-            int basePixel = cbBasePixel.SelectedIndex;
             int offSet = 262144 * basePixel;
 
             //https://healpix.jpl.nasa.gov/html/intronode3.htm
@@ -97,40 +129,32 @@ namespace wmap_ilc_9yr_v5
             dataMedian = (forMedian[131071] + forMedian[131072]) / 2.0;
 
             GetDataMaxMin();
-            if (cbMaxOption.SelectedIndex == 1)
-            {
-                disableEvents = true;
-                txtMax.Text = (Convert.ToDouble(nudPercentMax.Value) * dataMax / 100.0).ToString("0.000");
-                txtMin.Text = (Convert.ToDouble(nudPercentMin.Value) * dataMin / 100.0).ToString("0.000");
-                disableEvents = false;
-                chosenMax = Convert.ToDouble(txtMax.Text);
-                chosenMin = Convert.ToDouble(txtMin.Text);
-            }
-            else
-            {
-                disableEvents = true;
-                decimal value = Convert.ToDecimal(Convert.ToInt16(100.0 * chosenMax / dataMax));
-                if (value > 100) value = 100;
-                nudPercentMax.Value = value;
-                value = Convert.ToDecimal(Convert.ToInt16(100.0 * chosenMin / dataMin));
-                if (value > 100) value = 100;
-                nudPercentMin.Value = value;
-                disableEvents = false;
-            }
-            if (chosenMin == double.MaxValue && chosenMax == double.MinValue)
-            {
-                SetChosenMaxMinToDataMaxMin();
-            }
+            txtMax.Text = chosenMax[basePixel].ToString("0.000");
+            txtMin.Text = chosenMin[basePixel].ToString("0.000");
+            SetPercentNudsFromChosen();
             Normalize();
             Render();
+            disableEvents = false;
+        }
+
+        private void SetPercentNudsFromChosen()
+        {
+            double percent = 100.0 * chosenMax[basePixel] / dataMax;
+            decimal forNud = percent > 100.0 ? 100 : percent < 0.0 ? 0 : Convert.ToDecimal(percent);
+            nudPercentMax.Value = forNud;
+            percent = 100.0 * chosenMin[basePixel] / dataMin;
+            forNud = percent > 100.0 ? 100 : percent < 0.0 ? 0 : Convert.ToDecimal(percent);
+            nudPercentMin.Value = forNud;
         }
 
         private void CbScale_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (disableEvents)
                 return;
+            disableEvents = true;
             numericUpDownForN.Enabled = cbScale.SelectedIndex == 0;
             Render();
+            disableEvents = false;
         }
 
         private void CbDiagonals_SelectedIndexChanged(object sender, EventArgs e)
@@ -151,7 +175,7 @@ namespace wmap_ilc_9yr_v5
                     grabbed[index].SetPixel(col, row, bmp.GetPixel(col, row));
             grabDescription[index] = lblShowing.Text.Replace("Showing", String.Format("Showing Grab {0}:", index));
             grabbedInColor[index] = chkColor.Checked;
-            if (cbNextGrabOption.SelectedIndex == 0)
+            if (miGrabToggle.Checked)
                 cbNextGrab.SelectedIndex = ++index % 2;
             if (++numGrabbed > 1)
             {
@@ -160,34 +184,34 @@ namespace wmap_ilc_9yr_v5
             }
         }
 
-        private void txtMax_TextChanged(object sender, EventArgs e)
+        private void TxtMax_KeyDown(object sender, KeyEventArgs e)
         {
-            if (disableEvents)
+            if (e.KeyCode != Keys.Enter || disableEvents)
                 return;
+            disableEvents = true;
             if (ProcessChosenMaxMin())
             {
-                disableEvents = true;
-                decimal value = Convert.ToDecimal(Convert.ToInt16(100.0 * chosenMax / dataMax));
-                if (value > 100) value = 100;
-                nudPercentMax.Value = value;
-                disableEvents = false;
+                double percent = 100.0 * chosenMax[basePixel] / dataMax;
+                decimal forNud = percent > 100.0 ? 100 : percent < 0.0 ? 0 : Convert.ToDecimal(percent);
+                nudPercentMax.Value = forNud;
                 Render();
             }
+            disableEvents = false;
         }
 
-        private void txtMin_TextChanged(object sender, EventArgs e)
+        private void TxtMin_KeyDown(object sender, KeyEventArgs e)
         {
-            if (disableEvents)
+            if (e.KeyCode != Keys.Enter || disableEvents)
                 return;
+            disableEvents = true;
             if (ProcessChosenMaxMin())
             {
-                disableEvents = true;
-                decimal value = Convert.ToDecimal(Convert.ToInt16(100.0 * chosenMin / dataMin));
-                if (value > 100) value = 100;
-                nudPercentMin.Value = value;
-                disableEvents = false;
+                double percent = 100.0 * chosenMin[basePixel] / dataMin;
+                decimal forNud = percent > 100.0 ? 100 : percent < 0.0 ? 0 : Convert.ToDecimal(percent);
+                nudPercentMin.Value = forNud;
                 Render();
             }
+            disableEvents = false;
         }
 
         private void NudPercentMin_ValueChanged(object sender, EventArgs e)
@@ -196,9 +220,9 @@ namespace wmap_ilc_9yr_v5
                 return;
             disableEvents = true;
             txtMin.Text = (Convert.ToDouble(nudPercentMin.Value) * dataMin / 100.0).ToString("0.000");
-            disableEvents = false;
             if (ProcessChosenMaxMin())
                 Render();
+            disableEvents = false;
         }
 
         private void NudPercentMax_ValueChanged(object sender, EventArgs e)
@@ -207,20 +231,25 @@ namespace wmap_ilc_9yr_v5
                 return;
             disableEvents = true;
             txtMax.Text = (Convert.ToDouble(nudPercentMax.Value) * dataMax / 100.0).ToString("0.000");
-            disableEvents = false;
             if (ProcessChosenMaxMin())
                 Render();
+            disableEvents = false;
         }
 
         private void NumericUpDownTextBox_TextChanged(object sender, EventArgs e)
         {
             if (disableEvents)
                 return;
+            disableEvents = true;
             Render();
+            disableEvents = false;
         }
 
         private void chkRotate_CheckedChanged(object sender, EventArgs e)
         {
+            if (disableEvents)
+                return;
+            disableEvents = true;
             double temp;
             //swap rows
             for (int row = 0; row < 256; row++)
@@ -254,8 +283,8 @@ namespace wmap_ilc_9yr_v5
                     normPlusMinusOne[511 - col, row] = temp;
                 }
             }
-            if (!disableEvents)
-                Render();
+            Render();
+            disableEvents = false;
         }
 
         private void btnToggle_Click(object sender, EventArgs e)
@@ -288,26 +317,9 @@ namespace wmap_ilc_9yr_v5
             SaveFile(".jpg");
         }
 
-        private void btnReset_Click(object sender, EventArgs e)
-        {
-            SetChosenMaxMinToDataMaxMin();
-            Normalize();
-            Render();
-        }
-
-        void SetChosenMaxMinToDataMaxMin()
-        {
-            chosenMax = dataMax;
-            chosenMin = dataMin;
-            disableEvents = true;
-            txtMax.Text = chosenMax.ToString("0.000");
-            txtMin.Text = chosenMin.ToString("0.000");
-            txtMax.ForeColor = txtMin.ForeColor = Color.Black;
-            disableEvents = false;
-        }
-
         void GetDataMaxMin()
         {
+            disableEvents = true;
             dataMin = double.MaxValue;
             dataMax = double.MinValue;
             for (int col = 0; col < 512; col++)
@@ -320,24 +332,25 @@ namespace wmap_ilc_9yr_v5
                 }
             lblMax.Text = String.Format("Max ({0}):", dataMax.ToString("0.000"));
             lblMin.Text = String.Format("Min ({0}):", dataMin.ToString("0.000"));
+            disableEvents = false;
         }
 
         void Normalize()
         {
-            double maxDiff = chosenMax - chosenMin;
+            double maxDiff = chosenMax[basePixel] - chosenMin[basePixel];
             for (int col = 0; col < 512; col++)
             {
                 for (int row = 0; row < 512; row++)
                 {
-                    normalized[col, row] = (data[col, row] - chosenMin) / maxDiff;
+                    normalized[col, row] = (data[col, row] - chosenMin[basePixel]) / maxDiff;
                     if (normalized[col, row] > 1.0)
                         normalized[col, row] = 1.0;
                     else if (normalized[col, row] < 0.0)
                         normalized[col, row] = 0.0;
                 }
             }
-            double maxNegativeDiff = chosenMin - dataMedian;
-            double maxPositiveDiff = chosenMax - dataMedian;
+            double maxNegativeDiff = chosenMin[basePixel] - dataMedian;
+            double maxPositiveDiff = chosenMax[basePixel] - dataMedian;
 
             for (int col = 0; col < 512; col++)
             {
@@ -378,13 +391,14 @@ namespace wmap_ilc_9yr_v5
                 return false;
             }
             txtMax.ForeColor = txtMin.ForeColor = Color.Black;
-            if (chosenMax == tempMax && chosenMin == tempMin)
+            if (chosenMax[basePixel] == tempMax && chosenMin[basePixel] == tempMin)
                 return false;
-            chosenMax = tempMax;
-            chosenMin = tempMin;
+            chosenMax[basePixel] = tempMax;
+            chosenMin[basePixel] = tempMin;
             Normalize();
             return true;
         }
+
         void Render()
         {
             Bitmap bmp = new Bitmap(512, 512);
@@ -569,7 +583,9 @@ namespace wmap_ilc_9yr_v5
         {
             if (disableEvents)
                 return;
+            disableEvents = true;
             DoFind();
+            disableEvents = false;
         }
 
         private void DoFind()
@@ -869,11 +885,11 @@ namespace wmap_ilc_9yr_v5
             double lowPercent = lowSearched == 0 ? 0.0 : 100.0 * Convert.ToDouble(lowPixels) / 262144.0;
 
             txtResults.Text = string.Format("{0} {1}, {2} {3} pixels ({4}%, {5}%)\r\n\r\n{6} {7}, {8} {9} spots"
-                , lowPixels, chkColor.Checked ? "blue" : "black"
                 , highPixels, chkColor.Checked ? "red" : "white"
-                , lowPercent.ToString("0.00000"), highPercent.ToString("0.00000")
-                , lowSpots, chkColor.Checked ? "blue" : "black"
+                , lowPixels, chkColor.Checked ? "blue" : "black"
+                , highPercent.ToString("0.00000"), lowPercent.ToString("0.00000")
                 , highSpots, chkColor.Checked ? "red" : "white"
+                , lowSpots, chkColor.Checked ? "blue" : "black"
             );
         }
 
@@ -935,7 +951,16 @@ namespace wmap_ilc_9yr_v5
                     default: scale = scale.Replace("N", N.ToString()); break;
                 }
             }
-            lblShowing.Text = string.Format("Showing Base Pixel {0} {1} {2} to {3}{4}{5}", cbBasePixel.Text, scale, chosenMax.ToString("0.000"), chosenMin.ToString("0.000"), chkRotate.Checked ? " Rotated" : "", chkReverse.Checked ? " Reversed" : "");
+            lblShowing.Text = string.Format("Showing Base Pixel {0} {1} {2} to {3}{4}{5}", cbBasePixel.Text, scale, chosenMax[basePixel].ToString("0.000"), chosenMin[basePixel].ToString("0.000"), chkRotate.Checked ? " Rotated" : "", chkReverse.Checked ? " Reversed" : "");
+        }
+
+        private void NumericUpDownForN_ValueChanged(object sender, EventArgs e)
+        {
+            if (disableEvents)
+                return;
+            disableEvents = true;
+            Render();
+            disableEvents = false;
         }
 
         private void SaveFile(string extension)

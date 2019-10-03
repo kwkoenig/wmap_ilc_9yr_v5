@@ -92,7 +92,9 @@
   <ItemGroup>
     <None Include="4_82_icon.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Settings.txt" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="base_pixle_4_to_the_2nd__0_404_to_0_200_q7f_icon.ico" />
   </ItemGroup>
@@ -121,6 +123,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\BasePixelGrid.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\MaxMins.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

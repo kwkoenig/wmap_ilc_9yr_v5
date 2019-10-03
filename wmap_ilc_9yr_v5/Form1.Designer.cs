@@ -63,16 +63,6 @@
             this.bMPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jPGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.onBasePixelChangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.maxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cbMaxOption = new System.Windows.Forms.ToolStripComboBox();
-            this.minToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cbMinOption = new System.Windows.Forms.ToolStripComboBox();
-            this.nextGrabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cbNextGrabOption = new System.Windows.Forms.ToolStripComboBox();
-            this.findPercentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cbFindPercent = new System.Windows.Forms.ToolStripComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.nudCol = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
@@ -85,6 +75,8 @@
             this.btnOverlap = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.nudTolerance = new System.Windows.Forms.NumericUpDown();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.miGrabToggle = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -331,7 +323,7 @@
             this.txtMin.Size = new System.Drawing.Size(52, 20);
             this.txtMin.TabIndex = 3;
             this.txtMin.Text = "-0.888";
-            this.txtMin.TextChanged += new System.EventHandler(this.txtMin_TextChanged);
+            this.txtMin.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtMin_KeyDown);
             // 
             // txtMax
             // 
@@ -340,7 +332,7 @@
             this.txtMax.Size = new System.Drawing.Size(52, 20);
             this.txtMax.TabIndex = 2;
             this.txtMax.Text = "-0.888";
-            this.txtMax.TextChanged += new System.EventHandler(this.txtMax_TextChanged);
+            this.txtMax.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtMax_KeyDown);
             // 
             // lblMin
             // 
@@ -392,6 +384,7 @@
             0,
             0,
             0});
+            this.numericUpDownForN.ValueChanged += new System.EventHandler(this.NumericUpDownForN_ValueChanged);
             // 
             // label5
             // 
@@ -431,7 +424,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.optionsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1053, 24);
@@ -441,8 +435,7 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveAsToolStripMenuItem,
-            this.toolStripMenuItem1});
+            this.saveAsToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -460,110 +453,23 @@
             // bMPToolStripMenuItem
             // 
             this.bMPToolStripMenuItem.Name = "bMPToolStripMenuItem";
-            this.bMPToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.bMPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.bMPToolStripMenuItem.Text = "BMP";
             this.bMPToolStripMenuItem.Click += new System.EventHandler(this.BMPToolStripMenuItem_Click);
             // 
             // pNGToolStripMenuItem
             // 
             this.pNGToolStripMenuItem.Name = "pNGToolStripMenuItem";
-            this.pNGToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.pNGToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pNGToolStripMenuItem.Text = "PNG";
             this.pNGToolStripMenuItem.Click += new System.EventHandler(this.PNGToolStripMenuItem_Click);
             // 
             // jPGToolStripMenuItem
             // 
             this.jPGToolStripMenuItem.Name = "jPGToolStripMenuItem";
-            this.jPGToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.jPGToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.jPGToolStripMenuItem.Text = "JPG";
             this.jPGToolStripMenuItem.Click += new System.EventHandler(this.JPGToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.onBasePixelChangeToolStripMenuItem,
-            this.nextGrabToolStripMenuItem,
-            this.findPercentToolStripMenuItem});
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem1.Text = "Options";
-            // 
-            // onBasePixelChangeToolStripMenuItem
-            // 
-            this.onBasePixelChangeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.maxToolStripMenuItem,
-            this.minToolStripMenuItem});
-            this.onBasePixelChangeToolStripMenuItem.Name = "onBasePixelChangeToolStripMenuItem";
-            this.onBasePixelChangeToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.onBasePixelChangeToolStripMenuItem.Text = "On Base Pixel Change";
-            // 
-            // maxToolStripMenuItem
-            // 
-            this.maxToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cbMaxOption});
-            this.maxToolStripMenuItem.Name = "maxToolStripMenuItem";
-            this.maxToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.maxToolStripMenuItem.Text = "Max";
-            // 
-            // cbMaxOption
-            // 
-            this.cbMaxOption.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbMaxOption.Items.AddRange(new object[] {
-            "Use Absolute",
-            "Use Percent"});
-            this.cbMaxOption.Name = "cbMaxOption";
-            this.cbMaxOption.Size = new System.Drawing.Size(121, 23);
-            // 
-            // minToolStripMenuItem
-            // 
-            this.minToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cbMinOption});
-            this.minToolStripMenuItem.Name = "minToolStripMenuItem";
-            this.minToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.minToolStripMenuItem.Text = "Min";
-            // 
-            // cbMinOption
-            // 
-            this.cbMinOption.Items.AddRange(new object[] {
-            "Use Absolute",
-            "Use Percent"});
-            this.cbMinOption.Name = "cbMinOption";
-            this.cbMinOption.Size = new System.Drawing.Size(121, 23);
-            // 
-            // nextGrabToolStripMenuItem
-            // 
-            this.nextGrabToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cbNextGrabOption});
-            this.nextGrabToolStripMenuItem.Name = "nextGrabToolStripMenuItem";
-            this.nextGrabToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.nextGrabToolStripMenuItem.Text = "Next Grab";
-            // 
-            // cbNextGrabOption
-            // 
-            this.cbNextGrabOption.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbNextGrabOption.Items.AddRange(new object[] {
-            "Toggle on Grab",
-            "Maintain on Grab"});
-            this.cbNextGrabOption.Name = "cbNextGrabOption";
-            this.cbNextGrabOption.Size = new System.Drawing.Size(121, 23);
-            // 
-            // findPercentToolStripMenuItem
-            // 
-            this.findPercentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cbFindPercent});
-            this.findPercentToolStripMenuItem.Name = "findPercentToolStripMenuItem";
-            this.findPercentToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.findPercentToolStripMenuItem.Text = "Find Percent";
-            // 
-            // cbFindPercent
-            // 
-            this.cbFindPercent.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbFindPercent.Items.AddRange(new object[] {
-            "Percent of Image",
-            "Percent of Region"});
-            this.cbFindPercent.Name = "cbFindPercent";
-            this.cbFindPercent.Size = new System.Drawing.Size(121, 23);
-            this.cbFindPercent.SelectedIndexChanged += new System.EventHandler(this.Find_Click);
             // 
             // label8
             // 
@@ -718,6 +624,24 @@
             0,
             0,
             0});
+            this.nudTolerance.ValueChanged += new System.EventHandler(this.Find_Click);
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miGrabToggle});
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.optionsToolStripMenuItem.Text = "Options";
+            // 
+            // miGrabToggle
+            // 
+            this.miGrabToggle.Checked = true;
+            this.miGrabToggle.CheckOnClick = true;
+            this.miGrabToggle.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.miGrabToggle.Name = "miGrabToggle";
+            this.miGrabToggle.Size = new System.Drawing.Size(180, 22);
+            this.miGrabToggle.Text = "Grab Toggle";
             // 
             // wmap_ilc_9yr_v5
             // 
@@ -832,16 +756,8 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.NumericUpDown nudPercentMin;
         private System.Windows.Forms.NumericUpDown nudPercentMax;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem onBasePixelChangeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem maxToolStripMenuItem;
-        private System.Windows.Forms.ToolStripComboBox cbMaxOption;
-        private System.Windows.Forms.ToolStripMenuItem minToolStripMenuItem;
-        private System.Windows.Forms.ToolStripComboBox cbMinOption;
-        private System.Windows.Forms.ToolStripMenuItem nextGrabToolStripMenuItem;
-        private System.Windows.Forms.ToolStripComboBox cbNextGrabOption;
-        private System.Windows.Forms.ToolStripMenuItem findPercentToolStripMenuItem;
-        private System.Windows.Forms.ToolStripComboBox cbFindPercent;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem miGrabToggle;
     }
 }
 
