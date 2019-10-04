@@ -288,17 +288,45 @@ namespace wmap_ilc_9yr_v5
 
         private void btnToggle_Click(object sender, EventArgs e)
         {
-            toggleIndex = ++toggleIndex % 2;
+            if (disableEvents)
+                return;
+            disableEvents = true;
+            string showing = lblShowing.Text;
+            if (showing.Contains("Grab"))
+            {
+                toggleIndex = ++toggleIndex % 2;
+            }
+            else
+            {
+                int baseIndex = showing.IndexOf("Base");
+                showing = showing.Substring(baseIndex, showing.Length - baseIndex);
+                for (int i = 0; i < 2; i++)
+                {
+                    string temp = grabDescription[i];
+                    baseIndex = temp.IndexOf("Base");
+                    temp = temp.Substring(baseIndex, temp.Length - baseIndex);
+                    if (temp == showing)
+                    {
+                        toggleIndex = (i + 1) % 2;
+                        break;
+                    }
+                }
+            }
             chkColor.Checked = grabbedInColor[toggleIndex];
             pictureBox1.Image = grabbed[toggleIndex];
             lblShowing.Text = grabDescription[toggleIndex];
             DoFind();
+            disableEvents = false;
         }
 
         private void chkReverseCheckedChanged(object sender, EventArgs e)
         {
+            if (disableEvents)
+                return;
+            disableEvents = true;
             Normalize();
             Render();
+            disableEvents = false;
         }
 
         private void BMPToolStripMenuItem_Click(object sender, EventArgs e)
