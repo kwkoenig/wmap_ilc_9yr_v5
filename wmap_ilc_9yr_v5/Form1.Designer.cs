@@ -63,6 +63,9 @@
             this.bMPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jPGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.miGrabToggle = new System.Windows.Forms.ToolStripMenuItem();
             this.label8 = new System.Windows.Forms.Label();
             this.nudCol = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
@@ -75,9 +78,6 @@
             this.btnOverlap = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.nudTolerance = new System.Windows.Forms.NumericUpDown();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.miGrabToggle = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -449,29 +449,53 @@
             this.pNGToolStripMenuItem,
             this.jPGToolStripMenuItem});
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.saveAsToolStripMenuItem.Text = "Save Image As";
             // 
             // bMPToolStripMenuItem
             // 
             this.bMPToolStripMenuItem.Name = "bMPToolStripMenuItem";
-            this.bMPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bMPToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
             this.bMPToolStripMenuItem.Text = "BMP";
             this.bMPToolStripMenuItem.Click += new System.EventHandler(this.BMPToolStripMenuItem_Click);
             // 
             // pNGToolStripMenuItem
             // 
             this.pNGToolStripMenuItem.Name = "pNGToolStripMenuItem";
-            this.pNGToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pNGToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
             this.pNGToolStripMenuItem.Text = "PNG";
             this.pNGToolStripMenuItem.Click += new System.EventHandler(this.PNGToolStripMenuItem_Click);
             // 
             // jPGToolStripMenuItem
             // 
             this.jPGToolStripMenuItem.Name = "jPGToolStripMenuItem";
-            this.jPGToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.jPGToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
             this.jPGToolStripMenuItem.Text = "JPG";
             this.jPGToolStripMenuItem.Click += new System.EventHandler(this.JPGToolStripMenuItem_Click);
+            // 
+            // saveSettingsToolStripMenuItem
+            // 
+            this.saveSettingsToolStripMenuItem.Name = "saveSettingsToolStripMenuItem";
+            this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.saveSettingsToolStripMenuItem.Text = "Save Settings";
+            this.saveSettingsToolStripMenuItem.Click += new System.EventHandler(this.SaveSettingsToolStripMenuItem_Click);
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miGrabToggle});
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.optionsToolStripMenuItem.Text = "Options";
+            // 
+            // miGrabToggle
+            // 
+            this.miGrabToggle.Checked = true;
+            this.miGrabToggle.CheckOnClick = true;
+            this.miGrabToggle.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.miGrabToggle.Name = "miGrabToggle";
+            this.miGrabToggle.Size = new System.Drawing.Size(234, 22);
+            this.miGrabToggle.Text = "Change Next Grab after a grab";
             // 
             // label8
             // 
@@ -627,30 +651,6 @@
             0,
             0});
             this.nudTolerance.ValueChanged += new System.EventHandler(this.Find_Click);
-            // 
-            // optionsToolStripMenuItem
-            // 
-            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miGrabToggle});
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.optionsToolStripMenuItem.Text = "Options";
-            // 
-            // miGrabToggle
-            // 
-            this.miGrabToggle.Checked = true;
-            this.miGrabToggle.CheckOnClick = true;
-            this.miGrabToggle.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.miGrabToggle.Name = "miGrabToggle";
-            this.miGrabToggle.Size = new System.Drawing.Size(180, 22);
-            this.miGrabToggle.Text = "Grab Toggle";
-            // 
-            // saveSettingsToolStripMenuItem
-            // 
-            this.saveSettingsToolStripMenuItem.Name = "saveSettingsToolStripMenuItem";
-            this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.saveSettingsToolStripMenuItem.Text = "Save Settings";
-            this.saveSettingsToolStripMenuItem.Click += new System.EventHandler(this.SaveSettingsToolStripMenuItem_Click);
             // 
             // wmap_ilc_9yr_v5
             // 
