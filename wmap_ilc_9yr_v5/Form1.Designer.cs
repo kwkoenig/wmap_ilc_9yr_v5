@@ -209,8 +209,8 @@
             this.cbNextGrab.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbNextGrab.FormattingEnabled = true;
             this.cbNextGrab.Items.AddRange(new object[] {
-            "0",
-            "1"});
+            "A",
+            "B"});
             this.cbNextGrab.Location = new System.Drawing.Point(74, 60);
             this.cbNextGrab.Margin = new System.Windows.Forms.Padding(2);
             this.cbNextGrab.Name = "cbNextGrab";

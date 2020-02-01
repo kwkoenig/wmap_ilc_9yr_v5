@@ -172,7 +172,7 @@ namespace wmap_ilc_9yr_v5
             for (int col = 0; col < 512; col++)
                 for (int row = 0; row < 512; row++)
                     grabbed[index].SetPixel(col, row, bmp.GetPixel(col, row));
-            grabDescription[index] = lblShowing.Text.Replace("Showing", String.Format("Showing Grab {0}:", index));
+            grabDescription[index] = lblShowing.Text.Replace("Showing", String.Format("Showing Grab {0}:", index == 0 ? "A" : "B"));
             grabbedInColor[index] = chkColor.Checked;
             if (miGrabToggle.Checked)
                 cbNextGrab.SelectedIndex = ++index % 2;
@@ -961,7 +961,7 @@ namespace wmap_ilc_9yr_v5
                 }
             }
             pictureBox1.Image = overlap;
-            lblShowing.Text = string.Format("{0} {1} Overlap", grabDescription[0].Replace("Grab 0: ", ""), grabDescription[1].Replace("Showing Grab 1:", "And"));
+            lblShowing.Text = string.Format("{0} {1} Overlap", grabDescription[0].Replace("Grab A: ", ""), grabDescription[1].Replace("Showing Grab B:", "And"));
             DoFind();
         }
 
