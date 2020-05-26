@@ -84,33 +84,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ArrowsII.PNG" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="BasePixels.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="4_82_icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Settings.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="base_pixle_4_to_the_2nd__0_404_to_0_200_q7f_icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Base Pixel Grid.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Properties\wmap_ilc_9yr_v5_t1.bin" />
-    <None Include="Resources\wmap_ilc_9yr_v5_t1.flt" />
     <None Include="wmap_ilc_9yr_v5_t1.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Base Pixel Grid II.bmp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Base Pixel Grid II.bmp" />

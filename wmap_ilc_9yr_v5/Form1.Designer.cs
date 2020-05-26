@@ -66,15 +66,7 @@
             this.saveSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miGrabToggle = new System.Windows.Forms.ToolStripMenuItem();
-            this.label8 = new System.Windows.Forms.Label();
-            this.nudCol = new System.Windows.Forms.NumericUpDown();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.nudRow = new System.Windows.Forms.NumericUpDown();
-            this.label11 = new System.Windows.Forms.Label();
-            this.nudWidth = new System.Windows.Forms.NumericUpDown();
             this.txtResults = new System.Windows.Forms.TextBox();
-            this.nudHeight = new System.Windows.Forms.NumericUpDown();
             this.btnOverlap = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.nudTolerance = new System.Windows.Forms.NumericUpDown();
@@ -85,10 +77,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudPercentMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownForN)).BeginInit();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudCol)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudRow)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudWidth)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudTolerance)).BeginInit();
             this.SuspendLayout();
             // 
@@ -186,7 +174,7 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Image = global::wmap_ilc_9yr_v5.Properties.Resources.BasePixelGrid;
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
             this.pictureBox2.Location = new System.Drawing.Point(529, 113);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(518, 518);
@@ -497,91 +485,6 @@
             this.miGrabToggle.Size = new System.Drawing.Size(234, 22);
             this.miGrabToggle.Text = "Change Next Grab after a grab";
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(717, 31);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(41, 13);
-            this.label8.TabIndex = 34;
-            this.label8.Text = "Search";
-            // 
-            // nudCol
-            // 
-            this.nudCol.Location = new System.Drawing.Point(925, 28);
-            this.nudCol.Maximum = new decimal(new int[] {
-            511,
-            0,
-            0,
-            0});
-            this.nudCol.Name = "nudCol";
-            this.nudCol.Size = new System.Drawing.Size(41, 20);
-            this.nudCol.TabIndex = 42;
-            this.nudCol.ValueChanged += new System.EventHandler(this.Find_Click);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(878, 31);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(44, 13);
-            this.label9.TabIndex = 36;
-            this.label9.Text = "from col";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(969, 31);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(24, 13);
-            this.label10.TabIndex = 38;
-            this.label10.Text = "row";
-            // 
-            // nudRow
-            // 
-            this.nudRow.Location = new System.Drawing.Point(996, 28);
-            this.nudRow.Maximum = new decimal(new int[] {
-            511,
-            0,
-            0,
-            0});
-            this.nudRow.Name = "nudRow";
-            this.nudRow.Size = new System.Drawing.Size(41, 20);
-            this.nudRow.TabIndex = 43;
-            this.nudRow.ValueChanged += new System.EventHandler(this.Find_Click);
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(809, 31);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(18, 13);
-            this.label11.TabIndex = 39;
-            this.label11.Text = "by";
-            // 
-            // nudWidth
-            // 
-            this.nudWidth.Location = new System.Drawing.Point(763, 28);
-            this.nudWidth.Maximum = new decimal(new int[] {
-            512,
-            0,
-            0,
-            0});
-            this.nudWidth.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudWidth.Name = "nudWidth";
-            this.nudWidth.Size = new System.Drawing.Size(41, 20);
-            this.nudWidth.TabIndex = 40;
-            this.nudWidth.Value = new decimal(new int[] {
-            512,
-            0,
-            0,
-            0});
-            this.nudWidth.ValueChanged += new System.EventHandler(this.Find_Click);
-            // 
             // txtResults
             // 
             this.txtResults.Location = new System.Drawing.Point(764, 54);
@@ -590,29 +493,6 @@
             this.txtResults.ReadOnly = true;
             this.txtResults.Size = new System.Drawing.Size(271, 45);
             this.txtResults.TabIndex = 45;
-            // 
-            // nudHeight
-            // 
-            this.nudHeight.Location = new System.Drawing.Point(833, 28);
-            this.nudHeight.Maximum = new decimal(new int[] {
-            512,
-            0,
-            0,
-            0});
-            this.nudHeight.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudHeight.Name = "nudHeight";
-            this.nudHeight.Size = new System.Drawing.Size(41, 20);
-            this.nudHeight.TabIndex = 41;
-            this.nudHeight.Value = new decimal(new int[] {
-            512,
-            0,
-            0,
-            0});
-            this.nudHeight.ValueChanged += new System.EventHandler(this.Find_Click);
             // 
             // btnOverlap
             // 
@@ -660,15 +540,7 @@
             this.Controls.Add(this.label13);
             this.Controls.Add(this.nudTolerance);
             this.Controls.Add(this.btnOverlap);
-            this.Controls.Add(this.nudHeight);
             this.Controls.Add(this.txtResults);
-            this.Controls.Add(this.nudWidth);
-            this.Controls.Add(this.label11);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.nudRow);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.nudCol);
-            this.Controls.Add(this.label8);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.cbDiagonals);
             this.Controls.Add(this.label5);
@@ -706,10 +578,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownForN)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudCol)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudRow)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudWidth)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudTolerance)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -749,15 +617,7 @@
         private System.Windows.Forms.ToolStripMenuItem bMPToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pNGToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem jPGToolStripMenuItem;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.NumericUpDown nudCol;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.NumericUpDown nudRow;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.NumericUpDown nudWidth;
         private System.Windows.Forms.TextBox txtResults;
-        private System.Windows.Forms.NumericUpDown nudHeight;
         private System.Windows.Forms.Button btnOverlap;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.NumericUpDown nudTolerance;

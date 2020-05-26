@@ -81,17 +81,6 @@ namespace wmap_ilc_9yr_v5.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 0.2
-        ///-0.2
-        ///.
-        /// </summary>
-        internal static string MaxMins {
-            get {
-                return ResourceManager.GetString("MaxMins", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] wmap_ilc_9yr_v5_t1 {

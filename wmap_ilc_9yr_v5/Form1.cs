@@ -25,6 +25,7 @@ namespace wmap_ilc_9yr_v5
         int toggleIndex = -1;
         bool disableEvents = true;
         double dataMedian;
+        List<Point> localMaxs, localMins;
 
         public wmap_ilc_9yr_v5()
         {
@@ -617,32 +618,28 @@ namespace wmap_ilc_9yr_v5
 
         private void DoFind()
         {
-            int startCol = Convert.ToInt32(nudCol.Value);
-            int startRow = Convert.ToInt32(nudRow.Value);
-            int width = Convert.ToInt32(nudWidth.Value);
-            int height = Convert.ToInt32(nudHeight.Value);
-            int endCol = startCol + width;
-            if (endCol > 512) endCol = 512;
-            int endRow = startRow + height;
-            if (endRow > 512) endRow = 512;
             int highPixels = 0, highSpots = 0, highSearched = 0;
             int lowPixels = 0, lowSpots = 0, lowSearched = 0;
             int tolerance = Convert.ToInt32(nudTolerance.Value);
             int upperLimit = 255 - tolerance;
             Bitmap bmp = pictureBox1.Image as Bitmap;
+            Color currentColor;
             Color color;
+
+            localMaxs = new List<Point>();
+            localMins = new List<Point>();
 
             //Performance is king
             //Find high spots
             if (chkColor.Checked)
             {
-                for (int row = startRow; row < endRow; row++)
+                for (int row = 0; row < 512; row++)
                 {
-                    for (int col = startCol; col < endCol; col++)
+                    for (int col = 0; col < 512; col++)
                     {
                         ++highSearched;
-                        color = bmp.GetPixel(col, row);
-                        if (color.R == 255 && color.G <= tolerance && color.B == 0)
+                        currentColor = bmp.GetPixel(col, row);
+                        if (currentColor.R == 255 && currentColor.G <= tolerance && currentColor.B == 0)
                         {
                             ++highPixels;
                             bool isNewSpot = true;
@@ -697,20 +694,25 @@ namespace wmap_ilc_9yr_v5
                                 }
                             }
                             if (isNewSpot)
+                            {
+                                GetLocalColorMax(col, row, bmp, tolerance);
                                 ++highSpots;
+                            }
                         }
                     }
                 }
+                foreach (Point point in localMaxs)
+                    bmp.SetPixel(point.X, point.Y, Color.FromArgb(0, 0, 0));
             }
             else
             {
-                for (int row = startRow; row < endRow; row++)
+                for (int row = 0; row < 512; row++)
                 {
-                    for (int col = startCol; col < endCol; col++)
+                    for (int col = 0; col < 512; col++)
                     {
                         ++highSearched;
-                        color = bmp.GetPixel(col, row);
-                        if (color.R >= upperLimit && color.G >= upperLimit && color.B >= upperLimit)
+                        currentColor = bmp.GetPixel(col, row);
+                        if (currentColor.R >= upperLimit && currentColor.G >= upperLimit && currentColor.B >= upperLimit)
                         {
                             ++highPixels;
                             bool isNewSpot = true;
@@ -773,9 +775,9 @@ namespace wmap_ilc_9yr_v5
             //Find low spots
             if (chkColor.Checked)
             {
-                for (int row = startRow; row < endRow; row++)
+                for (int row = 0; row < 512; row++)
                 {
-                    for (int col = startCol; col < endCol; col++)
+                    for (int col = 0; col < 512; col++)
                     {
                         ++lowSearched;
                         color = bmp.GetPixel(col, row);
@@ -841,9 +843,9 @@ namespace wmap_ilc_9yr_v5
             }
             else
             {
-                for (int row = startRow; row < endRow; row++)
+                for (int row = 0; row < 512; row++)
                 {
-                    for (int col = startCol; col < endCol; col++)
+                    for (int col = 0; col < 512; col++)
                     {
                         ++lowSearched;
                         color = bmp.GetPixel(col, row);
@@ -1026,5 +1028,92 @@ namespace wmap_ilc_9yr_v5
             }
         }
 
+        private void GetLocalColorMax(int topLeftX, int topLeftY, Bitmap bmp, int tolerance)
+        {
+            int startCol = topLeftX;
+            int endCol = startCol;
+            int row = topLeftY;
+            bool foundOneInThisRow = true;
+            Color color = bmp.GetPixel(startCol, topLeftY);
+            int green;
+            int minGreen = 256;
+            Point localMax = new Point();
+
+            // find endCol for the first row
+            for (int col = startCol; col < 512 && IsRed(col, row, bmp, tolerance, out green); col++)
+            {
+                endCol = col;
+                if (green < minGreen)
+                {
+                    minGreen = green;
+                    localMax.X = col;
+                    localMax.Y = row;
+                }
+            }
+            // Search the next row from one less than the current start column
+            if (startCol > 0)
+                startCol--;
+            for (; row < 512 && foundOneInThisRow; row++)
+            {
+                foundOneInThisRow = false;
+                // Look here and left for the start column
+                for (int col = startCol; col >= 0 && IsRed(col, row, bmp, tolerance, out green); col--)
+                {
+                    foundOneInThisRow = true;
+                    startCol = col;
+                    if (green < minGreen)
+                    {
+                        minGreen = green;
+                        localMax.X = col;
+                        localMax.Y = row;
+                    }
+                }
+                // If startCol not found, look right up to 1 plus the previous end column
+                if (!foundOneInThisRow)
+                {
+                    int lastToSearch = (endCol < 511) ? endCol + 1 : 511;
+                    for (int col = startCol + 1; col < lastToSearch; col++)
+                    {
+                        if (IsRed(col, row, bmp, tolerance, out green))
+                        {
+                            foundOneInThisRow = true;
+                            startCol = col;
+                            if (green < minGreen)
+                            {
+                                minGreen = green;
+                                localMax.X = col;
+                                localMax.Y = row;
+                            }
+                            break;
+                        }
+                    }
+                }
+                // If startCol was found, find endCol
+                if (foundOneInThisRow)
+                {
+                    for (int col = startCol + 1; col < 512 && IsRed(col, row, bmp, tolerance, out green); col++)
+                    {
+                        endCol = col;
+                        if (green < minGreen)
+                        {
+                            minGreen = green;
+                            localMax.X = col;
+                            localMax.Y = row;
+                        }
+                    }
+                }
+                // Search the next row from one less than the current start column
+                if (startCol > 0)
+                    startCol--;
+            }
+            localMaxs.Add(localMax);
+        }
+
+        private bool IsRed(int col, int row, Bitmap bmp, int tolerance, out int green)
+        {
+            Color color = bmp.GetPixel(col, row);
+            green = color.G;
+            return (color.R == 255 && color.G <= tolerance && color.B == 0);
+        }
     }
 }
