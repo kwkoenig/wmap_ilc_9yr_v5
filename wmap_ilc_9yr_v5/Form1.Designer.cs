@@ -70,6 +70,8 @@
             this.btnOverlap = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.nudTolerance = new System.Windows.Forms.NumericUpDown();
+            this.chkLocalMaxs = new System.Windows.Forms.CheckBox();
+            this.chkLocalMins = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -369,7 +371,7 @@
             this.numericUpDownForN.Size = new System.Drawing.Size(37, 20);
             this.numericUpDownForN.TabIndex = 27;
             this.numericUpDownForN.Value = new decimal(new int[] {
-            3,
+            2,
             0,
             0,
             0});
@@ -532,11 +534,34 @@
             0});
             this.nudTolerance.ValueChanged += new System.EventHandler(this.Find_Click);
             // 
+            // chkLocalMaxs
+            // 
+            this.chkLocalMaxs.AutoSize = true;
+            this.chkLocalMaxs.Location = new System.Drawing.Point(764, 30);
+            this.chkLocalMaxs.Name = "chkLocalMaxs";
+            this.chkLocalMaxs.Size = new System.Drawing.Size(110, 17);
+            this.chkLocalMaxs.TabIndex = 49;
+            this.chkLocalMaxs.Text = "Show Local Maxs";
+            this.chkLocalMaxs.UseVisualStyleBackColor = true;
+            this.chkLocalMaxs.CheckedChanged += new System.EventHandler(this.ChkLocalMaxs_CheckedChanged);
+            // 
+            // chkLocalMins
+            // 
+            this.chkLocalMins.AutoSize = true;
+            this.chkLocalMins.Location = new System.Drawing.Point(878, 30);
+            this.chkLocalMins.Name = "chkLocalMins";
+            this.chkLocalMins.Size = new System.Drawing.Size(107, 17);
+            this.chkLocalMins.TabIndex = 50;
+            this.chkLocalMins.Text = "Show Local Mins";
+            this.chkLocalMins.UseVisualStyleBackColor = true;
+            // 
             // wmap_ilc_9yr_v5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1053, 658);
+            this.Controls.Add(this.chkLocalMins);
+            this.Controls.Add(this.chkLocalMaxs);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.nudTolerance);
             this.Controls.Add(this.btnOverlap);
@@ -628,6 +653,8 @@
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem miGrabToggle;
         private System.Windows.Forms.ToolStripMenuItem saveSettingsToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chkLocalMaxs;
+        private System.Windows.Forms.CheckBox chkLocalMins;
     }
 }
 

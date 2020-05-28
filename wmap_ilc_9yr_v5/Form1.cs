@@ -26,6 +26,7 @@ namespace wmap_ilc_9yr_v5
         bool disableEvents = true;
         double dataMedian;
         List<Point> localMaxs, localMins;
+        List<Color> LocalMaxColors, localMinColors;
 
         public wmap_ilc_9yr_v5()
         {
@@ -628,6 +629,8 @@ namespace wmap_ilc_9yr_v5
 
             localMaxs = new List<Point>();
             localMins = new List<Point>();
+            LocalMaxColors = new List<Color>();
+            localMinColors = new List<Color>();
 
             //Performance is king
             //Find high spots
@@ -701,8 +704,6 @@ namespace wmap_ilc_9yr_v5
                         }
                     }
                 }
-                foreach (Point point in localMaxs)
-                    bmp.SetPixel(point.X, point.Y, Color.FromArgb(0, 0, 0));
             }
             else
             {
@@ -920,6 +921,10 @@ namespace wmap_ilc_9yr_v5
                 , highSpots, chkColor.Checked ? "red" : "white"
                 , lowSpots, chkColor.Checked ? "blue" : "black"
             );
+            if (chkLocalMaxs.Checked)
+                foreach (Point point in localMaxs)
+                    bmp.SetPixel(point.X, point.Y, Color.FromArgb(0, 0, 0));
+
         }
 
         private void BtnOverlap_Click(object sender, EventArgs e)
@@ -1002,6 +1007,24 @@ namespace wmap_ilc_9yr_v5
                     sw.WriteLine(string.Format("{0}:{1}", chosenNames[2 * i + 1], chosenMin[i].ToString("0.000")));
                 }
             }
+        }
+
+        private void ChkLocalMaxs_CheckedChanged(object sender, EventArgs e)
+        {
+            Bitmap bmp = pictureBox1.Image as Bitmap;
+            if (chkLocalMaxs.Checked)
+            {
+                Color black = Color.FromArgb(0, 0, 0);
+                foreach (Point point in localMaxs)
+                    bmp.SetPixel(point.X, point.Y, black);
+
+            }
+            else
+            {
+                for (int i = 0, len = localMaxs.Count; i < len; i++)
+                    bmp.SetPixel(localMaxs[i].X, localMaxs[i].Y, LocalMaxColors[i]);
+            }
+            pictureBox1.Image = bmp;
         }
 
         private void SaveFile(string extension)
@@ -1107,6 +1130,7 @@ namespace wmap_ilc_9yr_v5
                     startCol--;
             }
             localMaxs.Add(localMax);
+            LocalMaxColors.Add(bmp.GetPixel(localMax.X, localMax.Y));
         }
 
         private bool IsRed(int col, int row, Bitmap bmp, int tolerance, out int green)
