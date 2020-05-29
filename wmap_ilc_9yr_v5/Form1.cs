@@ -768,7 +768,10 @@ namespace wmap_ilc_9yr_v5
                                 }
                             }
                             if (isNewSpot)
+                            {
+                                GetLocalBWMax(col, row, bmp, upperLimit);
                                 ++highSpots;
+                            }
                         }
                     }
                 }
@@ -921,6 +924,7 @@ namespace wmap_ilc_9yr_v5
                 , highSpots, chkColor.Checked ? "red" : "white"
                 , lowSpots, chkColor.Checked ? "blue" : "black"
             );
+
             if (chkLocalMaxs.Checked)
                 foreach (Point point in localMaxs)
                     bmp.SetPixel(point.X, point.Y, Color.FromArgb(0, 0, 0));
@@ -1139,5 +1143,95 @@ namespace wmap_ilc_9yr_v5
             green = color.G;
             return (color.R == 255 && color.G <= tolerance && color.B == 0);
         }
+
+        private void GetLocalBWMax(int topLeftX, int topLeftY, Bitmap bmp, int upperLimit)
+        {
+            int startCol = topLeftX;
+            int endCol = startCol;
+            int row = topLeftY;
+            bool foundOneInThisRow = true;
+            Color color = bmp.GetPixel(startCol, topLeftY);
+            int green;
+            int maxGreen = -1;
+            Point localMax = new Point();
+
+            // find endCol for the first row
+            for (int col = startCol; col < 512 && IsWhite(col, row, bmp, upperLimit, out green); col++)
+            {
+                endCol = col;
+                if (green > maxGreen)
+                {
+                    maxGreen = green;
+                    localMax.X = col;
+                    localMax.Y = row;
+                }
+            }
+            // Search the next row from one less than the current start column
+            if (startCol > 0)
+                startCol--;
+            for (; row < 512 && foundOneInThisRow; row++)
+            {
+                foundOneInThisRow = false;
+                // Look here and left for the start column
+                for (int col = startCol; col >= 0 && IsWhite(col, row, bmp, upperLimit, out green); col--)
+                {
+                    foundOneInThisRow = true;
+                    startCol = col;
+                    if (green > maxGreen)
+                    {
+                        maxGreen = green;
+                        localMax.X = col;
+                        localMax.Y = row;
+                    }
+                }
+                // If startCol not found, look right up to 1 plus the previous end column
+                if (!foundOneInThisRow)
+                {
+                    int lastToSearch = (endCol < 511) ? endCol + 1 : 511;
+                    for (int col = startCol + 1; col < lastToSearch; col++)
+                    {
+                        if (IsWhite(col, row, bmp, upperLimit, out green))
+                        {
+                            foundOneInThisRow = true;
+                            startCol = col;
+                            if (green > maxGreen)
+                            {
+                                maxGreen = green;
+                                localMax.X = col;
+                                localMax.Y = row;
+                            }
+                            break;
+                        }
+                    }
+                }
+                // If startCol was found, find endCol
+                if (foundOneInThisRow)
+                {
+                    for (int col = startCol + 1; col < 512 && IsWhite(col, row, bmp, upperLimit, out green); col++)
+                    {
+                        endCol = col;
+                        if (green > maxGreen)
+                        {
+                            maxGreen = green;
+                            localMax.X = col;
+                            localMax.Y = row;
+                        }
+                    }
+                }
+                // Search the next row from one less than the current start column
+                if (startCol > 0)
+                    startCol--;
+            }
+            localMaxs.Add(localMax);
+            LocalMaxColors.Add(bmp.GetPixel(localMax.X, localMax.Y));
+        }
+
+        private bool IsWhite(int col, int row, Bitmap bmp, int upperLimit, out int green)
+        {
+            Color color = bmp.GetPixel(col, row);
+            green = color.G;
+            return (color.R >= upperLimit && color.G >= upperLimit && color.B >= upperLimit);
+        }
+
     }
 }
