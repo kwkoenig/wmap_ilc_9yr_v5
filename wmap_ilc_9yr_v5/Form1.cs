@@ -1063,6 +1063,36 @@ namespace wmap_ilc_9yr_v5
             }
         }
 
+        private void SaveLocalExtrema(string maxsOrMins)
+        {
+            string extension = ".txt";
+            string fileName = lblShowing.Text;
+            int BaseInFileName = fileName.IndexOf("Base");
+            if (BaseInFileName >= 0)
+            {
+                int newLength = fileName.Length - BaseInFileName;
+                fileName = fileName.Substring(BaseInFileName, newLength).Replace(' ', '_');
+            }
+            saveFileDialog1.FileName = string.Format("{0}{1}{2}{3}", fileName, "_", maxsOrMins, extension);
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                fileName = saveFileDialog1.FileName;
+                if (!fileName.EndsWith(extension))
+                    fileName = string.Format("{0}{1}", fileName, extension);
+            }
+            List<Point> extrema = maxsOrMins == "Maxs" ? localMaxs : localMins;
+            Point[] points = new Point[extrema.Count];
+            extrema.CopyTo(points);
+            Array.Sort(points, delegate (Point p1, Point p2) { return p1.X.CompareTo(p2.X); });
+            using (StreamWriter sw = File.CreateText(fileName))
+            {
+                foreach (Point point in points)
+                {
+                    sw.WriteLine(string.Format("{0},{1}", point.X, point.Y));
+                }
+            }
+        }
+
         private void GetLocalColorMax(int topLeftX, int topLeftY, Bitmap bmp, int tolerance)
         {
             int startCol = topLeftX;
@@ -1337,6 +1367,16 @@ namespace wmap_ilc_9yr_v5
             }
             localMins.Add(localMin);
             localMinColors.Add(bmp.GetPixel(localMin.X, localMin.Y));
+        }
+
+        private void SaveLocalMaxsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveLocalExtrema("Maxs");
+        }
+
+        private void SaveLocalMinsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveLocalExtrema("Mins");
         }
 
         private bool IsBlue(int col, int row, Bitmap bmp, int tolerance, out int blue)

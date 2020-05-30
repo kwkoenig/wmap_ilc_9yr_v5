@@ -72,6 +72,8 @@
             this.nudTolerance = new System.Windows.Forms.NumericUpDown();
             this.chkLocalMaxs = new System.Windows.Forms.CheckBox();
             this.chkLocalMins = new System.Windows.Forms.CheckBox();
+            this.saveLocalMaxsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveLocalMinsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -427,6 +429,8 @@
             // 
             this.muSaveSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveAsToolStripMenuItem,
+            this.saveLocalMaxsToolStripMenuItem,
+            this.saveLocalMinsToolStripMenuItem,
             this.saveSettingsToolStripMenuItem});
             this.muSaveSettings.Name = "muSaveSettings";
             this.muSaveSettings.Size = new System.Drawing.Size(37, 20);
@@ -439,7 +443,7 @@
             this.pNGToolStripMenuItem,
             this.jPGToolStripMenuItem});
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Save Image As";
             // 
             // bMPToolStripMenuItem
@@ -466,7 +470,7 @@
             // saveSettingsToolStripMenuItem
             // 
             this.saveSettingsToolStripMenuItem.Name = "saveSettingsToolStripMenuItem";
-            this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveSettingsToolStripMenuItem.Text = "Save Settings";
             this.saveSettingsToolStripMenuItem.Click += new System.EventHandler(this.SaveSettingsToolStripMenuItem_Click);
             // 
@@ -555,6 +559,20 @@
             this.chkLocalMins.Text = "Show Local Mins";
             this.chkLocalMins.UseVisualStyleBackColor = true;
             this.chkLocalMins.CheckedChanged += new System.EventHandler(this.ChkLocalMins_CheckedChanged);
+            // 
+            // saveLocalMaxsToolStripMenuItem
+            // 
+            this.saveLocalMaxsToolStripMenuItem.Name = "saveLocalMaxsToolStripMenuItem";
+            this.saveLocalMaxsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveLocalMaxsToolStripMenuItem.Text = "Save Local Maxs";
+            this.saveLocalMaxsToolStripMenuItem.Click += new System.EventHandler(this.SaveLocalMaxsToolStripMenuItem_Click);
+            // 
+            // saveLocalMinsToolStripMenuItem
+            // 
+            this.saveLocalMinsToolStripMenuItem.Name = "saveLocalMinsToolStripMenuItem";
+            this.saveLocalMinsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveLocalMinsToolStripMenuItem.Text = "Save Local Mins";
+            this.saveLocalMinsToolStripMenuItem.Click += new System.EventHandler(this.SaveLocalMinsToolStripMenuItem_Click);
             // 
             // wmap_ilc_9yr_v5
             // 
@@ -656,6 +674,8 @@
         private System.Windows.Forms.ToolStripMenuItem saveSettingsToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkLocalMaxs;
         private System.Windows.Forms.CheckBox chkLocalMins;
+        private System.Windows.Forms.ToolStripMenuItem saveLocalMaxsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveLocalMinsToolStripMenuItem;
     }
 }
 
