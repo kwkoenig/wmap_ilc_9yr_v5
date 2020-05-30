@@ -910,8 +910,10 @@ namespace wmap_ilc_9yr_v5
                                     }
                                 }
                             }
-                            if (isNewSpot)
+                            if (isNewSpot) {
+                                GetLocalBWMin(col, row, bmp, tolerance);
                                 ++lowSpots;
+                            }
                         }
                     }
                 }
@@ -1342,6 +1344,94 @@ namespace wmap_ilc_9yr_v5
             Color color = bmp.GetPixel(col, row);
             blue = color.B;
             return (color.R == 0 && color.G == 0 && color.B <= tolerance);
+        }
+
+        private void GetLocalBWMin(int topLeftX, int topLeftY, Bitmap bmp, int upperLimit)
+        {
+            int startCol = topLeftX;
+            int endCol = startCol;
+            int row = topLeftY;
+            bool foundOneInThisRow = true;
+            int green;
+            int minGreen = 256;
+            Point localMin = new Point();
+
+            // find endCol for the first row
+            for (int col = startCol; col < 512 && IsBlack(col, row, bmp, upperLimit, out green); col++)
+            {
+                endCol = col;
+                if (green < minGreen)
+                {
+                    minGreen = green;
+                    localMin.X = col;
+                    localMin.Y = row;
+                }
+            }
+            // Search the next row from one less than the current start column
+            if (startCol > 0)
+                startCol--;
+            for (; row < 512 && foundOneInThisRow; row++)
+            {
+                foundOneInThisRow = false;
+                // Look here and left for the start column
+                for (int col = startCol; col >= 0 && IsBlack(col, row, bmp, upperLimit, out green); col--)
+                {
+                    foundOneInThisRow = true;
+                    startCol = col;
+                    if (green < minGreen)
+                    {
+                        minGreen = green;
+                        localMin.X = col;
+                        localMin.Y = row;
+                    }
+                }
+                // If startCol not found, look right up to 1 plus the previous end column
+                if (!foundOneInThisRow)
+                {
+                    int lastToSearch = (endCol < 511) ? endCol + 1 : 511;
+                    for (int col = startCol + 1; col < lastToSearch; col++)
+                    {
+                        if (IsBlack(col, row, bmp, upperLimit, out green))
+                        {
+                            foundOneInThisRow = true;
+                            startCol = col;
+                            if (green < minGreen)
+                            {
+                                minGreen = green;
+                                localMin.X = col;
+                                localMin.Y = row;
+                            }
+                            break;
+                        }
+                    }
+                }
+                // If startCol was found, find endCol
+                if (foundOneInThisRow)
+                {
+                    for (int col = startCol + 1; col < 512 && IsBlack(col, row, bmp, upperLimit, out green); col++)
+                    {
+                        endCol = col;
+                        if (green < minGreen)
+                        {
+                            minGreen = green;
+                            localMin.X = col;
+                            localMin.Y = row;
+                        }
+                    }
+                }
+                // Search the next row from one less than the current start column
+                if (startCol > 0)
+                    startCol--;
+            }
+            localMins.Add(localMin);
+            localMinColors.Add(bmp.GetPixel(localMin.X, localMin.Y));
+        }
+
+        private bool IsBlack(int col, int row, Bitmap bmp, int tolerance, out int green)
+        {
+            Color color = bmp.GetPixel(col, row);
+            green = color.G;
+            return (color.R <= tolerance && color.G <= tolerance && color.B <= tolerance);
         }
     }
 }
