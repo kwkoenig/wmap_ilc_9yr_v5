@@ -26,7 +26,7 @@ namespace wmap_ilc_9yr_v5
         bool disableEvents = true;
         double dataMedian;
         List<Point> localMaxs, localMins;
-        List<Color> LocalMaxColors, localMinColors;
+        List<Color> localMaxColors, localMinColors;
 
         public wmap_ilc_9yr_v5()
         {
@@ -629,7 +629,7 @@ namespace wmap_ilc_9yr_v5
 
             localMaxs = new List<Point>();
             localMins = new List<Point>();
-            LocalMaxColors = new List<Color>();
+            localMaxColors = new List<Color>();
             localMinColors = new List<Color>();
 
             //Performance is king
@@ -840,7 +840,10 @@ namespace wmap_ilc_9yr_v5
                                 }
                             }
                             if (isNewSpot)
+                            {
+                                GetLocalColorMin(col, row, bmp, tolerance);
                                 ++lowSpots;
+                            }
                         }
                     }
                 }
@@ -928,6 +931,9 @@ namespace wmap_ilc_9yr_v5
             if (chkLocalMaxs.Checked)
                 foreach (Point point in localMaxs)
                     bmp.SetPixel(point.X, point.Y, Color.FromArgb(0, 0, 0));
+            if (chkLocalMins.Checked)
+                foreach (Point point in localMins)
+                    bmp.SetPixel(point.X, point.Y, Color.FromArgb(255, 255, 255));
 
         }
 
@@ -1026,7 +1032,7 @@ namespace wmap_ilc_9yr_v5
             else
             {
                 for (int i = 0, len = localMaxs.Count; i < len; i++)
-                    bmp.SetPixel(localMaxs[i].X, localMaxs[i].Y, LocalMaxColors[i]);
+                    bmp.SetPixel(localMaxs[i].X, localMaxs[i].Y, localMaxColors[i]);
             }
             pictureBox1.Image = bmp;
         }
@@ -1134,7 +1140,7 @@ namespace wmap_ilc_9yr_v5
                     startCol--;
             }
             localMaxs.Add(localMax);
-            LocalMaxColors.Add(bmp.GetPixel(localMax.X, localMax.Y));
+            localMaxColors.Add(bmp.GetPixel(localMax.X, localMax.Y));
         }
 
         private bool IsRed(int col, int row, Bitmap bmp, int tolerance, out int green)
@@ -1150,7 +1156,6 @@ namespace wmap_ilc_9yr_v5
             int endCol = startCol;
             int row = topLeftY;
             bool foundOneInThisRow = true;
-            Color color = bmp.GetPixel(startCol, topLeftY);
             int green;
             int maxGreen = -1;
             Point localMax = new Point();
@@ -1223,7 +1228,25 @@ namespace wmap_ilc_9yr_v5
                     startCol--;
             }
             localMaxs.Add(localMax);
-            LocalMaxColors.Add(bmp.GetPixel(localMax.X, localMax.Y));
+            localMaxColors.Add(bmp.GetPixel(localMax.X, localMax.Y));
+        }
+
+        private void ChkLocalMins_CheckedChanged(object sender, EventArgs e)
+        {
+            Bitmap bmp = pictureBox1.Image as Bitmap;
+            if (chkLocalMins.Checked)
+            {
+                Color white = Color.FromArgb(255, 255, 255);
+                foreach (Point point in localMins)
+                    bmp.SetPixel(point.X, point.Y, white);
+
+            }
+            else
+            {
+                for (int i = 0, len = localMins.Count; i < len; i++)
+                    bmp.SetPixel(localMins[i].X, localMins[i].Y, localMinColors[i]);
+            }
+            pictureBox1.Image = bmp;
         }
 
         private bool IsWhite(int col, int row, Bitmap bmp, int upperLimit, out int green)
@@ -1233,5 +1256,92 @@ namespace wmap_ilc_9yr_v5
             return (color.R >= upperLimit && color.G >= upperLimit && color.B >= upperLimit);
         }
 
+        private void GetLocalColorMin(int topLeftX, int topLeftY, Bitmap bmp, int tolerance)
+        {
+            int startCol = topLeftX;
+            int endCol = startCol;
+            int row = topLeftY;
+            bool foundOneInThisRow = true;
+            int blue;
+            int minblue = 256;
+            Point localMin = new Point();
+
+            // find endCol for the first row
+            for (int col = startCol; col < 512 && IsBlue(col, row, bmp, tolerance, out blue); col++)
+            {
+                endCol = col;
+                if (blue < minblue)
+                {
+                    minblue = blue;
+                    localMin.X = col;
+                    localMin.Y = row;
+                }
+            }
+            // Search the next row from one less than the current start column
+            if (startCol > 0)
+                startCol--;
+            for (; row < 512 && foundOneInThisRow; row++)
+            {
+                foundOneInThisRow = false;
+                // Look here and left for the start column
+                for (int col = startCol; col >= 0 && IsBlue(col, row, bmp, tolerance, out blue); col--)
+                {
+                    foundOneInThisRow = true;
+                    startCol = col;
+                    if (blue < minblue)
+                    {
+                        minblue = blue;
+                        localMin.X = col;
+                        localMin.Y = row;
+                    }
+                }
+                // If startCol not found, look right up to 1 plus the previous end column
+                if (!foundOneInThisRow)
+                {
+                    int lastToSearch = (endCol < 511) ? endCol + 1 : 511;
+                    for (int col = startCol + 1; col < lastToSearch; col++)
+                    {
+                        if (IsBlue(col, row, bmp, tolerance, out blue))
+                        {
+                            foundOneInThisRow = true;
+                            startCol = col;
+                            if (blue < minblue)
+                            {
+                                minblue = blue;
+                                localMin.X = col;
+                                localMin.Y = row;
+                            }
+                            break;
+                        }
+                    }
+                }
+                // If startCol was found, find endCol
+                if (foundOneInThisRow)
+                {
+                    for (int col = startCol + 1; col < 512 && IsBlue(col, row, bmp, tolerance, out blue); col++)
+                    {
+                        endCol = col;
+                        if (blue < minblue)
+                        {
+                            minblue = blue;
+                            localMin.X = col;
+                            localMin.Y = row;
+                        }
+                    }
+                }
+                // Search the next row from one less than the current start column
+                if (startCol > 0)
+                    startCol--;
+            }
+            localMins.Add(localMin);
+            localMinColors.Add(bmp.GetPixel(localMin.X, localMin.Y));
+        }
+
+        private bool IsBlue(int col, int row, Bitmap bmp, int tolerance, out int blue)
+        {
+            Color color = bmp.GetPixel(col, row);
+            blue = color.B;
+            return (color.R == 0 && color.G == 0 && color.B <= tolerance);
+        }
     }
 }

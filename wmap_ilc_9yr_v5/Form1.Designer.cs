@@ -554,6 +554,7 @@
             this.chkLocalMins.TabIndex = 50;
             this.chkLocalMins.Text = "Show Local Mins";
             this.chkLocalMins.UseVisualStyleBackColor = true;
+            this.chkLocalMins.CheckedChanged += new System.EventHandler(this.ChkLocalMins_CheckedChanged);
             // 
             // wmap_ilc_9yr_v5
             // 
