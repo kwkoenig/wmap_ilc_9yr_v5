@@ -63,6 +63,8 @@
             this.bMPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jPGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveLocalMaxsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveLocalMinsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miGrabToggle = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,8 +74,7 @@
             this.nudTolerance = new System.Windows.Forms.NumericUpDown();
             this.chkLocalMaxs = new System.Windows.Forms.CheckBox();
             this.chkLocalMins = new System.Windows.Forms.CheckBox();
-            this.saveLocalMaxsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveLocalMinsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbExtremaRegion = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -443,7 +444,7 @@
             this.pNGToolStripMenuItem,
             this.jPGToolStripMenuItem});
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.saveAsToolStripMenuItem.Text = "Save Image As";
             // 
             // bMPToolStripMenuItem
@@ -467,10 +468,24 @@
             this.jPGToolStripMenuItem.Text = "JPG";
             this.jPGToolStripMenuItem.Click += new System.EventHandler(this.JPGToolStripMenuItem_Click);
             // 
+            // saveLocalMaxsToolStripMenuItem
+            // 
+            this.saveLocalMaxsToolStripMenuItem.Name = "saveLocalMaxsToolStripMenuItem";
+            this.saveLocalMaxsToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.saveLocalMaxsToolStripMenuItem.Text = "Save Local Maxs";
+            this.saveLocalMaxsToolStripMenuItem.Click += new System.EventHandler(this.SaveLocalMaxsToolStripMenuItem_Click);
+            // 
+            // saveLocalMinsToolStripMenuItem
+            // 
+            this.saveLocalMinsToolStripMenuItem.Name = "saveLocalMinsToolStripMenuItem";
+            this.saveLocalMinsToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.saveLocalMinsToolStripMenuItem.Text = "Save Local Mins";
+            this.saveLocalMinsToolStripMenuItem.Click += new System.EventHandler(this.SaveLocalMinsToolStripMenuItem_Click);
+            // 
             // saveSettingsToolStripMenuItem
             // 
             this.saveSettingsToolStripMenuItem.Name = "saveSettingsToolStripMenuItem";
-            this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.saveSettingsToolStripMenuItem.Text = "Save Settings";
             this.saveSettingsToolStripMenuItem.Click += new System.EventHandler(this.SaveSettingsToolStripMenuItem_Click);
             // 
@@ -541,44 +556,47 @@
             // chkLocalMaxs
             // 
             this.chkLocalMaxs.AutoSize = true;
-            this.chkLocalMaxs.Location = new System.Drawing.Point(764, 30);
+            this.chkLocalMaxs.Location = new System.Drawing.Point(765, 33);
             this.chkLocalMaxs.Name = "chkLocalMaxs";
-            this.chkLocalMaxs.Size = new System.Drawing.Size(110, 17);
+            this.chkLocalMaxs.Size = new System.Drawing.Size(81, 17);
             this.chkLocalMaxs.TabIndex = 49;
-            this.chkLocalMaxs.Text = "Show Local Maxs";
+            this.chkLocalMaxs.Text = "Show Maxs";
             this.chkLocalMaxs.UseVisualStyleBackColor = true;
             this.chkLocalMaxs.CheckedChanged += new System.EventHandler(this.ChkLocalMaxs_CheckedChanged);
             // 
             // chkLocalMins
             // 
             this.chkLocalMins.AutoSize = true;
-            this.chkLocalMins.Location = new System.Drawing.Point(878, 30);
+            this.chkLocalMins.Location = new System.Drawing.Point(851, 33);
             this.chkLocalMins.Name = "chkLocalMins";
-            this.chkLocalMins.Size = new System.Drawing.Size(107, 17);
+            this.chkLocalMins.Size = new System.Drawing.Size(78, 17);
             this.chkLocalMins.TabIndex = 50;
-            this.chkLocalMins.Text = "Show Local Mins";
+            this.chkLocalMins.Text = "Show Mins";
             this.chkLocalMins.UseVisualStyleBackColor = true;
             this.chkLocalMins.CheckedChanged += new System.EventHandler(this.ChkLocalMins_CheckedChanged);
             // 
-            // saveLocalMaxsToolStripMenuItem
+            // cbExtremaRegion
             // 
-            this.saveLocalMaxsToolStripMenuItem.Name = "saveLocalMaxsToolStripMenuItem";
-            this.saveLocalMaxsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.saveLocalMaxsToolStripMenuItem.Text = "Save Local Maxs";
-            this.saveLocalMaxsToolStripMenuItem.Click += new System.EventHandler(this.SaveLocalMaxsToolStripMenuItem_Click);
-            // 
-            // saveLocalMinsToolStripMenuItem
-            // 
-            this.saveLocalMinsToolStripMenuItem.Name = "saveLocalMinsToolStripMenuItem";
-            this.saveLocalMinsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.saveLocalMinsToolStripMenuItem.Text = "Save Local Mins";
-            this.saveLocalMinsToolStripMenuItem.Click += new System.EventHandler(this.SaveLocalMinsToolStripMenuItem_Click);
+            this.cbExtremaRegion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbExtremaRegion.FormattingEnabled = true;
+            this.cbExtremaRegion.Items.AddRange(new object[] {
+            "All",
+            "Top",
+            "Bottom",
+            "Left",
+            "Right"});
+            this.cbExtremaRegion.Location = new System.Drawing.Point(936, 29);
+            this.cbExtremaRegion.Name = "cbExtremaRegion";
+            this.cbExtremaRegion.Size = new System.Drawing.Size(99, 21);
+            this.cbExtremaRegion.TabIndex = 51;
+            this.cbExtremaRegion.SelectedIndexChanged += new System.EventHandler(this.Find_Click);
             // 
             // wmap_ilc_9yr_v5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1053, 658);
+            this.Controls.Add(this.cbExtremaRegion);
             this.Controls.Add(this.chkLocalMins);
             this.Controls.Add(this.chkLocalMaxs);
             this.Controls.Add(this.label13);
@@ -676,6 +694,7 @@
         private System.Windows.Forms.CheckBox chkLocalMins;
         private System.Windows.Forms.ToolStripMenuItem saveLocalMaxsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveLocalMinsToolStripMenuItem;
+        private System.Windows.Forms.ComboBox cbExtremaRegion;
     }
 }
 

@@ -90,6 +90,7 @@ namespace wmap_ilc_9yr_v5
             cbScale.SelectedIndex = 0;
             cbDiagonals.SelectedIndex = 2;
             cbNextGrab.SelectedIndex = 0;
+            cbExtremaRegion.SelectedIndex = 0;
 
             //Fire things off
             disableEvents = false;
@@ -613,6 +614,22 @@ namespace wmap_ilc_9yr_v5
             if (disableEvents)
                 return;
             disableEvents = true;
+            Bitmap bmp = pictureBox1.Image as Bitmap;
+            bool maxsDrawn = localMaxs != null && chkLocalMaxs.Checked;
+            bool minsDrawn = localMins != null && chkLocalMins.Checked;
+            if (maxsDrawn)
+            {
+                for (int i = 0, len = localMaxs.Count; i < len; i++)
+                    bmp.SetPixel(localMaxs[i].X, localMaxs[i].Y, localMaxColors[i]);
+            }
+            if (minsDrawn)
+            {
+                for (int i = 0, len = localMins.Count; i < len; i++)
+                    bmp.SetPixel(localMins[i].X, localMins[i].Y, localMinColors[i]);
+            }
+            if (maxsDrawn || minsDrawn)
+                pictureBox1.Image = bmp;
+
             DoFind();
             disableEvents = false;
         }
@@ -632,13 +649,34 @@ namespace wmap_ilc_9yr_v5
             localMaxColors = new List<Color>();
             localMinColors = new List<Color>();
 
+            int startRow = 0, endRow = 512, startCol = 0, endCol = 512;
+            switch (cbExtremaRegion.Text)
+            {
+                case "All":
+                    break;
+                case "Top":
+                    endRow = 256;
+                    break;
+                case "Bottom":
+                    startRow = 256;
+                    break;
+                case "Left":
+                    endCol = 256;
+                    break;
+                case "Right":
+                    startCol = 256;
+                    break;
+                default:
+                    break;
+            }
+
             //Performance is king
             //Find high spots
             if (chkColor.Checked)
             {
-                for (int row = 0; row < 512; row++)
+                for (int row = startRow; row < endRow; row++)
                 {
-                    for (int col = 0; col < 512; col++)
+                    for (int col = startCol; col < endCol; col++)
                     {
                         ++highSearched;
                         currentColor = bmp.GetPixel(col, row);
@@ -707,9 +745,9 @@ namespace wmap_ilc_9yr_v5
             }
             else
             {
-                for (int row = 0; row < 512; row++)
+                for (int row = startRow; row < endRow; row++)
                 {
-                    for (int col = 0; col < 512; col++)
+                    for (int col = startCol; col < endCol; col++)
                     {
                         ++highSearched;
                         currentColor = bmp.GetPixel(col, row);
@@ -779,9 +817,9 @@ namespace wmap_ilc_9yr_v5
             //Find low spots
             if (chkColor.Checked)
             {
-                for (int row = 0; row < 512; row++)
+                for (int row = startRow; row < endRow; row++)
                 {
-                    for (int col = 0; col < 512; col++)
+                    for (int col = startCol; col < endCol; col++)
                     {
                         ++lowSearched;
                         color = bmp.GetPixel(col, row);
@@ -850,9 +888,9 @@ namespace wmap_ilc_9yr_v5
             }
             else
             {
-                for (int row = 0; row < 512; row++)
+                for (int row = startRow; row < endRow; row++)
                 {
-                    for (int col = 0; col < 512; col++)
+                    for (int col = startCol; col < endCol; col++)
                     {
                         ++lowSearched;
                         color = bmp.GetPixel(col, row);
@@ -920,7 +958,7 @@ namespace wmap_ilc_9yr_v5
             }
             
             double highPercent = highSearched == 0 ? 0.0 : 100.0 * Convert.ToDouble(highPixels) / Convert.ToDouble(highSearched);
-            double lowPercent = lowSearched == 0 ? 0.0 : 100.0 * Convert.ToDouble(lowPixels) / 262144.0;
+            double lowPercent = lowSearched == 0 ? 0.0 : 100.0 * Convert.ToDouble(lowPixels) / Convert.ToDouble(lowSearched);
 
             txtResults.Text = string.Format("{0} {1}, {2} {3} pixels ({4}%, {5}%)\r\n\r\n{6} {7}, {8} {9} spots"
                 , highPixels, chkColor.Checked ? "red" : "white"
@@ -936,7 +974,8 @@ namespace wmap_ilc_9yr_v5
             if (chkLocalMins.Checked)
                 foreach (Point point in localMins)
                     bmp.SetPixel(point.X, point.Y, Color.FromArgb(255, 255, 255));
-
+            if (chkLocalMaxs.Checked || chkLocalMins.Checked)
+                pictureBox1.Image = bmp;
         }
 
         private void BtnOverlap_Click(object sender, EventArgs e)
@@ -1073,7 +1112,7 @@ namespace wmap_ilc_9yr_v5
                 int newLength = fileName.Length - BaseInFileName;
                 fileName = fileName.Substring(BaseInFileName, newLength).Replace(' ', '_');
             }
-            saveFileDialog1.FileName = string.Format("{0}{1}{2}{3}", fileName, "_", maxsOrMins, extension);
+            saveFileDialog1.FileName = string.Format("{0}{1}{2}{3}{4}{5}{6}{7}", fileName, "_", cbExtremaRegion.Text, "_", maxsOrMins, "_tol_", nudTolerance.Value, extension);
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 fileName = saveFileDialog1.FileName;
