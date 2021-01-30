@@ -736,14 +736,14 @@ namespace wmap_ilc_9yr_v5
                             }
                             if (isNewSpot)
                             {
-                                GetLocalColorMax(col, row, bmp, tolerance);
-                                ++highSpots;
+                                if (GetLocalColorMax(col, row, bmp, tolerance))
+                                    ++highSpots;
                             }
                         }
                     }
                 }
             }
-            else
+            else //BW
             {
                 for (int row = startRow; row < endRow; row++)
                 {
@@ -807,8 +807,8 @@ namespace wmap_ilc_9yr_v5
                             }
                             if (isNewSpot)
                             {
-                                GetLocalBWMax(col, row, bmp, upperLimit);
-                                ++highSpots;
+                                if (GetLocalBWMax(col, row, bmp, upperLimit))
+                                    ++highSpots;
                             }
                         }
                     }
@@ -879,8 +879,8 @@ namespace wmap_ilc_9yr_v5
                             }
                             if (isNewSpot)
                             {
-                                GetLocalColorMin(col, row, bmp, tolerance);
-                                ++lowSpots;
+                                if (GetLocalColorMin(col, row, bmp, tolerance))
+                                    ++lowSpots;
                             }
                         }
                     }
@@ -949,8 +949,8 @@ namespace wmap_ilc_9yr_v5
                                 }
                             }
                             if (isNewSpot) {
-                                GetLocalBWMin(col, row, bmp, tolerance);
-                                ++lowSpots;
+                                if (GetLocalBWMin(col, row, bmp, tolerance))
+                                    ++lowSpots;
                             }
                         }
                     }
@@ -1132,7 +1132,7 @@ namespace wmap_ilc_9yr_v5
             }
         }
 
-        private void GetLocalColorMax(int topLeftX, int topLeftY, Bitmap bmp, int tolerance)
+        private bool GetLocalColorMax(int topLeftX, int topLeftY, Bitmap bmp, int tolerance)
         {
             int startCol = topLeftX;
             int endCol = startCol;
@@ -1210,8 +1210,33 @@ namespace wmap_ilc_9yr_v5
                 if (startCol > 0)
                     startCol--;
             }
-            localMaxs.Add(localMax);
-            localMaxColors.Add(bmp.GetPixel(localMax.X, localMax.Y));
+            if (IsInRegion(localMax.X, localMax.Y))
+            {
+                localMaxs.Add(localMax);
+                localMaxColors.Add(bmp.GetPixel(localMax.X, localMax.Y));
+                return true;
+            }
+            return false;
+        }
+
+        private bool IsInRegion (int col, int row)
+        {
+            int selectedIndex = cbExtremaRegion.SelectedIndex;
+            if (selectedIndex < 5)
+                return true;
+            switch (selectedIndex)
+            {
+                case 5: //Top Left
+                    return row <= 511 - col;
+                case 6: //Bottom Right
+                    return row >= 511 - col;
+                case 7: //Top Right
+                    return row <= col;
+                case 8: //Bottom Left
+                    return row >= col;
+                default:
+                    return true;
+            }
         }
 
         private bool IsRed(int col, int row, Bitmap bmp, int tolerance, out int green)
@@ -1221,7 +1246,7 @@ namespace wmap_ilc_9yr_v5
             return (color.R == 255 && color.G <= tolerance && color.B == 0);
         }
 
-        private void GetLocalBWMax(int topLeftX, int topLeftY, Bitmap bmp, int upperLimit)
+        private bool GetLocalBWMax(int topLeftX, int topLeftY, Bitmap bmp, int upperLimit)
         {
             int startCol = topLeftX;
             int endCol = startCol;
@@ -1298,8 +1323,13 @@ namespace wmap_ilc_9yr_v5
                 if (startCol > 0)
                     startCol--;
             }
-            localMaxs.Add(localMax);
-            localMaxColors.Add(bmp.GetPixel(localMax.X, localMax.Y));
+            if (IsInRegion(localMax.X, localMax.Y))
+            {
+                localMaxs.Add(localMax);
+                localMaxColors.Add(bmp.GetPixel(localMax.X, localMax.Y));
+                return true;
+            }
+            return false;
         }
 
         private void ChkLocalMins_CheckedChanged(object sender, EventArgs e)
@@ -1327,7 +1357,7 @@ namespace wmap_ilc_9yr_v5
             return (color.R >= upperLimit && color.G >= upperLimit && color.B >= upperLimit);
         }
 
-        private void GetLocalColorMin(int topLeftX, int topLeftY, Bitmap bmp, int tolerance)
+        private bool GetLocalColorMin(int topLeftX, int topLeftY, Bitmap bmp, int tolerance)
         {
             int startCol = topLeftX;
             int endCol = startCol;
@@ -1404,8 +1434,13 @@ namespace wmap_ilc_9yr_v5
                 if (startCol > 0)
                     startCol--;
             }
-            localMins.Add(localMin);
-            localMinColors.Add(bmp.GetPixel(localMin.X, localMin.Y));
+            if (IsInRegion(localMin.X, localMin.Y))
+            {
+                localMins.Add(localMin);
+                localMinColors.Add(bmp.GetPixel(localMin.X, localMin.Y));
+                return true;
+            }
+            return false;
         }
 
         private void SaveLocalMaxsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1425,7 +1460,7 @@ namespace wmap_ilc_9yr_v5
             return (color.R == 0 && color.G == 0 && color.B <= tolerance);
         }
 
-        private void GetLocalBWMin(int topLeftX, int topLeftY, Bitmap bmp, int upperLimit)
+        private bool GetLocalBWMin(int topLeftX, int topLeftY, Bitmap bmp, int upperLimit)
         {
             int startCol = topLeftX;
             int endCol = startCol;
@@ -1502,8 +1537,13 @@ namespace wmap_ilc_9yr_v5
                 if (startCol > 0)
                     startCol--;
             }
-            localMins.Add(localMin);
-            localMinColors.Add(bmp.GetPixel(localMin.X, localMin.Y));
+            if (IsInRegion(localMin.X, localMin.Y))
+            {
+                localMins.Add(localMin);
+                localMinColors.Add(bmp.GetPixel(localMin.X, localMin.Y));
+                return true;
+            }
+            return false;
         }
 
         private bool IsBlack(int col, int row, Bitmap bmp, int tolerance, out int green)

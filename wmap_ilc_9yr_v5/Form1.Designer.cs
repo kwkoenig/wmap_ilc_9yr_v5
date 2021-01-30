@@ -584,7 +584,11 @@
             "Top",
             "Bottom",
             "Left",
-            "Right"});
+            "Right",
+            "Top Left",
+            "Bottom Right",
+            "Top Right",
+            "Bottom Left"});
             this.cbExtremaRegion.Location = new System.Drawing.Point(936, 29);
             this.cbExtremaRegion.Name = "cbExtremaRegion";
             this.cbExtremaRegion.Size = new System.Drawing.Size(99, 21);
