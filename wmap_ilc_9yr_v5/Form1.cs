@@ -27,6 +27,7 @@ namespace wmap_ilc_9yr_v5
         double dataMedian;
         List<Point> localMaxs, localMins;
         List<Color> localMaxColors, localMinColors;
+        string spotString;
 
         public wmap_ilc_9yr_v5()
         {
@@ -968,6 +969,8 @@ namespace wmap_ilc_9yr_v5
                 , lowSpots, chkColor.Checked ? "blue" : "black"
             );
 
+            spotString = string.Format("{0}_{1}_{2}_{3}", highSpots, chkColor.Checked ? "red" : "white", lowSpots, chkColor.Checked ? "blue" : "black");
+
             if (chkLocalMaxs.Checked)
                 foreach (Point point in localMaxs)
                     bmp.SetPixel(point.X, point.Y, Color.FromArgb(0, 0, 0));
@@ -1112,7 +1115,7 @@ namespace wmap_ilc_9yr_v5
                 int newLength = fileName.Length - BaseInFileName;
                 fileName = fileName.Substring(BaseInFileName, newLength).Replace(' ', '_');
             }
-            saveFileDialog1.FileName = string.Format("{0}{1}{2}{3}{4}{5}{6}{7}", fileName, "_", cbExtremaRegion.Text, "_", maxsOrMins, "_tol_", nudTolerance.Value, extension);
+            saveFileDialog1.FileName = string.Format("{0}{1}{2}{3}{4}{5}{6}_{7}{8}", fileName, "_", cbExtremaRegion.Text, "_", maxsOrMins, "_tol_", nudTolerance.Value, spotString, extension);
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 fileName = saveFileDialog1.FileName;
