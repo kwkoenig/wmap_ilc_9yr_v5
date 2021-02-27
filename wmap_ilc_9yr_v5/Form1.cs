@@ -1441,6 +1441,8 @@ namespace wmap_ilc_9yr_v5
             {
                 localMins.Add(localMin);
                 localMinColors.Add(bmp.GetPixel(localMin.X, localMin.Y));
+                if (localMin.X == 268 && localMin.Y == 322)
+                { }
                 return true;
             }
             return false;
