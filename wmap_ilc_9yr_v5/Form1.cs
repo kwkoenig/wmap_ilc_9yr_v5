@@ -1384,7 +1384,7 @@ namespace wmap_ilc_9yr_v5
             // Search the next row from one less than the current start column
             if (startCol > 0)
                 startCol--;
-            for (; row < 512 && foundOneInThisRow; row++)
+            for (++row; row < 512 && foundOneInThisRow; row++)
             {
                 foundOneInThisRow = false;
                 // Look here and left for the start column
@@ -1441,8 +1441,6 @@ namespace wmap_ilc_9yr_v5
             {
                 localMins.Add(localMin);
                 localMinColors.Add(bmp.GetPixel(localMin.X, localMin.Y));
-                if (localMin.X == 268 && localMin.Y == 322)
-                { }
                 return true;
             }
             return false;
