@@ -46,8 +46,8 @@ namespace wmap_ilc_9yr_v5
             {
                 for (int i = 0; i < 12; i++)
                 {
-                    chosenMax[i] = 0.18;
-                    chosenMin[i] = -0.19;
+                    chosenMax[i] = Double.MinValue;
+                    chosenMin[i] = Double.MaxValue;
                 }
             }
             else
@@ -88,7 +88,7 @@ namespace wmap_ilc_9yr_v5
                 linearData[k] = Convert.ToDouble(temp[k]);
 
             this.Icon = Properties.Resources.icon;
-            cbScale.SelectedIndex = 0;
+            cbScale.SelectedIndex = 1;
             cbDiagonals.SelectedIndex = 2;
             cbNextGrab.SelectedIndex = 0;
             cbExtremaRegion.SelectedIndex = 0;
@@ -131,7 +131,7 @@ namespace wmap_ilc_9yr_v5
             Array.Sort(forMedian);
             dataMedian = (forMedian[131071] + forMedian[131072]) / 2.0;
 
-            GetDataMaxMin();
+            GetDataMaxMin(basePixel);
             txtMax.Text = chosenMax[basePixel].ToString("0.000");
             txtMin.Text = chosenMin[basePixel].ToString("0.000");
             SetPercentNudsFromChosen();
@@ -348,7 +348,7 @@ namespace wmap_ilc_9yr_v5
             SaveFile(".jpg");
         }
 
-        void GetDataMaxMin()
+        void GetDataMaxMin(int basePixel)
         {
             disableEvents = true;
             dataMin = double.MaxValue;
@@ -363,6 +363,10 @@ namespace wmap_ilc_9yr_v5
                 }
             lblMax.Text = String.Format("Max ({0}):", dataMax.ToString("0.000"));
             lblMin.Text = String.Format("Min ({0}):", dataMin.ToString("0.000"));
+            if (chosenMax[basePixel] == Double.MinValue)
+                chosenMax[basePixel] = dataMax;
+            if (chosenMin[basePixel] == Double.MaxValue)
+                chosenMin[basePixel] = dataMin;
             disableEvents = false;
         }
 
@@ -1215,6 +1219,11 @@ namespace wmap_ilc_9yr_v5
             }
             if (IsInRegion(localMax.X, localMax.Y))
             {
+                foreach (Point max in localMaxs)
+                {
+                    if (max.X == localMax.X && max.Y == localMax.Y)
+                        return false;
+                }
                 localMaxs.Add(localMax);
                 localMaxColors.Add(bmp.GetPixel(localMax.X, localMax.Y));
                 return true;
@@ -1328,6 +1337,11 @@ namespace wmap_ilc_9yr_v5
             }
             if (IsInRegion(localMax.X, localMax.Y))
             {
+                foreach (Point max in localMaxs)
+                {
+                    if (max.X == localMax.X && max.Y == localMax.Y)
+                        return false;
+                }
                 localMaxs.Add(localMax);
                 localMaxColors.Add(bmp.GetPixel(localMax.X, localMax.Y));
                 return true;
@@ -1439,6 +1453,11 @@ namespace wmap_ilc_9yr_v5
             }
             if (IsInRegion(localMin.X, localMin.Y))
             {
+                foreach (Point Min in localMins)
+                {
+                    if (Min.X == localMin.X && Min.Y == localMin.Y)
+                        return false;
+                }
                 localMins.Add(localMin);
                 localMinColors.Add(bmp.GetPixel(localMin.X, localMin.Y));
                 return true;
@@ -1542,6 +1561,11 @@ namespace wmap_ilc_9yr_v5
             }
             if (IsInRegion(localMin.X, localMin.Y))
             {
+                foreach (Point Min in localMins)
+                {
+                    if (Min.X == localMin.X && Min.Y == localMin.Y)
+                        return false;
+                }
                 localMins.Add(localMin);
                 localMinColors.Add(bmp.GetPixel(localMin.X, localMin.Y));
                 return true;

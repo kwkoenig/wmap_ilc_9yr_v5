@@ -291,7 +291,7 @@
             this.nudPercentMin.Size = new System.Drawing.Size(41, 20);
             this.nudPercentMin.TabIndex = 7;
             this.nudPercentMin.Value = new decimal(new int[] {
-            67,
+            100,
             0,
             0,
             0});
@@ -304,7 +304,7 @@
             this.nudPercentMax.Size = new System.Drawing.Size(41, 20);
             this.nudPercentMax.TabIndex = 6;
             this.nudPercentMax.Value = new decimal(new int[] {
-            67,
+            100,
             0,
             0,
             0});
@@ -316,7 +316,7 @@
             this.txtMin.Name = "txtMin";
             this.txtMin.Size = new System.Drawing.Size(52, 20);
             this.txtMin.TabIndex = 3;
-            this.txtMin.Text = "-0.888";
+            this.txtMin.Text = "-0.404";
             this.txtMin.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtMin_KeyDown);
             // 
             // txtMax
@@ -325,7 +325,7 @@
             this.txtMax.Name = "txtMax";
             this.txtMax.Size = new System.Drawing.Size(52, 20);
             this.txtMax.TabIndex = 2;
-            this.txtMax.Text = "-0.888";
+            this.txtMax.Text = "0.315";
             this.txtMax.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtMax_KeyDown);
             // 
             // lblMin
